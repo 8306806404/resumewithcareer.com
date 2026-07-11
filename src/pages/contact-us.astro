@@ -1,0 +1,73 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Contact Us | ResumeWithCareer"
+  description="Get in touch with the ResumeWithCareer team by email for feedback, bug reports, or general questions."
+  path="/contact-us"
+>
+  <h1>Contact Us</h1>
+  <p class="page-updated">Last updated: July 11, 2026</p>
+
+  <p>Have feedback, found a bug, or have a question? Reach out to us by email.</p>
+
+  tro
+  <form class="contact-form" onsubmit="return false;">
+    <div class="form-field">
+      <label for="contactEmail">Email</label>
+      <p id="contactEmail">
+        <a href="mailto:kumkumsisodiya7355@gmail.com">kumkumsisodiya7355@gmail.com</a>
+      </p>
+    </div>
+
+    <div class="form-field">
+      <label for="contactEmailAlt">Alternate Email</label>
+      <p id="contactEmailAlt">
+        <a href="mailto:kumkumsisodiya799@gmail.com">kumkumsisodiya799@gmail.com</a>
+      </p>
+    </div>
+  </form>
+
+  <style>
+    .contact-form {
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      max-width: 420px;
+    }
+
+    .form-field label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .form-field p {
+      margin: 0;
+      padding: 0.65rem 0.75rem;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+    }
+
+    .form-field a {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .form-field {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-field:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-field a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</SiteLayout>

@@ -1,0 +1,330 @@
+{
+  "Cloud Engineer": [
+    { "week": 1, "topic": "Linux & Networking Fundamentals", "whatToLearn": "Linux command line, file systems, IP addressing, DNS, subnets", "howToLearn": "Linux Journey (free), Cisco Networking Basics videos", "practiceTask": "Set up a Linux VM and configure basic networking commands",
+      "resources": [
+        { "name": "Linux Journey", "type": "Interactive Tutorial", "helpsWith": "Linux command line & file systems" },
+        { "name": "Cisco Networking Basics (YouTube)", "type": "Video Course", "helpsWith": "IP addressing, DNS, subnets" }
+      ] },
+    { "week": 2, "topic": "Cloud Fundamentals", "whatToLearn": "Core cloud concepts, regions/availability zones, pricing, IAM basics", "howToLearn": "AWS Cloud Practitioner free docs, YouTube crash courses", "practiceTask": "Create a free-tier cloud account and launch a VM instance",
+      "resources": [
+        { "name": "AWS Cloud Practitioner Essentials", "type": "Official Documentation", "helpsWith": "Core cloud concepts, pricing, IAM basics" },
+        { "name": "freeCodeCamp AWS Crash Course (YouTube)", "type": "Video Course", "helpsWith": "Cloud fundamentals overview" }
+      ] },
+    { "week": 3, "topic": "Compute & Storage", "whatToLearn": "Virtual machines, object storage, IAM policies", "howToLearn": "Official cloud provider documentation and hands-on labs", "practiceTask": "Host a static website using cloud storage and a VM",
+      "resources": [
+        { "name": "AWS Free Tier Tutorials", "type": "Official Documentation", "helpsWith": "Compute & storage basics, IAM policies" },
+        { "name": "AWS Skill Builder Labs", "type": "Interactive Labs", "helpsWith": "Hands-on VM & storage practice" }
+      ] },
+    { "week": 4, "topic": "Networking & Infrastructure as Code", "whatToLearn": "VPCs, subnets, load balancers, Terraform basics", "howToLearn": "Terraform official getting-started tutorial", "practiceTask": "Write a Terraform script to provision a VPC with subnets",
+      "resources": [
+        { "name": "Terraform Getting Started (HashiCorp Learn)", "type": "Official Tutorial", "helpsWith": "VPCs, subnets, Terraform basics" }
+      ] },
+    { "week": 5, "topic": "Containers & CI/CD", "whatToLearn": "Docker basics, CI/CD pipeline concepts", "howToLearn": "Docker official docs, freeCodeCamp CI/CD tutorial", "practiceTask": "Containerize a sample app and deploy it through a CI/CD pipeline",
+      "resources": [
+        { "name": "Docker Docs: Get Started", "type": "Official Documentation", "helpsWith": "Docker basics" },
+        { "name": "freeCodeCamp CI/CD Tutorial (YouTube)", "type": "Video Course", "helpsWith": "CI/CD pipeline concepts" }
+      ] },
+    { "week": 6, "topic": "Kubernetes & Capstone", "whatToLearn": "Kubernetes basics, cost optimization, security hardening", "howToLearn": "Kubernetes official documentation", "practiceTask": "Deploy a multi-tier app on a managed Kubernetes cluster and document the architecture",
+      "resources": [
+        { "name": "Kubernetes Basics (kubernetes.io)", "type": "Official Documentation", "helpsWith": "Kubernetes basics, deployments" }
+      ] }
+  ],
+  "Frontend Developer": [
+    { "week": 1, "topic": "HTML & CSS Foundations", "whatToLearn": "Semantic HTML, CSS box model, Flexbox, Grid", "howToLearn": "MDN Web Docs, freeCodeCamp Responsive Web Design", "practiceTask": "Build a responsive personal portfolio page",
+      "resources": [
+        { "name": "MDN Web Docs: HTML & CSS", "type": "Official Documentation", "helpsWith": "Semantic HTML, CSS box model" },
+        { "name": "freeCodeCamp Responsive Web Design", "type": "Free Course", "helpsWith": "Flexbox, Grid, responsive layout" }
+      ] },
+    { "week": 2, "topic": "JavaScript Fundamentals", "whatToLearn": "Variables, functions, DOM manipulation, events", "howToLearn": "javascript.info free tutorial", "practiceTask": "Build an interactive to-do list app",
+      "resources": [
+        { "name": "javascript.info", "type": "Free Tutorial", "helpsWith": "JS fundamentals, DOM manipulation, events" }
+      ] },
+    { "week": 3, "topic": "Modern Frontend Framework Basics", "whatToLearn": "Components, props, state (React/Vue)", "howToLearn": "Official React or Vue documentation", "practiceTask": "Build a multi-page app with client-side routing",
+      "resources": [
+        { "name": "React Official Docs (react.dev)", "type": "Official Documentation", "helpsWith": "Components, props, state" }
+      ] },
+    { "week": 4, "topic": "State Management & API Integration", "whatToLearn": "Context API/Redux basics, fetching REST APIs", "howToLearn": "Official framework docs", "practiceTask": "Build an app that consumes a public API and manages state",
+      "resources": [
+        { "name": "React Docs: Context API", "type": "Official Documentation", "helpsWith": "State management basics" },
+        { "name": "Public APIs List (public-apis.io)", "type": "Resource List", "helpsWith": "Practice fetching REST APIs" }
+      ] },
+    { "week": 5, "topic": "TypeScript & Tooling", "whatToLearn": "TypeScript basics, Vite/Webpack, testing basics", "howToLearn": "TypeScript Handbook (official)", "practiceTask": "Convert a JS project to TypeScript and add basic unit tests",
+      "resources": [
+        { "name": "TypeScript Handbook", "type": "Official Documentation", "helpsWith": "TypeScript basics" },
+        { "name": "Vite Official Guide", "type": "Official Documentation", "helpsWith": "Build tooling" }
+      ] },
+    { "week": 6, "topic": "Performance & Accessibility Capstone", "whatToLearn": "Performance optimization, accessibility (WCAG), SSR/SSG basics", "howToLearn": "web.dev free guides", "practiceTask": "Audit and optimize your portfolio site for performance and accessibility",
+      "resources": [
+        { "name": "web.dev by Google", "type": "Free Guide", "helpsWith": "Performance, accessibility, SSR/SSG basics" }
+      ] }
+  ],
+  "Backend Developer": [
+    { "week": 1, "topic": "Language & Git Basics", "whatToLearn": "Chosen backend language fundamentals, Git workflows", "howToLearn": "Official language docs, Git official tutorial", "practiceTask": "Build small CLI scripts and push them to GitHub",
+      "resources": [
+        { "name": "Official Language Docs (Node.js/Python/Java)", "type": "Official Documentation", "helpsWith": "Language fundamentals" },
+        { "name": "Git Official Tutorial (git-scm.com)", "type": "Official Tutorial", "helpsWith": "Git workflows" }
+      ] },
+    { "week": 2, "topic": "Databases & SQL", "whatToLearn": "SQL basics, relational database design", "howToLearn": "SQLBolt free interactive lessons", "practiceTask": "Design and query a sample database",
+      "resources": [
+        { "name": "SQLBolt", "type": "Interactive Tutorial", "helpsWith": "SQL basics, relational design" }
+      ] },
+    { "week": 3, "topic": "REST API Development", "whatToLearn": "Building CRUD APIs, routing", "howToLearn": "Your framework's official documentation", "practiceTask": "Build a REST API for a simple notes app",
+      "resources": [
+        { "name": "Express.js / Django / Spring Official Docs", "type": "Official Documentation", "helpsWith": "Building CRUD APIs, routing" }
+      ] },
+    { "week": 4, "topic": "Authentication & ORMs", "whatToLearn": "JWT/session authentication, ORM usage", "howToLearn": "Framework auth documentation", "practiceTask": "Add authentication to your API",
+      "resources": [
+        { "name": "Framework Auth Guide (Passport.js/Django Auth)", "type": "Official Documentation", "helpsWith": "JWT/session auth, ORM usage" }
+      ] },
+    { "week": 5, "topic": "Caching, Queues & Docker", "whatToLearn": "Redis basics, message queues, Docker", "howToLearn": "Redis and Docker official docs", "practiceTask": "Containerize your API and add caching",
+      "resources": [
+        { "name": "Redis Official Docs", "type": "Official Documentation", "helpsWith": "Caching basics" },
+        { "name": "Docker Docs: Get Started", "type": "Official Documentation", "helpsWith": "Containers, message queues" }
+      ] },
+    { "week": 6, "topic": "Microservices & Capstone", "whatToLearn": "Microservices basics, API security, observability", "howToLearn": "Free architecture guides", "practiceTask": "Split your API into two microservices communicating over HTTP",
+      "resources": [
+        { "name": "microservices.io", "type": "Free Guide", "helpsWith": "Microservices basics, API security, observability" }
+      ] }
+  ],
+  "Full Stack Developer": [
+    { "week": 1, "topic": "Frontend Basics Refresh", "whatToLearn": "HTML, CSS, JavaScript fundamentals", "howToLearn": "MDN Web Docs", "practiceTask": "Build a static multi-section page",
+      "resources": [
+        { "name": "MDN Web Docs", "type": "Official Documentation", "helpsWith": "HTML, CSS, JS fundamentals" }
+      ] },
+    { "week": 2, "topic": "Backend Basics", "whatToLearn": "Chosen backend language, REST API basics", "howToLearn": "Official backend framework docs", "practiceTask": "Build a simple CRUD API",
+      "resources": [
+        { "name": "Express.js / Django Official Docs", "type": "Official Documentation", "helpsWith": "Backend basics, REST APIs" }
+      ] },
+    { "week": 3, "topic": "Connecting Frontend & Backend", "whatToLearn": "Fetch/Axios, CORS", "howToLearn": "MDN and framework documentation", "practiceTask": "Connect your frontend app to your API",
+      "resources": [
+        { "name": "MDN: Using Fetch", "type": "Official Documentation", "helpsWith": "Fetch/Axios, CORS" }
+      ] },
+    { "week": 4, "topic": "Databases & Authentication", "whatToLearn": "SQL basics, authentication flow", "howToLearn": "SQLBolt, framework auth docs", "practiceTask": "Add login/signup to your full stack app",
+      "resources": [
+        { "name": "SQLBolt", "type": "Interactive Tutorial", "helpsWith": "SQL basics" },
+        { "name": "Framework Auth Docs", "type": "Official Documentation", "helpsWith": "Authentication flow" }
+      ] },
+    { "week": 5, "topic": "Deployment Basics", "whatToLearn": "Hosting frontend and backend, environment variables", "howToLearn": "Vercel/Render/Netlify docs", "practiceTask": "Deploy your full stack app",
+      "resources": [
+        { "name": "Vercel / Render / Netlify Docs", "type": "Official Documentation", "helpsWith": "Hosting, environment variables" }
+      ] },
+    { "week": 6, "topic": "Testing & Capstone", "whatToLearn": "Basic testing, performance and security best practices", "howToLearn": "Framework testing docs", "practiceTask": "Add tests and polish your full stack project as a portfolio piece",
+      "resources": [
+        { "name": "Framework Testing Docs (e.g. Jest)", "type": "Official Documentation", "helpsWith": "Testing, best practices" }
+      ] }
+  ],
+  "AI Engineer": [
+    { "week": 1, "topic": "Python & Math Refresher", "whatToLearn": "Python basics, linear algebra and probability essentials", "howToLearn": "Khan Academy, official Python docs", "practiceTask": "Solve basic math-coding exercises in Python",
+      "resources": [
+        { "name": "Khan Academy: Linear Algebra & Probability", "type": "Free Course", "helpsWith": "Math essentials" },
+        { "name": "Python Official Docs", "type": "Official Documentation", "helpsWith": "Python basics" }
+      ] },
+    { "week": 2, "topic": "Data Handling", "whatToLearn": "NumPy/Pandas, data preprocessing", "howToLearn": "Official NumPy/Pandas documentation", "practiceTask": "Clean and analyze a public dataset",
+      "resources": [
+        { "name": "NumPy & Pandas Official Docs", "type": "Official Documentation", "helpsWith": "Data handling, preprocessing" }
+      ] },
+    { "week": 3, "topic": "Machine Learning Basics", "whatToLearn": "Supervised/unsupervised learning, model evaluation", "howToLearn": "Free introductory ML courses", "practiceTask": "Train a simple classifier with scikit-learn",
+      "resources": [
+        { "name": "Google Machine Learning Crash Course", "type": "Free Course", "helpsWith": "Supervised/unsupervised learning, evaluation" }
+      ] },
+    { "week": 4, "topic": "Deep Learning Frameworks", "whatToLearn": "TensorFlow/PyTorch basics", "howToLearn": "Official framework tutorials", "practiceTask": "Build a simple neural network for image classification",
+      "resources": [
+        { "name": "PyTorch / TensorFlow Official Tutorials", "type": "Official Documentation", "helpsWith": "Deep learning framework basics" }
+      ] },
+    { "week": 5, "topic": "NLP/CV & Model Deployment", "whatToLearn": "Basic NLP or computer vision techniques, model serving", "howToLearn": "HuggingFace or OpenCV documentation", "practiceTask": "Deploy a trained model behind a simple API",
+      "resources": [
+        { "name": "Hugging Face Course", "type": "Free Course", "helpsWith": "NLP basics, model deployment" }
+      ] },
+    { "week": 6, "topic": "LLMs & Capstone", "whatToLearn": "Transformer basics, prompt engineering", "howToLearn": "Free LLM guides and documentation", "practiceTask": "Build a small project using a pretrained LLM, e.g. a text summarizer",
+      "resources": [
+        { "name": "Hugging Face LLM Course", "type": "Free Course", "helpsWith": "Transformer basics, prompt engineering" }
+      ] }
+  ],
+  "ML Engineer": [
+    { "week": 1, "topic": "Python & Statistics", "whatToLearn": "Python basics, descriptive statistics", "howToLearn": "Official Python docs, free statistics courses", "practiceTask": "Complete statistics exercises in Python",
+      "resources": [
+        { "name": "Python Official Docs", "type": "Official Documentation", "helpsWith": "Python basics" },
+        { "name": "Khan Academy Statistics", "type": "Free Course", "helpsWith": "Descriptive statistics" }
+      ] },
+    { "week": 2, "topic": "Data Preprocessing", "whatToLearn": "Pandas/NumPy, feature engineering", "howToLearn": "Official Pandas documentation", "practiceTask": "Clean a raw dataset for modeling",
+      "resources": [
+        { "name": "Pandas Official Docs", "type": "Official Documentation", "helpsWith": "Feature engineering, preprocessing" }
+      ] },
+    { "week": 3, "topic": "Model Training Basics", "whatToLearn": "scikit-learn, cross-validation", "howToLearn": "Official scikit-learn documentation", "practiceTask": "Train and validate a regression/classification model",
+      "resources": [
+        { "name": "scikit-learn Official Docs", "type": "Official Documentation", "helpsWith": "Model training, cross-validation" }
+      ] },
+    { "week": 4, "topic": "Deep Learning Basics", "whatToLearn": "Neural network fundamentals", "howToLearn": "Free deep learning courses", "practiceTask": "Build a basic neural net with PyTorch/TensorFlow",
+      "resources": [
+        { "name": "fast.ai Practical Deep Learning", "type": "Free Course", "helpsWith": "Neural network fundamentals" }
+      ] },
+    { "week": 5, "topic": "Model Pipelines & Docker", "whatToLearn": "Training pipelines, containerizing models", "howToLearn": "Docker official documentation", "practiceTask": "Containerize a trained model with a simple API",
+      "resources": [
+        { "name": "Docker Docs: Get Started", "type": "Official Documentation", "helpsWith": "Containerizing models" }
+      ] },
+    { "week": 6, "topic": "MLOps & Capstone", "whatToLearn": "Model monitoring, deployment basics", "howToLearn": "Free MLOps guides", "practiceTask": "Deploy a model and set up basic performance logging",
+      "resources": [
+        { "name": "Made With ML", "type": "Free Guide", "helpsWith": "Model monitoring, deployment basics" }
+      ] }
+  ],
+  "DevOps Engineer": [
+    { "week": 1, "topic": "Linux & Scripting", "whatToLearn": "Linux commands, Bash/Python scripting", "howToLearn": "Linux Journey (free)", "practiceTask": "Write automation scripts for common tasks",
+      "resources": [
+        { "name": "Linux Journey", "type": "Interactive Tutorial", "helpsWith": "Linux commands, scripting" }
+      ] },
+    { "week": 2, "topic": "Networking & Cloud Basics", "whatToLearn": "Networking fundamentals, cloud fundamentals", "howToLearn": "Free cloud provider courses", "practiceTask": "Set up a cloud VM and configure networking",
+      "resources": [
+        { "name": "AWS Cloud Practitioner Essentials", "type": "Free Course", "helpsWith": "Networking & cloud basics" }
+      ] },
+    { "week": 3, "topic": "Docker & CI/CD", "whatToLearn": "Containerization, CI/CD pipelines", "howToLearn": "Docker docs, GitHub Actions documentation", "practiceTask": "Containerize an app and set up a CI/CD pipeline",
+      "resources": [
+        { "name": "Docker Docs: Get Started", "type": "Official Documentation", "helpsWith": "Containerization" },
+        { "name": "GitHub Actions Docs", "type": "Official Documentation", "helpsWith": "CI/CD pipelines" }
+      ] },
+    { "week": 4, "topic": "Infrastructure as Code", "whatToLearn": "Terraform, configuration management (Ansible)", "howToLearn": "Official Terraform and Ansible docs", "practiceTask": "Provision infrastructure using Terraform",
+      "resources": [
+        { "name": "Terraform Official Docs", "type": "Official Documentation", "helpsWith": "Infrastructure as code" },
+        { "name": "Ansible Official Docs", "type": "Official Documentation", "helpsWith": "Configuration management" }
+      ] },
+    { "week": 5, "topic": "Kubernetes & Monitoring", "whatToLearn": "Kubernetes basics, logging/monitoring stacks", "howToLearn": "Kubernetes official documentation", "practiceTask": "Deploy an app to Kubernetes with basic monitoring",
+      "resources": [
+        { "name": "Kubernetes Official Docs", "type": "Official Documentation", "helpsWith": "K8s basics, monitoring" }
+      ] },
+    { "week": 6, "topic": "SRE Practices & Capstone", "whatToLearn": "Site reliability basics, cost and performance optimization", "howToLearn": "Free SRE resources", "practiceTask": "Document an incident response runbook for your deployed app",
+      "resources": [
+        { "name": "Google SRE Book (free online)", "type": "Free Book", "helpsWith": "SRE practices, incident response" }
+      ] }
+  ],
+  "Data Analyst": [
+    { "week": 1, "topic": "Excel & SQL Basics", "whatToLearn": "Spreadsheet functions, basic SQL queries", "howToLearn": "SQLBolt, free Excel tutorials", "practiceTask": "Analyze a sample dataset in Excel and SQL",
+      "resources": [
+        { "name": "SQLBolt", "type": "Interactive Tutorial", "helpsWith": "SQL basics" },
+        { "name": "ExcelJet Free Tutorials", "type": "Free Tutorial", "helpsWith": "Spreadsheet functions" }
+      ] },
+    { "week": 2, "topic": "Statistics Fundamentals", "whatToLearn": "Descriptive statistics, probability basics", "howToLearn": "Khan Academy free statistics course", "practiceTask": "Compute summary statistics for a dataset",
+      "resources": [
+        { "name": "Khan Academy Statistics", "type": "Free Course", "helpsWith": "Descriptive statistics, probability" }
+      ] },
+    { "week": 3, "topic": "Data Visualization", "whatToLearn": "Power BI/Tableau basics", "howToLearn": "Official Power BI/Tableau tutorials", "practiceTask": "Build a dashboard from a public dataset",
+      "resources": [
+        { "name": "Microsoft Power BI Learning Docs", "type": "Official Documentation", "helpsWith": "Data visualization" }
+      ] },
+    { "week": 4, "topic": "Python/R for Analysis", "whatToLearn": "Pandas basics, data cleaning", "howToLearn": "Official Pandas documentation", "practiceTask": "Clean and analyze data using Python/Pandas",
+      "resources": [
+        { "name": "Pandas Official Docs", "type": "Official Documentation", "helpsWith": "Data cleaning with Python" }
+      ] },
+    { "week": 5, "topic": "Advanced SQL & A/B Testing", "whatToLearn": "Joins, window functions, A/B test basics", "howToLearn": "SQLBolt, free statistics resources", "practiceTask": "Write advanced SQL queries and design a simple A/B test",
+      "resources": [
+        { "name": "SQLBolt Advanced Lessons", "type": "Interactive Tutorial", "helpsWith": "Joins, window functions" },
+        { "name": "Khan Academy: A/B Testing Basics", "type": "Free Course", "helpsWith": "A/B test design" }
+      ] },
+    { "week": 6, "topic": "Storytelling & Capstone", "whatToLearn": "Data storytelling, reporting automation", "howToLearn": "Free data storytelling guides", "practiceTask": "Build a full analysis report/dashboard presenting insights",
+      "resources": [
+        { "name": "Storytelling with Data (free blog)", "type": "Free Guide", "helpsWith": "Data storytelling, reporting" }
+      ] }
+  ],
+  "Cyber Security": [
+    { "week": 1, "topic": "Networking & OS Fundamentals", "whatToLearn": "Networking basics, operating system internals", "howToLearn": "Free CompTIA-aligned resources", "practiceTask": "Set up a home lab with Linux/Windows VMs",
+      "resources": [
+        { "name": "Professor Messer Free CompTIA Videos", "type": "Video Course", "helpsWith": "Networking & OS fundamentals" }
+      ] },
+    { "week": 2, "topic": "Security Fundamentals", "whatToLearn": "CIA triad, common threat types", "howToLearn": "Free introductory security courses", "practiceTask": "Complete beginner security awareness exercises",
+      "resources": [
+        { "name": "Cybrary Free Courses", "type": "Free Course", "helpsWith": "Security fundamentals, CIA triad" }
+      ] },
+    { "week": 3, "topic": "Security Tools & Scripting", "whatToLearn": "Basic security tools, scripting for automation", "howToLearn": "TryHackMe free rooms", "practiceTask": "Complete a beginner TryHackMe room",
+      "resources": [
+        { "name": "TryHackMe (free rooms)", "type": "Interactive Labs", "helpsWith": "Security tools, scripting" }
+      ] },
+    { "week": 4, "topic": "Vulnerability Scanning", "whatToLearn": "Vulnerability assessment basics", "howToLearn": "Nmap and OpenVAS official docs", "practiceTask": "Scan a lab environment for vulnerabilities",
+      "resources": [
+        { "name": "Nmap Official Docs", "type": "Official Documentation", "helpsWith": "Vulnerability scanning" }
+      ] },
+    { "week": 5, "topic": "Penetration Testing Basics", "whatToLearn": "Basic pentesting methodology, SIEM basics", "howToLearn": "Free pentesting resources", "practiceTask": "Complete a beginner CTF challenge",
+      "resources": [
+        { "name": "TryHackMe Pentesting Path (free tier)", "type": "Interactive Labs", "helpsWith": "Pentesting basics, CTF practice" }
+      ] },
+    { "week": 6, "topic": "Incident Response & Capstone", "whatToLearn": "Incident response steps, cryptography basics", "howToLearn": "Free incident response resources", "practiceTask": "Write an incident response report for a simulated breach",
+      "resources": [
+        { "name": "SANS Incident Response Resources (free)", "type": "Free Guide", "helpsWith": "Incident response, cryptography basics" }
+      ] }
+  ],
+  "Software Engineer": [
+    { "week": 1, "topic": "Programming Fundamentals", "whatToLearn": "Language fundamentals, OOP concepts", "howToLearn": "Official language documentation", "practiceTask": "Solve basic coding exercises",
+      "resources": [
+        { "name": "Official Language Docs", "type": "Official Documentation", "helpsWith": "Language fundamentals, OOP" }
+      ] },
+    { "week": 2, "topic": "Data Structures & Algorithms", "whatToLearn": "Arrays, linked lists, sorting/searching", "howToLearn": "Free DSA resources", "practiceTask": "Solve DSA problems on a practice platform",
+      "resources": [
+        { "name": "freeCodeCamp DSA Course", "type": "Free Course", "helpsWith": "Data structures & algorithms" }
+      ] },
+    { "week": 3, "topic": "Version Control & Testing", "whatToLearn": "Git workflows, unit testing basics", "howToLearn": "Official Git documentation", "practiceTask": "Add tests to a small project and manage it with Git branches",
+      "resources": [
+        { "name": "Git Official Docs", "type": "Official Documentation", "helpsWith": "Git workflows, testing basics" }
+      ] },
+    { "week": 4, "topic": "Design Patterns & Databases", "whatToLearn": "Common design patterns, database basics", "howToLearn": "Free design pattern guides", "practiceTask": "Refactor a project using a design pattern and add a database",
+      "resources": [
+        { "name": "Refactoring.Guru", "type": "Free Guide", "helpsWith": "Design patterns" }
+      ] },
+    { "week": 5, "topic": "System Design Basics", "whatToLearn": "Basic system design concepts, API development", "howToLearn": "Free system design primers", "practiceTask": "Design a simple system architecture diagram for a small app",
+      "resources": [
+        { "name": "System Design Primer (GitHub, free)", "type": "Free Guide", "helpsWith": "System design basics" }
+      ] },
+    { "week": 6, "topic": "Architecture & Capstone", "whatToLearn": "Scalability basics, performance optimization", "howToLearn": "Free architecture resources", "practiceTask": "Build and document a small scalable project as a portfolio piece",
+      "resources": [
+        { "name": "System Design Primer: Scalability", "type": "Free Guide", "helpsWith": "Scalability, performance optimization" }
+      ] }
+  ],
+  "UI/UX Designer": [
+    { "week": 1, "topic": "Design Fundamentals", "whatToLearn": "Design principles, color theory, typography", "howToLearn": "Free design fundamentals courses", "practiceTask": "Recreate a simple UI design exercise",
+      "resources": [
+        { "name": "Google UX Design Fundamentals (free videos)", "type": "Video Course", "helpsWith": "Design principles, color theory" }
+      ] },
+    { "week": 2, "topic": "Figma/Sketch Basics", "whatToLearn": "Tool basics, wireframing", "howToLearn": "Official Figma tutorials", "practiceTask": "Create wireframes for a sample app",
+      "resources": [
+        { "name": "Figma Official Tutorials", "type": "Official Documentation", "helpsWith": "Tool basics, wireframing" }
+      ] },
+    { "week": 3, "topic": "User Research Basics", "whatToLearn": "User research methods, personas", "howToLearn": "Free UX research guides", "practiceTask": "Conduct a mini user research exercise and create a persona",
+      "resources": [
+        { "name": "Nielsen Norman Group (free articles)", "type": "Free Guide", "helpsWith": "User research methods, personas" }
+      ] },
+    { "week": 4, "topic": "Prototyping & User Flows", "whatToLearn": "Interactive prototyping, user flow mapping", "howToLearn": "Official Figma prototyping tutorials", "practiceTask": "Build a clickable prototype for an app screen",
+      "resources": [
+        { "name": "Figma Prototyping Guide", "type": "Official Documentation", "helpsWith": "Interactive prototyping, user flows" }
+      ] },
+    { "week": 5, "topic": "Design Systems & Usability Testing", "whatToLearn": "Design systems basics, usability testing methods", "howToLearn": "Free design system resources", "practiceTask": "Create a small design system and run a usability test",
+      "resources": [
+        { "name": "Design Systems Free Resources (designsystems.com)", "type": "Free Guide", "helpsWith": "Design systems, usability testing" }
+      ] },
+    { "week": 6, "topic": "Accessibility & Capstone", "whatToLearn": "Accessibility (WCAG) basics, design strategy", "howToLearn": "Free accessibility guides", "practiceTask": "Design a full app case study with accessibility considerations",
+      "resources": [
+        { "name": "W3C Web Accessibility Initiative (WAI)", "type": "Official Documentation", "helpsWith": "Accessibility (WCAG) basics" }
+      ] }
+  ],
+  "Mobile App Developer": [
+    { "week": 1, "topic": "Language & Git Basics", "whatToLearn": "Kotlin/Swift/Dart basics, Git", "howToLearn": "Official language documentation", "practiceTask": "Build a simple console app in your chosen language",
+      "resources": [
+        { "name": "Kotlin / Swift / Dart Official Docs", "type": "Official Documentation", "helpsWith": "Language basics" }
+      ] },
+    { "week": 2, "topic": "Mobile UI Basics", "whatToLearn": "Mobile layout basics, navigation", "howToLearn": "Official mobile framework docs", "practiceTask": "Build a basic multi-screen app",
+      "resources": [
+        { "name": "Android Developers / Flutter Official Docs", "type": "Official Documentation", "helpsWith": "Mobile UI, navigation" }
+      ] },
+    { "week": 3, "topic": "Local Storage & State", "whatToLearn": "Local storage, state management basics", "howToLearn": "Official framework documentation", "practiceTask": "Add data persistence to your app",
+      "resources": [
+        { "name": "Flutter / Android Storage Docs", "type": "Official Documentation", "helpsWith": "Local storage, state basics" }
+      ] },
+    { "week": 4, "topic": "API Integration", "whatToLearn": "REST API integration, JSON parsing", "howToLearn": "Official framework networking docs", "practiceTask": "Connect your app to a public API",
+      "resources": [
+        { "name": "Flutter / Android Networking Docs", "type": "Official Documentation", "helpsWith": "REST API integration, JSON parsing" }
+      ] },
+    { "week": 5, "topic": "Push Notifications & Performance", "whatToLearn": "Push notifications basics, performance profiling", "howToLearn": "Official platform documentation", "practiceTask": "Add notifications to your app and profile its performance",
+      "resources": [
+        { "name": "Firebase Cloud Messaging Docs (free)", "type": "Official Documentation", "helpsWith": "Push notifications, performance profiling" }
+      ] },
+    { "week": 6, "topic": "Cross-Platform & Capstone", "whatToLearn": "Flutter/React Native basics, app store deployment", "howToLearn": "Official Flutter/React Native docs", "practiceTask": "Build and prepare a cross-platform app for store submission",
+      "resources": [
+        { "name": "Flutter / React Native Official Docs", "type": "Official Documentation", "helpsWith": "Cross-platform basics, store deployment" }
+      ] }
+  ]
+}

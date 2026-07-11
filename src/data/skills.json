@@ -1,0 +1,74 @@
+{
+  "Cloud Engineer": {
+    "requiredSkills": ["Linux Fundamentals", "Networking Basics", "Cloud Fundamentals (AWS/Azure/GCP)", "Git"],
+    "beginnerSkills": ["Virtual Machines / EC2", "Cloud Storage (S3/Blob)", "IAM Basics", "Cloud CLI Usage"],
+    "intermediateSkills": ["VPC & Networking", "Infrastructure as Code (Terraform/CloudFormation)", "Docker", "CI/CD Basics", "Load Balancing"],
+    "advancedSkills": ["Kubernetes", "Multi-Cloud Architecture", "Cost Optimization", "Security Hardening", "Disaster Recovery Planning"]
+  },
+  "Frontend Developer": {
+    "requiredSkills": ["HTML", "CSS", "JavaScript", "Git"],
+    "beginnerSkills": ["Responsive Design", "DOM Manipulation", "Flexbox & Grid", "Basic React/Vue"],
+    "intermediateSkills": ["State Management", "REST API Integration", "TypeScript", "Build Tools (Vite/Webpack)", "Testing Basics"],
+    "advancedSkills": ["Performance Optimization", "Accessibility (WCAG)", "SSR/SSG Frameworks", "Micro-Frontends", "Design Systems"]
+  },
+  "Backend Developer": {
+    "requiredSkills": ["Programming Language (Node/Python/Java)", "Database Basics", "Git", "REST APIs"],
+    "beginnerSkills": ["CRUD APIs", "SQL Basics", "Authentication Basics", "Version Control Workflows"],
+    "intermediateSkills": ["ORMs", "Caching (Redis)", "Message Queues", "API Security", "Docker"],
+    "advancedSkills": ["Microservices Architecture", "System Design", "Scalability", "Distributed Systems", "Observability"]
+  },
+  "Full Stack Developer": {
+    "requiredSkills": ["HTML/CSS/JavaScript", "Backend Language", "Database Basics", "Git"],
+    "beginnerSkills": ["Frontend Basics", "Backend CRUD", "REST APIs", "SQL Basics"],
+    "intermediateSkills": ["Frontend + Backend Frameworks", "Authentication", "Deployment Basics", "Testing"],
+    "advancedSkills": ["System Design", "Scalability", "DevOps Integration", "Full-Stack Performance Tuning", "Security Best Practices"]
+  },
+  "AI Engineer": {
+    "requiredSkills": ["Python", "Linear Algebra & Probability", "Git", "Data Structures"],
+    "beginnerSkills": ["NumPy/Pandas", "Basic ML Concepts", "Data Preprocessing", "Model Evaluation Basics"],
+    "intermediateSkills": ["Deep Learning Frameworks (TensorFlow/PyTorch)", "NLP/CV Basics", "Model Deployment", "APIs for ML"],
+    "advancedSkills": ["LLMs & Transformers", "MLOps", "Model Optimization", "Distributed Training", "Production AI Systems"]
+  },
+  "ML Engineer": {
+    "requiredSkills": ["Python", "Statistics", "Git", "Data Structures & Algorithms"],
+    "beginnerSkills": ["Pandas/NumPy", "scikit-learn Basics", "Data Cleaning", "Feature Engineering Basics"],
+    "intermediateSkills": ["Model Training Pipelines", "Cross-Validation", "Deep Learning Basics", "Docker"],
+    "advancedSkills": ["MLOps", "Model Monitoring", "Distributed Training", "Feature Stores", "Production ML Systems"]
+  },
+  "DevOps Engineer": {
+    "requiredSkills": ["Linux", "Networking", "Git", "Scripting (Bash/Python)"],
+    "beginnerSkills": ["CI/CD Basics", "Docker", "Cloud Fundamentals", "Monitoring Basics"],
+    "intermediateSkills": ["Kubernetes", "Infrastructure as Code (Terraform)", "Configuration Management (Ansible)", "Logging & Monitoring Stacks"],
+    "advancedSkills": ["Multi-Cloud Orchestration", "Security Automation", "Site Reliability Engineering", "Chaos Engineering", "Cost & Performance Optimization"]
+  },
+  "Data Analyst": {
+    "requiredSkills": ["Excel", "SQL", "Statistics Basics", "Git Basics"],
+    "beginnerSkills": ["Data Visualization (Power BI/Tableau)", "Basic Python/R", "Data Cleaning", "Descriptive Statistics"],
+    "intermediateSkills": ["Advanced SQL", "Dashboarding", "A/B Testing", "Python for Data Analysis (Pandas)"],
+    "advancedSkills": ["Predictive Analytics", "Data Storytelling", "Reporting Automation", "Business Intelligence Strategy", "Stakeholder Communication"]
+  },
+  "Cyber Security": {
+    "requiredSkills": ["Networking Fundamentals", "Operating Systems", "Security Basics", "Linux"],
+    "beginnerSkills": ["Security Tools Basics", "Vulnerability Scanning", "Basic Scripting", "CIA Triad Concepts"],
+    "intermediateSkills": ["Penetration Testing Basics", "SIEM Tools", "Incident Response", "Cryptography Basics"],
+    "advancedSkills": ["Threat Hunting", "Red Teaming", "Security Architecture", "Compliance & Risk Management", "Advanced Malware Analysis"]
+  },
+  "Software Engineer": {
+    "requiredSkills": ["Programming Fundamentals", "Data Structures & Algorithms", "Git", "OOP Concepts"],
+    "beginnerSkills": ["Basic Coding Projects", "Debugging", "Version Control Workflows", "Testing Basics"],
+    "intermediateSkills": ["Design Patterns", "System Design Basics", "Databases", "API Development"],
+    "advancedSkills": ["Distributed Systems", "Scalability", "Architecture Design", "Performance Optimization", "Mentoring & Code Review"]
+  },
+  "UI/UX Designer": {
+    "requiredSkills": ["Design Fundamentals", "Figma/Sketch", "User Research Basics", "Color Theory"],
+    "beginnerSkills": ["Wireframing", "Basic Prototyping", "Typography", "Usability Principles"],
+    "intermediateSkills": ["User Flows", "Interaction Design", "Design Systems", "Usability Testing"],
+    "advancedSkills": ["Design Leadership", "Accessibility (WCAG)", "Design Strategy", "Cross-Platform Design Systems", "Data-Informed Design"]
+  },
+  "Mobile App Developer": {
+    "requiredSkills": ["Programming Language (Kotlin/Swift/Dart)", "Git", "Mobile UI Basics", "OOP Concepts"],
+    "beginnerSkills": ["Basic App Layouts", "Navigation", "Local Storage", "Debugging"],
+    "intermediateSkills": ["State Management", "REST API Integration", "Push Notifications", "App Performance Basics"],
+    "advancedSkills": ["Cross-Platform Architecture (Flutter/React Native)", "App Store Deployment & CI/CD", "Offline-First Architecture", "Security & Performance Optimization", "Scalable App Architecture"]
+  }
+}

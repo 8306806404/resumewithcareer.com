@@ -1,0 +1,747 @@
+
+{
+  "Cloud Engineer": {
+    "beginner": [
+      {
+        "question": "What is cloud computing and what are the main service models (IaaS, PaaS, SaaS)?",
+        "sampleAnswer": "Cloud computing is the on-demand delivery of computing resources (servers, storage, databases, networking) over the internet with pay-as-you-go pricing. IaaS (e.g., EC2) gives raw infrastructure you manage yourself, PaaS (e.g., Elastic Beanstalk) manages the runtime so you focus on code, and SaaS (e.g., Gmail) delivers a fully managed application to end users.",
+        "tips": "Use a real-world example for each model to show you understand the trade-off between control and management overhead.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is the difference between a public, private, and hybrid cloud?",
+        "sampleAnswer": "A public cloud is owned and operated by a third-party provider and shared across customers (e.g., AWS, Azure). A private cloud is dedicated to a single organization, either on-premises or hosted, offering more control and compliance. A hybrid cloud combines both, letting workloads move between private and public environments as needed.",
+        "tips": "Mention a business reason for choosing hybrid, such as keeping sensitive data on-premises while bursting compute to the public cloud.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is an IAM role and why is it important?",
+        "sampleAnswer": "IAM (Identity and Access Management) roles define what actions a user, service, or resource is allowed to perform. Instead of hardcoding credentials, a role can be attached to a service so it temporarily assumes permissions it needs, following the principle of least privilege.",
+        "tips": "Highlight least privilege and temporary credentials — interviewers often probe for security awareness at the beginner level too.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "How would you design a highly available architecture using load balancers and multiple availability zones?",
+        "sampleAnswer": "I'd deploy application instances across at least two availability zones behind a load balancer that health-checks each instance and routes traffic only to healthy ones. Auto-scaling groups would replace unhealthy instances automatically, and a multi-AZ database (like RDS Multi-AZ) would handle failover for the data layer.",
+        "tips": "Draw or describe the architecture step by step — interviewers want to see you reason about failure points, not just name services.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "What is Infrastructure as Code, and what problem does Terraform solve?",
+        "sampleAnswer": "Infrastructure as Code means defining infrastructure in declarative config files instead of manual console clicks, so environments are reproducible and version-controlled. Terraform reads a desired-state file, compares it to the current state, and applies only the changes needed, which avoids configuration drift across environments.",
+        "tips": "Mention state files and plan/apply workflow — it shows hands-on experience rather than textbook knowledge.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How do you secure a VPC while still allowing necessary external access?",
+        "sampleAnswer": "I'd segment the VPC into public and private subnets, placing only load balancers or bastion hosts in the public subnet. Security groups act as stateful instance-level firewalls and NACLs as stateless subnet-level rules, and outbound internet access for private resources goes through a NAT gateway.",
+        "tips": "Distinguish security groups from NACLs clearly — this is a very common follow-up question.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you design a disaster recovery strategy with a defined RTO and RPO?",
+        "sampleAnswer": "I'd pick a strategy based on the required RTO/RPO: backup-and-restore for the loosest requirements, pilot light or warm standby for moderate ones, and multi-site active-active for near-zero downtime. This involves cross-region replication of data, infrastructure templates ready to deploy, and regular failover drills to validate the plan actually works.",
+        "tips": "Always tie your answer back to RTO/RPO numbers and cost trade-offs — advanced interviews expect business-aware technical decisions.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How do you approach cost optimization in a large multi-account cloud environment without hurting performance?",
+        "sampleAnswer": "I'd start with visibility using cost allocation tags and a centralized billing dashboard, then apply right-sizing based on actual CloudWatch utilization metrics, use reserved or savings-plan pricing for predictable workloads, and spot instances for fault-tolerant batch jobs. Automated policies (like shutting down non-production environments after hours) capture ongoing savings.",
+        "tips": "Show that cost optimization is continuous, not a one-time cleanup — mention monitoring and guardrails, not just a single fix.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "Walk through how you'd migrate a monolithic on-premises application to a Kubernetes-based cloud architecture with minimal downtime.",
+        "sampleAnswer": "I'd start by containerizing the app and validating it runs correctly in a staging cluster, then strangle the monolith incrementally by extracting services behind an API gateway rather than a big-bang rewrite. A blue-green or canary deployment strategy with DNS or load-balancer weighting lets me shift traffic gradually while monitoring error rates, with an instant rollback path if issues appear.",
+        "tips": "Emphasize incremental migration and rollback safety — advanced interviewers care about risk management as much as the target architecture.",
+        "difficulty": "Advanced"
+      }
+    ]
+  },
+  "Frontend Developer": {
+    "beginner": [
+      {
+        "question": "What is the difference between let, const, and var in JavaScript?",
+        "sampleAnswer": "var is function-scoped and hoisted with an initial value of undefined, which can cause bugs. let and const are block-scoped and live in a 'temporal dead zone' until declared. const additionally prevents reassignment of the variable binding, though objects and arrays assigned to a const can still be mutated.",
+        "tips": "Give a quick example showing var leaking out of a block versus let staying contained — it demonstrates real understanding.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is the CSS box model?",
+        "sampleAnswer": "The box model describes how every element is rendered as a rectangular box made of content, padding, border, and margin, from innermost to outermost. By default width/height apply only to content, but box-sizing: border-box makes them include padding and border, which is why most projects set border-box globally.",
+        "tips": "Mention box-sizing: border-box — interviewers like to see you know the modern default developers apply.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is the virtual DOM and why does React use it?",
+        "sampleAnswer": "The virtual DOM is a lightweight JavaScript representation of the actual DOM. When state changes, React builds a new virtual DOM tree, diffs it against the previous one, and applies only the minimal set of real DOM updates needed, which is much faster than re-rendering the whole page directly.",
+        "tips": "Avoid claiming the virtual DOM is always faster than direct DOM manipulation — say it's faster for typical UI update patterns, since overclaiming is a common mistake interviewers catch.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "How does React's useEffect hook work, and what issues can arise from an incorrect dependency array?",
+        "sampleAnswer": "useEffect runs a side effect after render and re-runs it whenever any value in its dependency array changes; an empty array means it runs once on mount. Missing a dependency can cause stale closures where the effect uses outdated state or props, while an unstable dependency (like a new object created every render) can cause infinite re-render loops.",
+        "tips": "Mention the ESLint exhaustive-deps rule — it shows you know the tooling that catches this class of bug.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How would you optimize a React app that's re-rendering too often?",
+        "sampleAnswer": "I'd first profile with React DevTools to find which components re-render unnecessarily, then apply memo, useMemo, or useCallback to stop re-creating props/functions on every render. For larger issues I'd check if state is too high in the tree, causing unrelated children to re-render, and split state or use context selectively.",
+        "tips": "Always mention profiling first — jumping straight to useMemo everywhere without measuring is a red flag for interviewers.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "What is CORS and how do you handle it when calling an API from the frontend?",
+        "sampleAnswer": "CORS (Cross-Origin Resource Sharing) is a browser security mechanism that blocks a page from making requests to a different origin unless the server explicitly allows it via response headers like Access-Control-Allow-Origin. As a frontend developer I can't bypass CORS from the client; the fix is either the backend allowing the origin, or routing requests through a proxy during development.",
+        "tips": "Clarify that CORS is enforced by the browser, not the server — many candidates mistakenly think it's a client-side setting they can toggle.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you design a scalable state management approach for a large React application?",
+        "sampleAnswer": "I'd separate state by scope: local component state for UI-only concerns, server-cache state (via React Query or SWR) for API data with built-in caching/revalidation, and a global store (Redux, Zustand, or Context) only for truly cross-cutting app state like auth or theme. Mixing server data into a global store is a common anti-pattern I'd avoid, since it duplicates caching logic the server-state library already solves.",
+        "tips": "Show that not all state belongs in one place — this nuance separates senior answers from junior ones.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How do you approach performance budgets and Core Web Vitals for a production frontend?",
+        "sampleAnswer": "I'd set explicit budgets for metrics like LCP, CLS, and INP, then enforce them in CI using tools like Lighthouse CI so regressions are caught before merge. Common fixes include code-splitting routes, lazy-loading below-the-fold images with explicit dimensions to avoid layout shift, and deferring non-critical JavaScript.",
+        "tips": "Name specific Core Web Vitals metrics rather than saying 'make it fast' — precision signals real production experience.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you architect a micro-frontend system, and what are the trade-offs versus a single monolithic frontend?",
+        "sampleAnswer": "I'd split the app by business domain, with each micro-frontend independently deployable and owned by its own team, composed at runtime via module federation or at the edge via server-side includes. The trade-off is added complexity in shared dependency versioning, cross-app styling consistency, and inter-app communication, so I'd only recommend it once a single codebase genuinely becomes an organizational bottleneck.",
+        "tips": "Acknowledge the downsides honestly — advanced interviewers are testing whether you'd overengineer a small app with this pattern.",
+        "difficulty": "Advanced"
+      }
+    ]
+  },
+  "Backend Developer": {
+    "beginner": [
+      {
+        "question": "What is the difference between REST and a simple CRUD API?",
+        "sampleAnswer": "CRUD just describes the four basic operations — create, read, update, delete. REST is an architectural style layered on top that maps those operations to HTTP verbs (POST, GET, PUT/PATCH, DELETE) on resource-based URLs, and emphasizes statelessness and using standard status codes to communicate results.",
+        "tips": "Give an example URL and verb pairing, like POST /users vs GET /users/:id, to show practical understanding.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is the difference between SQL and NoSQL databases?",
+        "sampleAnswer": "SQL databases are relational, use fixed schemas, and enforce ACID transactions, making them great for structured data with relationships, like financial records. NoSQL databases (document, key-value, wide-column, graph) offer flexible schemas and horizontal scalability, which suits unstructured or rapidly evolving data at large scale.",
+        "tips": "Pick a concrete example for each, e.g., PostgreSQL for orders, MongoDB for a product catalog with varying attributes.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is middleware in a backend framework like Express?",
+        "sampleAnswer": "Middleware is a function that sits between the incoming request and the final route handler, with access to the request, response, and a next() function to pass control forward. It's commonly used for logging, authentication checks, parsing request bodies, or error handling.",
+        "tips": "Mention that middleware order matters — it's a detail that shows hands-on experience rather than memorized definitions.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "How would you design authentication for an API using JWTs, and what are the security considerations?",
+        "sampleAnswer": "On login, the server issues a signed JWT containing minimal claims (user id, role, expiry) which the client sends in the Authorization header on subsequent requests. Key considerations are using short expiry times with refresh tokens, storing tokens securely (httpOnly cookies rather than localStorage to reduce XSS risk), and never putting sensitive data in the payload since it's only signed, not encrypted.",
+        "tips": "Explicitly say JWTs are signed but readable, not encrypted — this is a very common misconception interviewers listen for.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How does database indexing improve query performance, and when could it hurt?",
+        "sampleAnswer": "An index creates a sorted data structure (usually a B-tree) on one or more columns so the database can locate matching rows without scanning the whole table, dramatically speeding up reads and WHERE/JOIN/ORDER BY clauses. The trade-off is that every write (INSERT/UPDATE/DELETE) must also update the index, so over-indexing a write-heavy table can slow it down and use extra storage.",
+        "tips": "Mention EXPLAIN/EXPLAIN ANALYZE as the tool you'd use to verify an index is actually being used — it shows practical debugging skill.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How would you handle a slow, long-running task triggered by an API request, like sending bulk emails?",
+        "sampleAnswer": "I wouldn't process it synchronously in the request-response cycle since that risks timeouts and blocks the server thread. Instead I'd push the job onto a message queue (like Redis-backed BullMQ or RabbitMQ), return a 202 Accepted immediately, and have a worker process consume the queue, optionally exposing a status endpoint or webhook for completion.",
+        "tips": "Naming a specific queue technology and mentioning the 202 status code shows you've actually implemented this pattern before.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you design a system to handle 10x traffic growth on an existing monolithic API?",
+        "sampleAnswer": "I'd first profile to find the actual bottleneck rather than guessing — often it's the database. From there I'd add read replicas and caching (Redis) for hot read paths, introduce horizontal scaling behind a load balancer for the stateless app tier, and consider splitting out the highest-load endpoints into separate services if the monolith itself becomes the constraint. I'd also add rate limiting and circuit breakers to protect the system under unexpected spikes.",
+        "tips": "Start with 'measure first' — jumping straight to microservices without identifying the actual bottleneck is a common advanced-interview trap.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How do you handle data consistency across microservices when you can't use a single database transaction?",
+        "sampleAnswer": "I'd use the Saga pattern, breaking the operation into a sequence of local transactions per service, each publishing an event that triggers the next step, with compensating transactions to undo prior steps if a later one fails. For simpler cases an outbox pattern combined with idempotent event consumers avoids dual-write problems between the database and the message broker.",
+        "tips": "Mention idempotency explicitly — distributed systems interviews almost always probe whether you understand at-least-once delivery semantics.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you design rate limiting and abuse protection for a public API at scale?",
+        "sampleAnswer": "I'd implement a token-bucket or sliding-window algorithm backed by a fast shared store like Redis so limits work correctly across multiple API server instances, keyed by API key or user id rather than just IP to avoid punishing shared networks. For layered protection I'd add a CDN/WAF for coarse edge-level throttling, plus clear 429 responses with Retry-After headers so well-behaved clients back off automatically.",
+        "tips": "Mention that the limiter's state must be shared across instances — a per-process in-memory limiter is a classic mistake in distributed deployments.",
+        "difficulty": "Advanced"
+      }
+    ]
+  },
+  "Full Stack Developer": {
+    "beginner": [
+      {
+        "question": "How does data flow from a database to the browser in a typical full-stack app?",
+        "sampleAnswer": "The frontend sends an HTTP request to a backend API endpoint, the backend queries the database, formats the result (usually as JSON), and sends it back in the response. The frontend then updates its state with that data and re-renders the relevant UI.",
+        "tips": "Walking through this end-to-end shows interviewers you understand the whole stack, not just one layer.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is the difference between client-side rendering and server-side rendering?",
+        "sampleAnswer": "In client-side rendering, the browser downloads a mostly empty HTML shell and JavaScript builds the page after load, which can mean a blank screen briefly and worse SEO. Server-side rendering generates the full HTML on the server for each request, so users and search engines see content immediately, at the cost of more server load per request.",
+        "tips": "Mention a framework example, like Next.js supporting both, to ground the answer in real tools.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "Why do we use environment variables in a full-stack application?",
+        "sampleAnswer": "Environment variables keep configuration like API keys, database URLs, and secrets out of source code, so the same codebase can run in development, staging, and production with different values, and secrets aren't committed to version control.",
+        "tips": "Mention .env files being gitignored — it's a small detail that shows real project experience.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "How would you keep frontend and backend validation in sync to avoid duplicating logic?",
+        "sampleAnswer": "I'd define validation schemas once using a library like Zod or Yup in a shared package, then reuse that schema on both the frontend for instant user feedback and the backend as the authoritative check before touching the database. The backend validation is non-negotiable since the frontend can always be bypassed by a direct API call.",
+        "tips": "Always state that backend validation is mandatory regardless of frontend checks — this is a security fundamental interviewers listen for.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How do you handle authentication state across a full-stack app, including page refreshes?",
+        "sampleAnswer": "I'd store a short-lived access token in memory and a refresh token in an httpOnly, secure cookie so it survives refreshes but isn't accessible to JavaScript, reducing XSS risk. On app load, I'd call a 'me' endpoint or silently refresh the access token using the cookie to rehydrate the logged-in state before rendering protected routes.",
+        "tips": "Explain the refresh flow, not just where tokens are stored — interviewers want to see you've handled the token-expiry edge case.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How would you structure a monorepo containing both frontend and backend code?",
+        "sampleAnswer": "I'd use a workspace tool like Turborepo or Nx with separate packages for the frontend app, backend app, and a shared package for types/utilities used by both, so changes to a shared API contract are type-checked consistently on both sides. CI would build/test only the affected packages using the tool's dependency graph, keeping pipelines fast.",
+        "tips": "Mention the shared-types package specifically — it's the concrete benefit that makes a monorepo worth the setup cost.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you design a real-time feature, like live notifications, across the full stack?",
+        "sampleAnswer": "I'd use WebSockets (or a managed service like Pusher/Ably) for persistent bidirectional connections, with the backend publishing events to a pub/sub layer (like Redis) so any server instance can broadcast to connected clients regardless of which instance they connected to. On the frontend I'd handle reconnection with exponential backoff and reconcile any missed events by fetching state on reconnect rather than assuming no gaps occurred.",
+        "tips": "Mention the multi-instance broadcasting problem specifically — it's the detail that separates someone who's actually deployed WebSockets from someone who's only used them locally.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How do you approach end-to-end performance optimization across both frontend and backend for a slow page?",
+        "sampleAnswer": "I'd trace the full request lifecycle: check backend response time and query performance first via APM tooling, then check payload size and whether the API is over-fetching data the UI doesn't need, and finally profile frontend rendering and bundle size. Often the real fix is a combination — trimming an API response and adding pagination, plus lazy-loading a heavy frontend component — rather than one single silver-bullet change.",
+        "tips": "Show you'd measure across the whole stack instead of assuming the bottleneck is 'probably the frontend' or 'probably the database.'",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you design a deployment pipeline for a full-stack app that ensures zero-downtime releases?",
+        "sampleAnswer": "I'd run database migrations in a backward-compatible way (additive changes deployed before the code that depends on them) so old and new app versions can both run during rollout, then use a rolling or blue-green deployment behind a load balancer with health checks gating traffic shift. Automated smoke tests would run against the new version before it receives full production traffic, with an automatic rollback if error rates spike.",
+        "tips": "Backward-compatible migrations are the detail most candidates miss — mentioning it signals real production deployment experience.",
+        "difficulty": "Advanced"
+      }
+    ]
+  },
+  "AI Engineer": {
+    "beginner": [
+      {
+        "question": "What is the difference between AI, machine learning, and deep learning?",
+        "sampleAnswer": "AI is the broad field of making machines perform tasks that normally require human intelligence. Machine learning is a subset of AI where systems learn patterns from data instead of following explicit rules. Deep learning is a subset of ML using multi-layer neural networks, particularly effective for unstructured data like images, audio, and text.",
+        "tips": "Use the nested-circle mental model (AI contains ML contains deep learning) — it's the clearest way to explain the hierarchy.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is a prompt, and why does prompt engineering matter when working with LLMs?",
+        "sampleAnswer": "A prompt is the input text given to a language model to elicit a response. Prompt engineering matters because the same underlying model can produce very different quality outputs depending on how instructions, context, and examples are structured in the prompt, without any change to the model itself.",
+        "tips": "Give one concrete technique, like few-shot examples or specifying output format, to show practical rather than theoretical knowledge.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is the difference between training data, validation data, and test data?",
+        "sampleAnswer": "Training data is what the model learns patterns from. Validation data is used during development to tune hyperparameters and check for overfitting without touching the final test set. Test data is held out completely and used only once at the end to get an unbiased estimate of real-world performance.",
+        "tips": "Emphasize that test data must never influence model choices — that's the core reason this split exists.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "What is retrieval-augmented generation (RAG), and when would you use it instead of fine-tuning?",
+        "sampleAnswer": "RAG retrieves relevant documents from an external knowledge base at query time and feeds them into the LLM's context so it can answer with up-to-date or domain-specific information it wasn't trained on. I'd choose RAG when the underlying knowledge changes often or is proprietary, and reserve fine-tuning for cases where I need to change the model's behavior or style rather than just its knowledge.",
+        "tips": "Contrast RAG (knowledge injection) vs fine-tuning (behavior change) clearly — this distinction is asked constantly.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How would you evaluate the quality of an LLM-powered feature before shipping it to production?",
+        "sampleAnswer": "I'd build a labeled evaluation set of representative inputs with expected outputs or acceptance criteria, then score outputs using a mix of automated metrics (exact match, semantic similarity, or an LLM-as-judge for open-ended tasks) and human review for edge cases. I'd also test for failure modes like hallucination, prompt injection, and inconsistent formatting before rollout.",
+        "tips": "Mention both automated and human evaluation — relying on just one is a common gap interviewers probe.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "What is embedding, and how are vector databases used in AI applications?",
+        "sampleAnswer": "An embedding is a numerical vector representation of text, images, or other data such that semantically similar items end up close together in vector space. A vector database indexes these embeddings for fast approximate nearest-neighbor search, which powers use cases like semantic search and the retrieval step in RAG pipelines.",
+        "tips": "Name a real vector database (Pinecone, Weaviate, pgvector) to show hands-on familiarity, not just textbook theory.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you design a production LLM system to control cost and latency at scale?",
+        "sampleAnswer": "I'd use a tiered model strategy, routing simple requests to a smaller/cheaper model and only escalating to a larger model when needed, plus aggressive prompt and response caching for repeated queries. Streaming responses improves perceived latency, and batching requests where possible reduces per-call overhead, all measured against a cost-per-request budget tied to the feature's business value.",
+        "tips": "Model routing and caching are the two levers interviewers most want to hear — mention both explicitly.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How do you mitigate hallucination and ensure factual reliability in an LLM-based application?",
+        "sampleAnswer": "I'd ground responses in retrieved source documents via RAG rather than relying on the model's parametric memory, and require the model to cite sources so incorrect claims are traceable and reviewable. For high-stakes outputs I'd add a verification step — either a second model pass checking claims against the retrieved context, or a confidence threshold that routes uncertain answers to human review.",
+        "tips": "Acknowledge hallucination can't be fully eliminated, only mitigated and detected — overclaiming a 'fix' is a red flag.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you design an agentic system that uses tools/function calling, and what safeguards would you add?",
+        "sampleAnswer": "I'd define a constrained set of tools with strict input/output schemas, have the model select and call tools in a loop with a maximum iteration count to prevent runaway loops, and validate every tool call's arguments before execution rather than trusting the model's output directly. For safety I'd sandbox any code-execution tools, require human approval for irreversible actions, and log every step for auditability.",
+        "tips": "Mention validating tool arguments and requiring approval for irreversible actions — these are the safeguards senior interviewers specifically listen for.",
+        "difficulty": "Advanced"
+      }
+    ]
+  },
+  "ML Engineer": {
+    "beginner": [
+      {
+        "question": "What is the difference between supervised and unsupervised learning?",
+        "sampleAnswer": "Supervised learning trains a model on labeled data, where each input has a known correct output, like predicting house prices from features. Unsupervised learning works with unlabeled data to find hidden structure, like clustering customers into segments without predefined categories.",
+        "tips": "Give one algorithm example for each (linear regression vs k-means) to show applied knowledge.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is overfitting, and how can you prevent it?",
+        "sampleAnswer": "Overfitting happens when a model learns the noise and specific quirks of the training data instead of generalizable patterns, performing well on training data but poorly on new data. I'd prevent it using techniques like cross-validation, regularization (L1/L2), simplifying the model, gathering more data, or early stopping during training.",
+        "tips": "Mention cross-validation specifically — it shows you know how to detect overfitting, not just define it.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What evaluation metrics would you use for a classification problem, and why not just use accuracy?",
+        "sampleAnswer": "For classification I'd look at precision, recall, F1-score, and the confusion matrix, plus ROC-AUC for threshold-independent evaluation. Accuracy alone is misleading on imbalanced datasets — for example, a model predicting 'not fraud' every time could be 99% accurate but useless for actually catching fraud.",
+        "tips": "Always bring up class imbalance when discussing accuracy — it's the classic follow-up question.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "How would you build a training pipeline that's reproducible and easy to iterate on?",
+        "sampleAnswer": "I'd version both code and data (using something like DVC), pin dependencies, set random seeds, and log every experiment's hyperparameters, metrics, and artifacts with a tool like MLflow or Weights & Biases. Containerizing the training environment with Docker ensures the pipeline runs identically on any machine or CI system.",
+        "tips": "Data versioning is often overlooked — mentioning it alongside code versioning stands out.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How do you handle imbalanced datasets when training a classifier?",
+        "sampleAnswer": "I'd first check if resampling helps — oversampling the minority class (e.g., SMOTE) or undersampling the majority class — and also try class-weighted loss functions so the model penalizes minority-class errors more heavily. I'd evaluate with precision/recall/F1 rather than accuracy, and pick the threshold based on the actual cost of false positives vs false negatives for the business use case.",
+        "tips": "Tie the final threshold choice back to business cost, not just a default 0.5 cutoff — it shows applied thinking.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "What is cross-validation, and how do you choose the right strategy for time-series data?",
+        "sampleAnswer": "Cross-validation splits data into multiple train/validation folds to get a more robust performance estimate than a single split. For time-series data, standard k-fold shuffling would leak future information into training, so I'd use a time-based split or expanding-window validation that always trains on past data and validates on future data.",
+        "tips": "Explicitly call out data leakage risk in time-series — it's the detail that distinguishes a real ML engineer from a course-taught one.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you design a model monitoring system to detect data and concept drift in production?",
+        "sampleAnswer": "I'd track statistical distributions of input features over time (using something like population stability index or KL divergence) and compare them against the training distribution to catch data drift, while also monitoring live prediction accuracy against delayed ground-truth labels to catch concept drift. Alerts would trigger a retraining pipeline or human review once drift crosses a defined threshold, rather than silently degrading.",
+        "tips": "Distinguish data drift (input distribution shifts) from concept drift (the relationship between input and output shifts) — this distinction is a strong signal of depth.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you approach scaling model training across multiple GPUs or nodes?",
+        "sampleAnswer": "For models that fit on one GPU, I'd use data parallelism, splitting batches across devices and synchronizing gradients. For very large models that don't fit in one GPU's memory, I'd use model or pipeline parallelism, or frameworks like DeepSpeed/FSDP that shard optimizer states and gradients across devices to reduce memory footprint per GPU.",
+        "tips": "Distinguish data parallelism from model parallelism clearly — conflating them is a common mistake under interview pressure.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How do you design a feature store, and what problems does it solve for an ML team?",
+        "sampleAnswer": "A feature store centralizes feature computation and storage so the same feature definitions are used consistently for both training (offline) and serving (online), preventing training-serving skew where features are computed differently in each environment. It also enables feature reuse across teams and models, and provides point-in-time correctness so historical training data reflects what would have been known at that moment, avoiding label leakage.",
+        "tips": "Mention training-serving skew and point-in-time correctness by name — these are the two core problems a feature store exists to solve.",
+        "difficulty": "Advanced"
+      }
+    ]
+  },
+  "DevOps Engineer": {
+    "beginner": [
+      {
+        "question": "What is CI/CD, and what's the difference between continuous delivery and continuous deployment?",
+        "sampleAnswer": "CI (continuous integration) means automatically building and testing code every time it's pushed, catching issues early. Continuous delivery means the code is automatically prepared and ready to release at any time, but a human triggers the actual release, while continuous deployment goes one step further and releases to production automatically once tests pass.",
+        "tips": "Clarify the delivery vs deployment distinction precisely — it's a very common trick question.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is the difference between a container and a virtual machine?",
+        "sampleAnswer": "A VM virtualizes an entire machine including its own OS kernel, making it heavier but more isolated. A container shares the host OS kernel and only packages the application and its dependencies, making it much lighter and faster to start, which is why containers are preferred for microservices and CI pipelines.",
+        "tips": "Mention shared kernel vs separate kernel specifically — it's the core technical distinction interviewers check for.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is a Dockerfile, and what are some best practices for writing one?",
+        "sampleAnswer": "A Dockerfile is a script of instructions to build a container image, specifying a base image, dependencies, files to copy, and the startup command. Best practices include using a minimal base image, leveraging layer caching by copying dependency files before source code, and using multi-stage builds to keep the final image small.",
+        "tips": "Mention layer caching order — it's a small detail that shows real hands-on Docker experience.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "How would you design a CI/CD pipeline for a microservices application?",
+        "sampleAnswer": "Each service would have its own pipeline triggered only by changes to its own code, running lint/tests/build and publishing a versioned container image on success. A separate deployment stage would use that image tag in a manifest (e.g., Kubernetes YAML or Helm chart), with staging deployment automatic and production gated behind approval or automated smoke tests.",
+        "tips": "Emphasize per-service pipelines triggered by path-based changes — a single pipeline for all services doesn't scale and is a common design mistake.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How does Kubernetes handle service discovery and load balancing internally?",
+        "sampleAnswer": "A Kubernetes Service gets a stable virtual IP and DNS name that stays constant even as the underlying pods it targets are created and destroyed, with kube-proxy maintaining iptables or IPVS rules to load-balance traffic across healthy pod endpoints. This means other services just need to know the Service's DNS name, not track individual pod IPs.",
+        "tips": "Mention kube-proxy and DNS specifically — naming the actual mechanism shows deeper understanding than 'Kubernetes handles it automatically.'",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How would you set up centralized logging and monitoring for a distributed system?",
+        "sampleAnswer": "I'd ship logs from every service to a centralized store (like the ELK stack or a managed service such as Datadog) using a log shipper (Fluentd/Fluent Bit) rather than relying on SSHing into individual hosts. For monitoring I'd use Prometheus to scrape metrics and Grafana for dashboards, with alerting rules tied to symptoms users would notice (like error rate or latency) rather than just raw infrastructure metrics.",
+        "tips": "Emphasize alerting on user-facing symptoms, not just CPU/memory — it shows SRE-minded thinking, not just tooling knowledge.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you design a zero-downtime deployment strategy for a stateful service with Kubernetes?",
+        "sampleAnswer": "I'd use a rolling update strategy with readiness probes so Kubernetes only routes traffic to pods that report ready, combined with a PodDisruptionBudget to prevent too many replicas going down at once. For stateful components I'd ensure the application handles in-flight request draining gracefully via a preStop hook and terminationGracePeriodSeconds, and confirm data layer compatibility across the old and new version during the rollout window.",
+        "tips": "Mention readiness probes, PodDisruptionBudget, and graceful shutdown together — this combination is what actually prevents dropped requests during rollout.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you approach implementing chaos engineering in a production environment safely?",
+        "sampleAnswer": "I'd start small in staging with tools like Chaos Mesh or Gremlin, running controlled experiments like killing a single pod or injecting network latency, with a clear hypothesis and rollback plan before each test. Once confidence is built, I'd move to production during low-traffic windows with a 'blast radius' limited to a small percentage of traffic, always with monitoring and an automatic abort condition if error rates spike beyond a threshold.",
+        "tips": "Emphasize starting in staging and defining a blast radius — running unbounded chaos experiments directly in production is a red flag interviewers watch for.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How do you design an incident response and postmortem process for a growing engineering org?",
+        "sampleAnswer": "I'd define clear severity levels with corresponding response expectations, an on-call rotation with escalation paths, and a runbook for common incident types so responders aren't improvising under pressure. Every significant incident would get a blameless postmortem focused on system and process gaps rather than individual fault, with concrete action items tracked to completion, not just documented and forgotten.",
+        "tips": "Say 'blameless postmortem' explicitly — it's the industry-standard term and signals you understand incident culture, not just the technical mechanics.",
+        "difficulty": "Advanced"
+      }
+    ]
+  },
+  "Data Analyst": {
+    "beginner": [
+      {
+        "question": "What is the difference between a JOIN and a UNION in SQL?",
+        "sampleAnswer": "A JOIN combines columns from two or more tables side by side based on a related key, like matching orders to customers. A UNION stacks the results of two queries vertically into one result set, and requires both queries to return the same number of columns with compatible types.",
+        "tips": "Mention that UNION removes duplicates by default while UNION ALL doesn't — it's a common detail-oriented follow-up.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is the difference between mean, median, and mode, and when would you use each?",
+        "sampleAnswer": "The mean is the average of all values, the median is the middle value when sorted, and the mode is the most frequent value. I'd use the median over the mean when data has outliers or is skewed, like household income, since a few extreme values can distort the mean but not the median.",
+        "tips": "Always mention outlier sensitivity — it's the practical reason interviewers care about this beyond the textbook definitions.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "How would you handle missing data in a dataset before analysis?",
+        "sampleAnswer": "I'd first understand why the data is missing — whether it's random or systematic — since that affects the right approach. Options include dropping rows/columns with too much missing data, imputing with mean/median/mode for simple cases, or using more informed imputation, but I'd always document what I did since it affects the validity of downstream conclusions.",
+        "tips": "Mention checking *why* data is missing before choosing a fix — jumping straight to 'fill with the mean' without investigating is a common junior mistake.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "How would you write a SQL query using window functions to calculate a running total?",
+        "sampleAnswer": "I'd use SUM(amount) OVER (PARTITION BY category ORDER BY date) which calculates a cumulative sum within each category ordered by date, without collapsing rows like a GROUP BY would. Window functions are ideal here because I need both the individual row detail and an aggregate calculated relative to it.",
+        "tips": "Explain that window functions keep row-level detail unlike GROUP BY — that's the key conceptual difference interviewers check for.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How would you design and analyze an A/B test for a new feature?",
+        "sampleAnswer": "I'd define a clear success metric and hypothesis upfront, calculate the required sample size for adequate statistical power before starting, and randomly assign users to control and treatment groups to avoid selection bias. After the test runs for the predetermined duration, I'd check for statistical significance using something like a t-test or chi-squared test, while also checking practical significance — whether the effect size is actually meaningful for the business.",
+        "tips": "Mention calculating sample size beforehand and avoiding peeking at results early — stopping a test as soon as it looks significant is a classic statistical error interviewers probe for.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How would you build a dashboard that stakeholders will actually use, not just look at once?",
+        "sampleAnswer": "I'd start by interviewing stakeholders about the specific decisions they need to make, then design the dashboard around those decisions rather than dumping every available metric onto one screen. I'd also keep it simple with clear visual hierarchy, add drill-down filters for self-service exploration, and set up a light feedback loop to check it's still relevant after a few weeks.",
+        "tips": "Emphasize starting from stakeholder decisions, not available data — dashboards built the other way around are usually ignored.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you investigate and communicate the root cause of an unexpected drop in a key business metric?",
+        "sampleAnswer": "I'd segment the metric by dimensions like region, platform, or user cohort to isolate where the drop is concentrated rather than assuming it's uniform, then cross-reference the timing against known changes like a product release, pricing change, or a tracking/instrumentation bug. Once I've narrowed the cause, I'd communicate findings with a clear before/after visualization and a concrete recommendation, not just a list of correlations, since stakeholders need an actionable next step.",
+        "tips": "Segmenting before theorizing is the key move — jumping straight to a root-cause guess without slicing the data first is a common advanced-interview trap.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you build a self-serve reporting automation system so stakeholders stop asking you for the same recurring reports?",
+        "sampleAnswer": "I'd identify the recurring report requests, build a scheduled pipeline (e.g., using a tool like dbt plus a BI tool's scheduled refresh) that automatically refreshes underlying data models, and expose parameterized dashboards so stakeholders can filter by their own team, date range, or region without a new ad hoc request each time. I'd also document the metric definitions clearly so there's a single source of truth and no debate about which number is 'correct.'",
+        "tips": "Mention a single source of truth for metric definitions — inconsistent metric definitions across teams is the real-world problem this question is testing for.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you design a churn prediction analysis and translate it into a business retention strategy?",
+        "sampleAnswer": "I'd define churn clearly for the business (e.g., no activity in 30 days), build features from usage patterns and engagement signals, and use a model like logistic regression or gradient boosting to score churn risk, prioritizing interpretability so stakeholders trust and act on the output. From there I'd segment high-risk users by their top churn drivers and propose targeted interventions per segment, then set up a follow-up measurement to confirm the intervention actually reduced churn rather than just reporting the model as done.",
+        "tips": "Close the loop with measurement of the intervention's actual impact — a churn model that never gets validated against real outcomes is an incomplete answer.",
+        "difficulty": "Advanced"
+      }
+    ]
+  },
+  "Cyber Security": {
+    "beginner": [
+      {
+        "question": "What is the CIA triad, and why is it foundational to security?",
+        "sampleAnswer": "The CIA triad stands for Confidentiality (only authorized parties can access data), Integrity (data isn't tampered with undetected), and Availability (systems and data are accessible when needed). Almost every security control maps back to protecting one or more of these three properties, making it the foundational framework for reasoning about risk.",
+        "tips": "Give a real example for each pillar, like encryption for confidentiality and backups for availability, to show applied understanding.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is the difference between symmetric and asymmetric encryption?",
+        "sampleAnswer": "Symmetric encryption uses the same key to encrypt and decrypt, which is fast but requires securely sharing that key beforehand (e.g., AES). Asymmetric encryption uses a public/private key pair — anyone can encrypt with the public key but only the private key holder can decrypt — which solves the key distribution problem but is slower, so in practice they're often combined, like in TLS.",
+        "tips": "Mention that TLS uses both together — it shows you understand how these concepts apply in real systems, not just in isolation.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is phishing, and what are common ways to defend against it?",
+        "sampleAnswer": "Phishing is a social engineering attack where an attacker impersonates a trusted source to trick someone into revealing credentials or clicking a malicious link. Defenses include security awareness training, email filtering/authentication (SPF, DKIM, DMARC), multi-factor authentication so stolen credentials alone aren't enough, and simulated phishing exercises to measure and improve employee readiness.",
+        "tips": "Mention MFA as a defense-in-depth layer — it shows you think beyond just 'don't click the link' user training.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "How would you approach a vulnerability scan and prioritize remediation for a mid-sized company's network?",
+        "sampleAnswer": "I'd run an authenticated scan (using a tool like Nessus or OpenVAS) to get accurate results rather than an unauthenticated one that misses many issues, then prioritize based on CVSS score combined with actual exploitability and asset criticality, not severity alone. Internet-facing systems with known exploited vulnerabilities would jump to the top of the queue regardless of raw CVSS score, since real-world exploitability matters more than theoretical severity.",
+        "tips": "Mention prioritizing by exploitability and exposure, not just CVSS score — that's the practical judgment interviewers are testing for.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "What is the difference between IDS and IPS, and where would you deploy each?",
+        "sampleAnswer": "An IDS (Intrusion Detection System) monitors traffic and alerts on suspicious activity but doesn't block it, making it lower risk to deploy since it can't disrupt legitimate traffic. An IPS (Intrusion Prevention System) sits inline and can actively block malicious traffic in real time, which is more powerful but carries a risk of false positives disrupting legitimate business traffic if not tuned carefully.",
+        "tips": "Mention the false-positive risk of inline blocking — it's the trade-off that justifies why some organizations start with IDS before moving to IPS.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "Walk through the basic steps of an incident response process.",
+        "sampleAnswer": "The standard phases are preparation (having playbooks and tools ready beforehand), identification (confirming an incident actually occurred), containment (stopping it from spreading, often short-term then long-term), eradication (removing the root cause), recovery (restoring systems safely), and lessons learned (a post-incident review to improve defenses). Skipping the lessons-learned phase is a common mistake that leads to repeat incidents.",
+        "tips": "Naming all six standard phases in order (PICERL) shows structured knowledge rather than an improvised answer.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you design a threat hunting program for an organization that currently only relies on automated alerts?",
+        "sampleAnswer": "I'd start by building hypotheses based on relevant threat intelligence and MITRE ATT&CK techniques likely to target the organization's environment, then proactively query logs and endpoint data for evidence of those techniques rather than waiting for an alert to fire. Findings would feed back into improving detection rules so today's manual hunt becomes tomorrow's automated alert, gradually raising the baseline of what's caught automatically.",
+        "tips": "Mention MITRE ATT&CK by name and the feedback loop into detection engineering — that combination is what separates threat hunting from just 'looking at logs.'",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you approach designing a zero-trust architecture for an enterprise network?",
+        "sampleAnswer": "I'd move away from a perimeter-trust model to verifying every request regardless of network location, using strong identity verification (MFA, device posture checks) combined with micro-segmentation so a compromised device or account can't move laterally to reach unrelated systems. Access would be granted per-session based on least privilege and continuously re-evaluated, rather than a one-time login granting broad, persistent network trust.",
+        "tips": "Emphasize continuous verification and least privilege per session, not just 'MFA everywhere' — zero trust is about removing implicit trust, not adding one more login step.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you lead the response to a suspected ransomware incident in progress?",
+        "sampleAnswer": "I'd immediately isolate affected systems from the network to stop lateral spread without powering them off, which would destroy volatile memory evidence needed for forensics, then activate the incident response team and legal/communications stakeholders per the pre-defined playbook. In parallel I'd identify the initial access vector, verify backup integrity and isolation from the compromised network before considering restoration, and only make a ransom-payment decision through the proper organizational and legal channels, never as a unilateral technical call.",
+        "tips": "Mention isolating without powering off (to preserve forensic evidence) and involving legal/leadership on the ransom decision — these two details show real incident-command maturity.",
+        "difficulty": "Advanced"
+      }
+    ]
+  },
+  "Software Engineer": {
+    "beginner": [
+      {
+        "question": "What is the difference between an array and a linked list?",
+        "sampleAnswer": "An array stores elements in contiguous memory with O(1) random access by index, but inserting or removing from the middle requires shifting elements, making that O(n). A linked list stores elements as nodes with pointers to the next node, so insertion/removal is O(1) once you have a reference to the position, but accessing an arbitrary index requires O(n) traversal.",
+        "tips": "Give the Big-O trade-off for both access and insertion — that comparison is what the question is really testing.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is the difference between a stack and a queue?",
+        "sampleAnswer": "A stack follows LIFO (last in, first out) order, like a stack of plates where you add and remove from the top — useful for things like undo functionality or call stacks. A queue follows FIFO (first in, first out), like a checkout line, useful for task scheduling or breadth-first search.",
+        "tips": "Give a real use case for each (call stack for stack, BFS for queue) — concrete examples are more memorable than abstract definitions.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is Big O notation and why does it matter?",
+        "sampleAnswer": "Big O describes how an algorithm's runtime or memory usage grows relative to input size, focusing on the dominant term as input gets large rather than exact operation counts. It matters because it lets you compare algorithms independent of hardware and predict how code will perform at scale, before it becomes a real production problem.",
+        "tips": "Mention that Big O describes growth rate, not literal speed — a common mistake is treating O(n) as always faster than O(n log n) for all input sizes.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "Explain the SOLID principles and why they matter in object-oriented design.",
+        "sampleAnswer": "SOLID stands for Single Responsibility (a class should have one reason to change), Open/Closed (open for extension, closed for modification), Liskov Substitution (subtypes must be substitutable for their base type), Interface Segregation (prefer many small interfaces over one large one), and Dependency Inversion (depend on abstractions, not concrete implementations). Together they make code easier to test, extend, and maintain without cascading changes across the codebase.",
+        "tips": "You don't need to recite textbook definitions perfectly — pick one or two principles and give a concrete refactoring example to show real understanding.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How would you design a rate limiter, and what data structure would you use?",
+        "sampleAnswer": "I'd implement a token-bucket algorithm, where each user has a bucket that refills tokens at a fixed rate and every request consumes one token, rejecting requests when the bucket is empty. This can be implemented efficiently with just a counter and last-refill timestamp per user stored in a hash map (or Redis for a distributed system), avoiding the need to store a full request history like a naive sliding-window approach would.",
+        "tips": "Compare token-bucket to sliding-window briefly — showing you know multiple approaches and their trade-offs is stronger than describing just one.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How would you approach debugging a memory leak in a long-running application?",
+        "sampleAnswer": "I'd use a memory profiler to take heap snapshots over time and compare them to see which object types are growing unbounded, then trace those objects back to what's holding references to them, since a leak is almost always an unintended reference keeping garbage collection from reclaiming memory. Common culprits are event listeners never removed, caches without eviction policies, or closures capturing more than intended.",
+        "tips": "Name the actual tool you'd use (Chrome DevTools heap snapshot, or language-specific profiler) — it shows hands-on debugging experience, not just theory.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you design a URL shortener service like bit.ly, considering scale?",
+        "sampleAnswer": "I'd generate short codes using a base62 encoding of an auto-incrementing ID or a hash with collision checking, store the mapping in a key-value store optimized for fast lookups, and put a CDN/cache layer in front since reads vastly outnumber writes for this use case. At scale I'd shard the database by short code, use a read-through cache for hot links, and consider async analytics logging (click counts) rather than writing to the hot path synchronously.",
+        "tips": "Emphasize the read-heavy nature of this system and design around that — treating reads and writes as equally weighted is a common design mistake here.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you approach designing a system that needs to be horizontally scalable from the start?",
+        "sampleAnswer": "I'd make the application layer stateless so any instance can handle any request, pushing session/state into a shared store like Redis, and design the database access pattern to support sharding or read replicas early rather than retrofitting it later. I'd also favor asynchronous, event-driven communication between components where strict consistency isn't required, since it decouples scaling one component from another.",
+        "tips": "Statelessness is the foundational answer here — lead with it before mentioning sharding or caching, since those don't help if the app layer itself holds state.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "As a senior engineer, how would you handle a disagreement with a teammate during code review about a significant architectural choice?",
+        "sampleAnswer": "I'd first make sure I fully understand their reasoning by asking questions rather than assuming, since disagreements are often about unstated context or trade-offs rather than pure technical correctness. If we still disagree after that, I'd bring concrete evidence — a prototype, benchmark, or precedent from the codebase — and if it's still unresolved, escalate to a quick team discussion or a tech lead rather than letting it block progress indefinitely or turning into a personal conflict.",
+        "tips": "Interviewers are testing collaboration and communication here as much as technical judgment — show you'd seek to understand before pushing your own view.",
+        "difficulty": "Advanced"
+      }
+    ]
+  },
+  "UI/UX Designer": {
+    "beginner": [
+      {
+        "question": "What is the difference between UX and UI design?",
+        "sampleAnswer": "UX (user experience) design is about the overall structure, flow, and feel of how a user accomplishes a goal — research, information architecture, and usability. UI (user interface) design is the visual layer — colors, typography, spacing, and interactive elements that the user actually sees and touches. Good UI without solid UX underneath still results in a confusing product, even if it looks polished.",
+        "tips": "Use the analogy that UX is the blueprint and UI is the interior design — it's a clear, memorable way to frame the distinction.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is a wireframe, and why do you create one before high-fidelity designs?",
+        "sampleAnswer": "A wireframe is a low-fidelity, mostly grayscale layout sketch that focuses on structure, content placement, and flow rather than visual styling. I create wireframes first so stakeholders can give feedback on the core layout and user flow without getting distracted by colors or fonts, which is much cheaper to change early than after high-fidelity design work is done.",
+        "tips": "Emphasize the cost-of-change argument — it's the practical business reason wireframing exists, not just 'that's the process.'",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What are the basic principles of good typography in UI design?",
+        "sampleAnswer": "Good typography relies on a clear hierarchy (distinct sizes/weights for headings vs body text), sufficient contrast and line-height for readability, limiting the number of typefaces used (usually one or two), and consistent spacing rules across the interface. These choices guide the user's eye and reduce cognitive load when scanning a screen.",
+        "tips": "Mention hierarchy specifically — it's the concept interviewers most want to hear since it directly affects usability, not just aesthetics.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "How would you conduct a usability test, and what would you do with the results?",
+        "sampleAnswer": "I'd recruit 5-8 representative users, give them realistic task scenarios rather than leading questions, and observe where they hesitate, backtrack, or fail to complete a task without prompting them. Afterward I'd synthesize findings into patterns (not just individual complaints), prioritize issues by severity and frequency, and turn the highest-impact ones into concrete design changes rather than a long unstructured feedback list.",
+        "tips": "Mention that 5-8 users is enough to catch most usability issues (per Nielsen's research) — it shows awareness of established UX research, not just process steps.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How would you design a component to be accessible, and what WCAG considerations would you check?",
+        "sampleAnswer": "I'd ensure sufficient color contrast (at least 4.5:1 for normal text per WCAG AA), make sure the component is fully operable via keyboard with a visible focus state, and add appropriate ARIA labels so screen readers announce it correctly. I'd also avoid relying on color alone to convey information, like using an icon or text label alongside a red error state.",
+        "tips": "Give a specific WCAG number (4.5:1 contrast ratio) rather than a vague 'make sure it's accessible' — specifics build credibility.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How do you approach handing off designs to engineers to minimize implementation gaps?",
+        "sampleAnswer": "I'd use a shared design system with documented components, spacing tokens, and states (default, hover, error, disabled) so engineers aren't guessing at values, and annotate designs with edge cases like empty states, loading states, and long-text overflow that are easy to miss. I'd also stay involved during implementation for quick clarifying questions rather than treating handoff as a one-way document drop.",
+        "tips": "Mention edge cases like empty/loading/error states explicitly — designers who only design the 'happy path' create the most handoff friction.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you build and scale a design system across multiple product teams with different needs?",
+        "sampleAnswer": "I'd start with a shared foundation of tokens (color, spacing, typography) and core components that are broadly reusable, then create clear contribution guidelines so teams can propose new components without fragmenting the system into inconsistent one-offs. Governance matters here — a small design-system team would review and version changes, with breaking changes communicated and migrated deliberately rather than silently propagating to every consuming team.",
+        "tips": "Mention governance and versioning explicitly — a design system without a review process for changes tends to fragment within a year.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How do you use data to inform design decisions, and how do you balance that with qualitative research?",
+        "sampleAnswer": "Quantitative data (analytics, A/B test results, funnel drop-off) tells me what is happening at scale, while qualitative research (interviews, usability tests) tells me why, so I use them together rather than treating either as sufficient alone. For example, if analytics show high drop-off on a form, I wouldn't just guess at a redesign — I'd run a few usability sessions on that specific step to understand the actual point of confusion before proposing a fix.",
+        "tips": "The what vs why framing (quant vs qual) is the clearest way to answer this — lead with it.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you lead the design strategy for a major product redesign while minimizing disruption to existing users?",
+        "sampleAnswer": "I'd start by identifying what's actually broken versus what's just visually dated, since not everything needs to change, and validate new directions with prototypes and user testing before committing engineering resources. For rollout, I'd favor a gradual, opt-in or phased release with feedback channels open, rather than a single big-bang launch, so we can catch major usability regressions early and adjust before it affects the whole user base.",
+        "tips": "Emphasize phased rollout and validating before building — a redesign that ships all at once with no user testing is the scenario this question is checking you'd avoid.",
+        "difficulty": "Advanced"
+      }
+    ]
+  },
+  "Mobile App Developer": {
+    "beginner": [
+      {
+        "question": "What is the difference between native, hybrid, and cross-platform mobile development?",
+        "sampleAnswer": "Native development uses platform-specific languages and SDKs (Swift/Kotlin), giving the best performance and full access to platform APIs but requiring separate codebases. Hybrid apps wrap a web app in a native shell (like older Cordova apps), and cross-platform frameworks like Flutter or React Native let you write mostly one codebase that compiles to near-native performance on both platforms.",
+        "tips": "Give a trade-off for each approach (performance vs development speed) rather than just naming them — it shows you understand when to choose each.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is the mobile app lifecycle, and why does it matter for how you manage state?",
+        "sampleAnswer": "Mobile apps move through states like foreground/active, background, and terminated, and the OS can kill a backgrounded app at any time to reclaim memory. This matters because you need to save important state (like a form in progress) before backgrounding, and be ready to restore it if the app is relaunched from a terminated state, rather than assuming your app's memory persists indefinitely.",
+        "tips": "Mention that the OS can kill a backgrounded app — many beginners assume backgrounded apps keep running exactly as before.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "How does local data persistence work on mobile, and what options are available?",
+        "sampleAnswer": "For simple key-value data like settings, I'd use something like SharedPreferences (Android) or UserDefaults (iOS), or AsyncStorage/SecureStore in React Native. For structured or larger data, I'd use a local database like SQLite or Room/Core Data, choosing based on how relational and how large the data actually is.",
+        "tips": "Match the storage choice to the data shape (simple flags vs structured records) — that reasoning is what the question is really testing.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "How would you handle offline support in a mobile app that needs to sync data with a server?",
+        "sampleAnswer": "I'd write user actions to a local database first so the UI stays responsive regardless of connectivity, queue those changes for sync, and use a background sync mechanism that retries with exponential backoff when connectivity returns. For conflicts, I'd define a clear resolution strategy upfront — like last-write-wins or a merge strategy — rather than leaving it undefined and hoping conflicts don't happen.",
+        "tips": "Mention conflict resolution explicitly — offline-first is easy to describe at a high level, but conflict handling is what separates a real implementation from a toy one.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How do you manage state in a React Native or Flutter app as it grows in complexity?",
+        "sampleAnswer": "I'd keep local UI state close to the component that owns it, and lift genuinely shared state into a dedicated state management solution (like Redux/Zustand in React Native, or Provider/Riverpod/Bloc in Flutter) only once prop-drilling becomes a real pain point. I'd also separate server-derived data (fetched from an API) from pure UI state, since they have different caching and invalidation needs.",
+        "tips": "Say you'd introduce global state management only when needed, not by default — over-engineering small apps with heavy state libraries is a common junior mistake.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How would you optimize a mobile app's startup time and overall performance?",
+        "sampleAnswer": "I'd profile startup with platform tools (Android Studio Profiler / Xcode Instruments) to find what's actually slow rather than guessing, then defer non-critical initialization (like analytics SDKs) until after the first frame renders. For ongoing performance, I'd watch list rendering (using virtualized lists for long scrollable content), image sizes, and avoid unnecessary re-renders, similar to web performance practices but with attention to battery and memory constraints specific to mobile.",
+        "tips": "Mention profiling first with a named tool — jumping to optimizations without measuring is a pattern interviewers specifically watch for across all engineering roles.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you design a cross-platform app's architecture to maximize code sharing while still allowing platform-specific customization?",
+        "sampleAnswer": "I'd structure the codebase with a shared core layer for business logic, networking, and state management, and a thin platform-specific layer for UI or APIs that genuinely need native behavior (like platform-specific navigation patterns or deep OS integrations). Using platform-specific file extensions or dependency injection lets the shared layer stay platform-agnostic while still allowing native customization exactly where the user experience should differ between iOS and Android.",
+        "tips": "Emphasize that 100% code sharing isn't always the right goal — some platform-specific UX differences are intentional, and forcing full uniformity can hurt the user experience.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you design a CI/CD pipeline for mobile app store deployment, including handling app review delays?",
+        "sampleAnswer": "I'd automate build, test, and code signing in CI, then use a service like Fastlane to automate submission to TestFlight/Play Console internal tracks for QA before promoting to production. Because app review can take days, I'd decouple feature releases from binary releases where possible using feature flags or remote config, so I can turn features on/off without waiting for a new store review cycle for every change.",
+        "tips": "Mention feature flags/remote config as a way to decouple release from deployment — this is the key insight that addresses the app-review-delay part of the question.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you architect a mobile app to handle security-sensitive data, like biometric authentication and stored credentials?",
+        "sampleAnswer": "I'd never store sensitive data like tokens in plain SharedPreferences/UserDefaults, using the platform's secure storage instead — Keychain on iOS and Keystore/EncryptedSharedPreferences on Android — which are backed by hardware-level encryption where available. For biometric auth, I'd use the platform's native biometric APIs (not build custom recognition), and ensure sensitive actions require a fresh authentication check rather than relying on a session that never re-verifies identity.",
+        "tips": "Name the actual secure storage mechanisms (Keychain, Keystore) — vague answers like 'store it securely' don't demonstrate the platform-specific knowledge this question is testing.",
+        "difficulty": "Advanced"
+      }
+    ]
+  }
+}

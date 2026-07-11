@@ -1,0 +1,19 @@
+{
+  "mostSelectedRole": {
+    "role": "Frontend Developer",
+    "selections": 1240
+  },
+  "averageReadinessScore": 68,
+  "mostMissingSkill": {
+    "skill": "System Design",
+    "percentMissing": 62
+  },
+  "mostPopularMiniProject": {
+    "title": "Responsive Portfolio Landing Page",
+    "role": "Frontend Developer"
+  },
+  "popularLearningPath": {
+    "role": "Full Stack Developer",
+    "percentOfUsers": 34
+  }
+}

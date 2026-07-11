@@ -1,0 +1,233 @@
+{
+  "Cloud Engineer": [
+    {
+      "title": "Static Website Hosting on Cloud Storage",
+      "difficulty": "Beginner",
+      "skillsUsed": ["Cloud Storage (S3/Blob)", "Cloud CLI Usage", "IAM Basics"],
+      "expectedOutput": "A live static website served from a cloud storage bucket with public read access configured via IAM policy.",
+      "resumeBullet": "Deployed a static website on AWS S3 with IAM-based access control, reducing hosting cost to near-zero."
+    },
+    {
+      "title": "Infrastructure as Code for a 3-Tier App",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["Infrastructure as Code (Terraform/CloudFormation)", "VPC & Networking", "Load Balancing"],
+      "expectedOutput": "A Terraform module that provisions a VPC, subnets, load balancer, and compute instances in one command.",
+      "resumeBullet": "Automated provisioning of a 3-tier cloud architecture using Terraform, cutting environment setup time from hours to minutes."
+    },
+    {
+      "title": "Kubernetes Cluster with CI/CD Pipeline",
+      "difficulty": "Advanced",
+      "skillsUsed": ["Kubernetes", "CI/CD Basics", "Security Hardening"],
+      "expectedOutput": "A containerized app auto-deployed to a Kubernetes cluster via a CI/CD pipeline on every push.",
+      "resumeBullet": "Built a CI/CD pipeline deploying containerized workloads to Kubernetes, enabling zero-downtime releases."
+    }
+  ],
+  "Frontend Developer": [
+    {
+      "title": "Responsive Portfolio Landing Page",
+      "difficulty": "Beginner",
+      "skillsUsed": ["HTML", "CSS", "Flexbox & Grid", "Responsive Design"],
+      "expectedOutput": "A mobile-first landing page that adapts across breakpoints without a framework.",
+      "resumeBullet": "Built a fully responsive landing page using CSS Grid and Flexbox, achieving 100% mobile usability score."
+    },
+    {
+      "title": "Weather Dashboard with API Integration",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["Basic React/Vue", "REST API Integration", "State Management"],
+      "expectedOutput": "A React app that fetches and displays live weather data with loading and error states.",
+      "resumeBullet": "Developed a React weather dashboard consuming a REST API, with robust state and error handling."
+    },
+    {
+      "title": "Accessible Component Library",
+      "difficulty": "Advanced",
+      "skillsUsed": ["TypeScript", "Accessibility (WCAG)", "Design Systems"],
+      "expectedOutput": "A reusable, typed component library with keyboard navigation and screen-reader support.",
+      "resumeBullet": "Designed a WCAG-compliant TypeScript component library adopted across multiple product teams."
+    }
+  ],
+  "Backend Developer": [
+    {
+      "title": "CRUD REST API for a Notes App",
+      "difficulty": "Beginner",
+      "skillsUsed": ["CRUD APIs", "SQL Basics", "REST APIs"],
+      "expectedOutput": "A working REST API with endpoints to create, read, update, and delete notes backed by a SQL database.",
+      "resumeBullet": "Built a RESTful CRUD API with SQL persistence, handling 100% of core note management operations."
+    },
+    {
+      "title": "JWT-Authenticated Task Manager API",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["Authentication Basics", "ORMs", "API Security"],
+      "expectedOutput": "An API with signup/login, JWT-protected routes, and ORM-managed data models.",
+      "resumeBullet": "Implemented JWT-based authentication and authorization for a multi-user task management API."
+    },
+    {
+      "title": "Order Processing System with Queues",
+      "difficulty": "Advanced",
+      "skillsUsed": ["Message Queues", "Caching (Redis)", "Microservices Architecture"],
+      "expectedOutput": "A backend that offloads order processing to a message queue with Redis caching for fast reads.",
+      "resumeBullet": "Architected an asynchronous order-processing system using message queues and Redis caching, improving throughput significantly."
+    }
+  ],
+  "Full Stack Developer": [
+    {
+      "title": "Personal Blog with Auth",
+      "difficulty": "Beginner",
+      "skillsUsed": ["Frontend Basics", "Backend CRUD", "SQL Basics"],
+      "expectedOutput": "A blog site where users can register, log in, and manage their own posts.",
+      "resumeBullet": "Built a full-stack blogging platform with user authentication and CRUD post management."
+    },
+    {
+      "title": "E-Commerce Storefront",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["Frontend + Backend Frameworks", "Authentication", "REST APIs"],
+      "expectedOutput": "A storefront with product listings, cart, and checkout flow connected to a backend API.",
+      "resumeBullet": "Developed a full-stack e-commerce app with cart and checkout, integrating frontend and backend via REST APIs."
+    },
+    {
+      "title": "Real-Time Collaboration Tool",
+      "difficulty": "Advanced",
+      "skillsUsed": ["System Design", "Deployment Basics", "Full-Stack Performance Tuning"],
+      "expectedOutput": "A deployed app supporting real-time multi-user document editing.",
+      "resumeBullet": "Designed and deployed a real-time collaborative editing tool, optimizing performance under concurrent users."
+    }
+  ],
+  "AI Engineer": [
+    {
+      "title": "Data Preprocessing Pipeline",
+      "difficulty": "Beginner",
+      "skillsUsed": ["NumPy/Pandas", "Data Preprocessing", "Basic ML Concepts"],
+      "expectedOutput": "A cleaned, feature-ready dataset produced from raw, messy CSV data.",
+      "resumeBullet": "Built a data preprocessing pipeline using Pandas that improved downstream model accuracy through cleaner inputs."
+    },
+    {
+      "title": "Image Classifier with Deep Learning",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["Deep Learning Frameworks (TensorFlow/PyTorch)", "Model Evaluation Basics", "NLP/CV Basics"],
+      "expectedOutput": "A trained CNN model that classifies images into categories with reported accuracy metrics.",
+      "resumeBullet": "Trained a CNN image classifier using PyTorch, achieving strong accuracy on a held-out test set."
+    },
+    {
+      "title": "Deployed LLM-Powered Chat Assistant",
+      "difficulty": "Advanced",
+      "skillsUsed": ["LLMs & Transformers", "APIs for ML", "Model Deployment"],
+      "expectedOutput": "A deployed web app where users chat with an LLM-backed assistant via an API endpoint.",
+      "resumeBullet": "Deployed an LLM-powered chat assistant as a production API, integrating prompt engineering and response handling."
+    }
+  ],
+  "ML Engineer": [
+    {
+      "title": "House Price Prediction Model",
+      "difficulty": "Beginner",
+      "skillsUsed": ["scikit-learn Basics", "Feature Engineering Basics", "Data Cleaning"],
+      "expectedOutput": "A regression model that predicts prices with evaluated error metrics (RMSE/MAE).",
+      "resumeBullet": "Built a regression model in scikit-learn to predict housing prices, validated with RMSE and cross-validation."
+    },
+    {
+      "title": "Automated Model Training Pipeline",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["Model Training Pipelines", "Cross-Validation", "Docker"],
+      "expectedOutput": "A containerized, repeatable pipeline that trains and validates a model on new data automatically.",
+      "resumeBullet": "Engineered a Dockerized ML training pipeline with automated cross-validation, streamlining model iteration."
+    },
+    {
+      "title": "Monitored Production ML Service",
+      "difficulty": "Advanced",
+      "skillsUsed": ["MLOps", "Model Monitoring", "Production ML Systems"],
+      "expectedOutput": "A deployed model endpoint with logging/monitoring to detect data drift and performance decay.",
+      "resumeBullet": "Deployed and monitored a production ML service, implementing drift detection to maintain model reliability."
+    }
+  ],
+  "DevOps Engineer": [
+    {
+      "title": "Dockerized CI Pipeline",
+      "difficulty": "Beginner",
+      "skillsUsed": ["Docker", "CI/CD Basics", "Scripting (Bash/Python)"],
+      "expectedOutput": "A containerized app with an automated CI pipeline that builds and tests on every commit.",
+      "resumeBullet": "Set up a Dockerized CI pipeline that automated build and test execution on every code push."
+    },
+    {
+      "title": "Infrastructure Monitoring Dashboard",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["Monitoring Basics", "Cloud Fundamentals", "Networking"],
+      "expectedOutput": "A live dashboard tracking uptime, CPU, and memory metrics for deployed services.",
+      "resumeBullet": "Built an infrastructure monitoring dashboard to track service health and reduce mean time to detection."
+    },
+    {
+      "title": "Full CI/CD with Automated Rollbacks",
+      "difficulty": "Advanced",
+      "skillsUsed": ["CI/CD Basics", "Docker", "Cloud Fundamentals"],
+      "expectedOutput": "A pipeline that deploys to production and automatically rolls back on failed health checks.",
+      "resumeBullet": "Implemented a CI/CD pipeline with automated rollback on failure, improving deployment reliability."
+    }
+  ],
+  "Data Analyst": [
+    {
+      "title": "Sales Data Cleaning & Exploration",
+      "difficulty": "Beginner",
+      "skillsUsed": ["Excel/Spreadsheets", "SQL Basics", "Data Cleaning"],
+      "expectedOutput": "A cleaned sales dataset with summary statistics and key trends documented.",
+      "resumeBullet": "Cleaned and analyzed a multi-thousand-row sales dataset, surfacing key revenue trends via SQL."
+    },
+    {
+      "title": "Interactive Sales Dashboard",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["Data Visualization", "SQL Basics", "Dashboarding Tools (Power BI/Tableau)"],
+      "expectedOutput": "An interactive dashboard with filters showing sales performance by region and time.",
+      "resumeBullet": "Built an interactive Power BI dashboard enabling stakeholders to self-serve regional sales insights."
+    },
+    {
+      "title": "Customer Churn Analysis Report",
+      "difficulty": "Advanced",
+      "skillsUsed": ["Statistical Analysis", "Data Storytelling", "SQL Basics"],
+      "expectedOutput": "A data-driven report identifying churn drivers with actionable recommendations.",
+      "resumeBullet": "Delivered a churn analysis report identifying key drivers, informing a retention strategy for stakeholders."
+    }
+  ],
+  "UI/UX Designer": [
+    {
+      "title": "Mobile App Wireframes",
+      "difficulty": "Beginner",
+      "skillsUsed": ["Wireframing", "User Research Basics", "Figma"],
+      "expectedOutput": "A set of low-fidelity wireframes for a mobile app based on a defined user flow.",
+      "resumeBullet": "Created low-fidelity wireframes for a mobile app, grounded in user research and defined task flows."
+    },
+    {
+      "title": "High-Fidelity Prototype with User Testing",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["Prototyping", "Usability Testing", "Figma"],
+      "expectedOutput": "An interactive prototype validated through moderated usability testing sessions.",
+      "resumeBullet": "Designed a clickable prototype and ran usability tests, iterating on design based on user feedback."
+    },
+    {
+      "title": "End-to-End Design System",
+      "difficulty": "Advanced",
+      "skillsUsed": ["Design Systems", "Accessibility (WCAG)", "Design Handoff"],
+      "expectedOutput": "A documented design system with reusable components handed off to engineering.",
+      "resumeBullet": "Built an accessible, reusable design system, streamlining design-to-development handoff across teams."
+    }
+  ],
+  "Mobile App Developer": [
+    {
+      "title": "Simple Notes Mobile App",
+      "difficulty": "Beginner",
+      "skillsUsed": ["Mobile UI Basics", "Local Storage", "Git"],
+      "expectedOutput": "A mobile app that lets users create and store notes locally on the device.",
+      "resumeBullet": "Built a mobile notes app with local persistence, applying core mobile UI patterns."
+    },
+    {
+      "title": "Weather App with API & Location",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["REST API Integration", "State Management", "Device APIs (GPS/Location)"],
+      "expectedOutput": "A mobile app that fetches location-based weather data and updates the UI in real time.",
+      "resumeBullet": "Developed a location-aware mobile weather app integrating device GPS with a REST weather API."
+    },
+    {
+      "title": "Cross-Platform App with Push Notifications",
+      "difficulty": "Advanced",
+      "skillsUsed": ["Cross-Platform Frameworks", "Push Notifications", "Performance Optimization"],
+      "expectedOutput": "A published-ready cross-platform app supporting push notifications and optimized performance.",
+      "resumeBullet": "Shipped a cross-platform mobile app with push notification support, optimizing startup time and memory usage."
+    }
+  ]
+}
+  

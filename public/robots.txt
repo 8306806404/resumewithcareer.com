@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://resumewithcareer.com/sitemap.xml
+Sitemap: https://resumewithcareer.com/sitemap-index.xml
+ No newline at end of file

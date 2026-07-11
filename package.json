@@ -12,6 +12,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.0.7"
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.0.6",
+    "jspdf": "^4.2.1",
+    "pdfjs-dist": "^6.1.200"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "typescript": "^6.0.3"
   }
 }

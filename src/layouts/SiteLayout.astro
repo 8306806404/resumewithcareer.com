@@ -1,0 +1,341 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+}
+
+const { title, description, path } = Astro.props;
+const canonicalUrl = `https://resumewithcareer.com${path}`;
+---
+
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-83SZZ602QL"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-83SZZ602QL');
+    </script>
+    <script is:inline>
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    </script>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Resume" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="theme-color" content="#2563eb" />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="ResumeWithCareer" />
+    <meta property="og:image" content="https://resumewithcareer.com/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://resumewithcareer.com/og-image.png" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="logo">ResumeWithCareer</a>
+        <nav class="nav">
+          <a href="/#createResume">Resume Builder</a>
+          <a href="/#features">Features</a>
+          <a href="/#upload">Analyze Resume</a>
+          <a href="/about-us">About Us</a>
+          <a href="/contact-us">Contact Us</a>
+          <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-content">
+        <div class="container page-content-inner">
+          <slot />
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <span class="logo">ResumeWithCareer</span>
+          <p>Helping you build a career you're proud of.</p>
+        </div>
+        <nav class="footer-links">
+          <a href="/about-us">About Us</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms-conditions">Terms &amp; Conditions</a>
+          <a href="/contact-us">Contact Us</a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="ResumeWithCareer on GitHub">GitHub</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="ResumeWithCareer on LinkedIn">LinkedIn</a>
+        </nav>
+      </div>
+      <div class="container">
+        <p class="footer-copy">&copy; {new Date().getFullYear()} ResumeWithCareer. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script is:inline>
+      const toggle = document.getElementById("themeToggle");
+      if (toggle) {
+        toggle.addEventListener("click", () => {
+          const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+          if (isDark) {
+            document.documentElement.removeAttribute("data-theme");
+            localStorage.setItem("theme", "light");
+          } else {
+            document.documentElement.setAttribute("data-theme", "dark");
+            localStorage.setItem("theme", "dark");
+          }
+        });
+      }
+    </script>
+
+    <style>
+      :root {
+        --color-primary: #2563eb;
+        --color-primary-dark: #1d4ed8;
+        --color-text: #1f2937;
+        --color-muted: #6b7280;
+        --color-bg: #ffffff;
+        --color-bg-alt: #f3f4f6;
+        --color-border: #e5e7eb;
+        --color-surface: #ffffff;
+        --color-highlight: #eff6ff;
+        --max-width: 1140px;
+      }
+
+      :root[data-theme="dark"] {
+        --color-primary: #3b82f6;
+        --color-primary-dark: #60a5fa;
+        --color-text: #e5e5e5;
+        --color-muted: #a3a3a3;
+        --color-bg: #000000;
+        --color-bg-alt: #141414;
+        --color-border: #2a2a2a;
+        --color-surface: #1a1a1a;
+        --color-highlight: #182338;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        color: var(--color-text);
+        background: var(--color-bg);
+        line-height: 1.5;
+      }
+
+      .container {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      .site-header {
+        border-bottom: 1px solid var(--color-border);
+        padding: 1rem 0;
+      }
+
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        font-size: 1.375rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        text-decoration: none;
+      }
+
+      .nav {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+      .nav a {
+        color: var(--color-text);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .nav a:hover {
+        color: var(--color-primary);
+      }
+
+      .theme-toggle {
+        appearance: none;
+        cursor: pointer;
+        background: none;
+        border: 1.5px solid var(--color-border);
+        border-radius: 999px;
+        width: 2.25rem;
+        height: 2.25rem;
+        font-size: 1rem;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .theme-toggle:hover {
+        border-color: var(--color-primary);
+        transform: translateY(-1px);
+      }
+
+      .page-content {
+        padding: 3.5rem 0 5rem;
+      }
+
+      .page-content-inner {
+        max-width: 820px;
+      }
+
+      .page-content-inner h1 {
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+        margin: 0 0 0.5rem;
+      }
+
+      .page-updated {
+        color: var(--color-muted);
+        font-size: 0.9rem;
+        margin: 0 0 2.5rem;
+      }
+
+      .page-content-inner h2 {
+        font-size: 1.35rem;
+        margin: 2.25rem 0 0.75rem;
+      }
+
+      .page-content-inner p {
+        color: var(--color-text);
+        margin: 0 0 1rem;
+      }
+
+      .page-content-inner ul {
+        margin: 0 0 1rem;
+        padding-left: 1.25rem;
+      }
+
+      .page-content-inner li {
+        margin-bottom: 0.5rem;
+      }
+
+      .page-content-inner a {
+        color: var(--color-primary);
+      }
+
+      .contact-card {
+        background: var(--color-bg-alt);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .contact-card h2 {
+        margin-top: 0;
+      }
+
+      .site-footer {
+        border-top: 1px solid var(--color-border);
+        padding: 2.5rem 0 1.5rem;
+        background: var(--color-bg-alt);
+      }
+
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        padding-bottom: 1.5rem;
+      }
+      .footer-brand p {
+        margin: 0.5rem 0 0;
+        color: var(--color-muted);
+        font-size: 0.9rem;
+        max-width: 320px;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: var(--color-text);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        padding-bottom: 2px;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s ease, color 0.2s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--color-primary);
+        border-color: var(--color-primary);
+      }
+
+      .footer-copy {
+        border-top: 1px solid var(--color-border);
+        padding-top: 1.25rem;
+        text-align: center;
+        color: var(--color-muted);
+        font-size: 0.85rem;
+        margin: 0;
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          padding: 0 1rem;
+        }
+
+        .header-inner {
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .footer-inner {
+          flex-direction: column;
+        }
+
+        .footer-links {
+          gap: 1rem;
+        }
+      }
+    </style>
+  </body>
+</html>
