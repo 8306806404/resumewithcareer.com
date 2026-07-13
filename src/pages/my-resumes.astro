@@ -1,0 +1,254 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="My Resumes | ResumeWithCareer"
+  description="View and manage the resumes you've uploaded to ResumeWithCareer."
+  path="/my-resumes"
+>
+  <h1>My Resumes</h1>
+  <p class="page-updated">All the resumes you've uploaded, in one place.</p>
+
+  <p id="resumesLoading" class="resumes-loading">Loading your resumes...</p>
+  <p id="resumesError" class="error-message" hidden></p>
+
+  <div id="resumesContent" class="resumes-content" hidden>
+    <div id="resumesList" class="resumes-list"></div>
+    <p id="resumesEmptyState" class="empty-state-message" hidden>
+      You haven't uploaded any resumes yet.
+    </p>
+  </div>
+
+  <script>
+    import { supabase } from "../db/supabase.js";
+
+    type Resume = {
+      id: string | number;
+      resume_name: string;
+      file_path: string | null;
+      created_at: string;
+    };
+
+    const loadingEl = document.getElementById("resumesLoading") as HTMLParagraphElement;
+    const errorEl = document.getElementById("resumesError") as HTMLParagraphElement;
+    const contentEl = document.getElementById("resumesContent") as HTMLDivElement;
+    const listEl = document.getElementById("resumesList") as HTMLDivElement;
+    const emptyEl = document.getElementById("resumesEmptyState") as HTMLParagraphElement;
+
+    function showError(message: string) {
+      loadingEl.hidden = true;
+      errorEl.textContent = message;
+      errorEl.hidden = false;
+    }
+
+    function formatDate(dateString: string): string {
+      return new Date(dateString).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    }
+    function createResumeCard(resume: Resume): HTMLDivElement {
+      const card = document.createElement("div");
+      card.className = "resume-card";
+
+      const info = document.createElement("div");
+      info.className = "resume-info";
+
+      const name = document.createElement("span");
+      name.className = "resume-name";
+      name.textContent = resume.resume_name;
+      info.appendChild(name);
+
+      const date = document.createElement("span");
+      date.className = "resume-date";
+      date.textContent = `Uploaded ${formatDate(resume.created_at)}`;
+      info.appendChild(date);
+
+      card.appendChild(info);
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.type = "button";
+      deleteBtn.className = "btn btn-secondary delete-btn";
+      deleteBtn.textContent = "Delete";
+      deleteBtn.addEventListener("click", () => deleteResume(resume, card, deleteBtn));
+      card.appendChild(deleteBtn);
+
+      return card;
+    }
+
+    async function deleteResume(resume: Resume, card: HTMLDivElement, btn: HTMLButtonElement) {
+      if (!confirm(`Delete "${resume.resume_name}"? This can't be undone.`)) {
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Deleting...";
+
+      const { error: deleteError } = await supabase
+        .from("resumes")
+        .delete()
+        .eq("id", resume.id);
+
+      if (deleteError) {
+        btn.disabled = false;
+        btn.textContent = "Delete";
+        alert(deleteError.message);
+        return;
+      }
+
+      if (resume.file_path) {
+        const { error: storageError } = await supabase.storage
+          .from("resumes")
+          .remove([resume.file_path]);
+
+        if (storageError) {
+          console.error("Removing resume file failed:", storageError.message);
+        }
+      }
+
+      card.remove();
+
+      if (!listEl.children.length) {
+        emptyEl.hidden = false;
+      }
+    }
+
+    async function loadResumes() {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        window.location.href = "/login";
+        return;
+      }
+      const { data: resumes, error: resumesError } = await supabase
+        .from("resumes")
+        .select("id, resume_name, file_path, created_at")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (resumesError) {
+        showError(resumesError.message);
+        return;
+      }
+
+      const allResumes = (resumes ?? []) as Resume[];
+      allResumes.forEach((resume) => listEl.appendChild(createResumeCard(resume)));
+
+      emptyEl.hidden = allResumes.length > 0;
+
+      loadingEl.hidden = true;
+      contentEl.hidden = false;
+    }
+
+    loadResumes();
+  </script>
+
+  <style>
+    .resumes-loading {
+      color: var(--color-muted);
+    }
+
+    .resumes-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .resumes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .resume-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+    }
+
+    .resume-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      min-width: 0;
+    }
+    .resume-name {
+      font-weight: 600;
+      color: var(--color-text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .resume-date {
+      font-size: 0.85rem;
+      color: var(--color-muted);
+    }
+
+    .empty-state-message {
+      color: var(--color-muted);
+      font-style: italic;
+      padding: 0.75rem;
+      margin: 0;
+    }
+
+    .error-message {
+      color: #dc2626;
+      font-weight: 500;
+    }
+
+    .btn {
+      display: inline-block;
+      text-align: center;
+      padding: 0.6rem 1.25rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .btn-secondary {
+      background: var(--color-bg);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      border-color: #dc2626;
+      color: #dc2626;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 480px) {
+      .resume-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .delete-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</SiteLayout>

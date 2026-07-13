@@ -2084,6 +2084,7 @@ import community from "../data/community.json";
       import projects from "../data/projects.json";
       import interviewQuestions from "../data/interviewQuestions.json";
       import { jsPDF } from "jspdf";
+      import { supabase } from "../db/supabase.js";
       const themeToggleBtn = document.getElementById("themeToggle") as HTMLButtonElement;
       const setToggleIcon = () => {
         themeToggleBtn.textContent =
@@ -2123,6 +2124,42 @@ import community from "../data/community.json";
       const roadmapSection = document.getElementById("roadmapSection") as HTMLElement;
       const roadmapEmptyState = document.getElementById("roadmapEmptyState") as HTMLElement;
       const roadmapGrid = document.getElementById("roadmapGrid");
+      roadmapGrid?.addEventListener("click", async (e) => {
+  const btn = (e.target as HTMLElement).closest(
+    ".mark-week-complete-btn"
+  ) as HTMLButtonElement | null;
+
+  if (!btn) return;
+
+  const weekNumber = Number(btn.dataset.week);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    console.error("Cannot save progress: no logged-in user.");
+    return;
+  }
+
+  const { error } = await supabase
+  .from("roadmap_progress")
+  .upsert(
+    {
+      user_id: user.id,
+      week_number: weekNumber,
+      completed: true,
+    },
+    { onConflict: "user_id,week_number" }
+  );
+
+  if (error) {
+    console.error("Saving week progress failed:", error.message);
+  } else {
+    btn.textContent = "Completed ✓";
+    btn.disabled = true;
+  }
+});
       const projectsSection = document.getElementById("projectsSection") as HTMLElement;
       const projectsGrid = document.getElementById("projectsGrid");
       const interviewSection = document.getElementById("interviewSection") as HTMLElement;
@@ -2359,10 +2396,44 @@ import community from "../data/community.json";
         isPdfUploaded = true;
         dropZone?.classList.add("loading");
         try {
-          extractedResumeText = await extractPdfText(file);
-          debugOutput!.textContent = extractedResumeText || "No text found in this PDF.";
-          fileNameEl!.textContent = `Selected file: ${file.name}`;
-        } catch (err) {
+  extractedResumeText = await extractPdfText(file);
+  debugOutput!.textContent =
+    extractedResumeText || "No text found in this PDF.";
+
+  fileNameEl!.textContent = `Selected file: ${file.name}`;
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    const filePath = `${user.id}/${Date.now()}-${file.name}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("resumes")
+      .upload(filePath, file, { upsert: false });
+
+    if (uploadError) {
+      console.error("Resume upload failed:", uploadError.message);
+    } else {
+      const { error: insertError } = await supabase
+        .from("resumes")
+        .insert({
+          user_id: user.id,
+          resume_name: file.name,
+          file_path: filePath,
+          resume_text: extractedResumeText,
+        });
+
+      if (insertError) {
+        console.error(
+          "Saving resume record failed:",
+          insertError.message
+        );
+      }
+    }
+  }
+} catch (err) {
           errorEl!.textContent = "We couldn't extract text from this PDF — it may be scanned, image-based, or corrupted. Try a PDF exported directly from Word or Google Docs.";
           debugOutput!.textContent = "No text extracted yet.";
           extractedResumeText = "";
@@ -2372,7 +2443,7 @@ import community from "../data/community.json";
         }
       }
 
-      function analyzeResume() {
+      async function analyzeResume() {
         const roleSkills = (skills as Record<
           string,
           {
@@ -2471,12 +2542,32 @@ import community from "../data/community.json";
             skill.split("(")[0].trim().toLowerCase()
           );
 
+          let completedWeeks = new Set<number>();
+          const {
+            data: { user: roadmapUser },
+          } = await supabase.auth.getUser();
+
+          if (roadmapUser) {
+            const { data: progressRows, error: progressError } = await supabase
+              .from("roadmap_progress")
+              .select("week_number")
+              .eq("user_id", roadmapUser.id)
+              .eq("completed", true);
+
+            if (progressError) {
+              console.error("Loading roadmap progress failed:", progressError.message);
+            } else if (progressRows) {
+              completedWeeks = new Set(progressRows.map((row) => row.week_number));
+            }
+          }
+
           roadmapGrid!.innerHTML = roleRoadmap
             .map((week) => {
               const weekTextLower = `${week.topic} ${week.whatToLearn}`.toLowerCase();
               const isFocusWeek = missingSkillsLower.some((skill) =>
                 weekTextLower.includes(skill)
               );
+              const isCompleted = completedWeeks.has(week.week);
               return `
   <div class="roadmap-card ${isFocusWeek ? "roadmap-card-focus" : ""}">
     <div class="roadmap-week-badge">Week ${week.week}</div>
@@ -2505,6 +2596,14 @@ import community from "../data/community.json";
           '</div>'
         : ""
     }
+    <button
+  type="button"
+  class="btn btn-secondary mark-week-complete-btn"
+  data-week="${week.week}"
+  ${isCompleted ? "disabled" : ""}
+>
+  ${isCompleted ? "Completed ✓" : "Mark Week Complete"}
+</button>
   </div>
 `;
             })
@@ -2592,6 +2691,70 @@ missingSkillsList!.innerHTML =
           projects: roleProjects ?? null,
         };
         exportPdfWrapper.hidden = false;
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (user) {
+          const { error: careerGoalError } = await supabase
+  .from("career_goals")
+  .upsert(
+    {
+      user_id: user.id,
+      target_role: selectedRole,
+      match_percentage: matchPercentage,
+      readiness_score: readinessScore,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "user_id" }
+  );
+
+          if (careerGoalError) {
+            console.error("Saving career goal failed:", careerGoalError.message);
+          }
+          const completedSkillRows = currentSkills.map((skill) => ({
+  user_id: user.id,
+  skill_name: skill,
+  status: "completed",
+}));
+
+const pendingSkillRows = missingSkills.map((skill) => ({
+  user_id: user.id,
+  skill_name: skill,
+  status: "pending",
+}));
+
+if (completedSkillRows.length) {
+  const { error: completedSkillsError } = await supabase
+    .from("user_skills")
+    .upsert(completedSkillRows, {
+      onConflict: "user_id,skill_name",
+    });
+
+  if (completedSkillsError) {
+    console.error(
+      "Saving completed skills failed:",
+      completedSkillsError.message
+    );
+  }
+}
+
+if (pendingSkillRows.length) {
+  const { error: pendingSkillsError } = await supabase
+    .from("user_skills")
+    .upsert(pendingSkillRows, {
+      onConflict: "user_id,skill_name",
+      ignoreDuplicates: true,
+    });
+
+  if (pendingSkillsError) {
+    console.error(
+      "Saving pending skills failed:",
+      pendingSkillsError.message
+    );
+  }
+}
+        }
       }
       function generateRoadmapPdf() {
         if (!lastAnalysis) return;
@@ -2754,7 +2917,7 @@ missingSkillsList!.innerHTML =
       });
 
 
-      analyzeBtn?.addEventListener("click", () => {
+      analyzeBtn?.addEventListener("click", async () => {
         const errors: string[] = [];
 
         if (!isPdfUploaded) {
@@ -2774,7 +2937,7 @@ missingSkillsList!.innerHTML =
           return;
         }
 
-        analyzeResume();
+        await analyzeResume();
       });
       const tabAnalyzeBtn = document.getElementById("tabAnalyzeBtn");
       const tabCreateBtn = document.getElementById("tabCreateBtn");

@@ -1,0 +1,280 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Dashboard | ResumeWithCareer"
+  description="Track your resume match, job readiness, and career roadmap progress."
+  path="/dashboard"
+>
+  <h1 id="welcomeHeading">Welcome back</h1>
+  <p class="page-updated">Here's where your career journey stands today.</p>
+
+  <div class="target-career-card">
+    <span class="target-label">Target Career</span>
+    <span class="target-value" id="targetCareerValue">—</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">Resume Match</span>
+      <span class="stat-value" id="resumeMatchValue">—</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="resumeMatchFill" style="width: 0%"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Job Readiness</span>
+      <span class="stat-value" id="jobReadinessValue">—</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="jobReadinessFill" style="width: 0%"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Roadmap Progress</span>
+      <span class="stat-value" id="roadmapProgressValue">—</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="roadmapProgressFill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Skills Completed</span>
+      <span class="stat-value" id="skillsCompletedValue">—</span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Skills Remaining</span>
+      <span class="stat-value" id="skillsRemainingValue">—</span>
+    </div>
+  </div>
+
+  <div class="dashboard-actions">
+    <a href="/" class="btn btn-primary">Upload Resume</a>
+    <a href="/" class="btn btn-secondary">View Roadmap</a>
+    <a href="/skills" class="btn btn-secondary">Track Skills</a>
+    <a href="/my-resumes" class="btn btn-secondary">My Resumes</a>
+    <button id="logoutBtn" class="btn btn-secondary">Log Out</button>
+  </div>
+
+  <script>
+    import { supabase } from "../db/supabase.js";
+    import roadmapData from "../data/roadmap.json";
+
+    type RoadmapWeek = { week: number };
+    const roadmap = roadmapData as Record<string, RoadmapWeek[]>;
+    const welcomeHeading = document.getElementById("welcomeHeading") as HTMLHeadingElement;
+    const targetCareerValue = document.getElementById("targetCareerValue") as HTMLSpanElement;
+    const resumeMatchValue = document.getElementById("resumeMatchValue") as HTMLSpanElement;
+    const resumeMatchFill = document.getElementById("resumeMatchFill") as HTMLDivElement;
+    const jobReadinessValue = document.getElementById("jobReadinessValue") as HTMLSpanElement;
+    const jobReadinessFill = document.getElementById("jobReadinessFill") as HTMLDivElement;
+    const roadmapProgressValue = document.getElementById("roadmapProgressValue") as HTMLSpanElement;
+    const roadmapProgressFill = document.getElementById("roadmapProgressFill") as HTMLDivElement;
+    const skillsCompletedValue = document.getElementById("skillsCompletedValue") as HTMLSpanElement;
+    const skillsRemainingValue = document.getElementById("skillsRemainingValue") as HTMLSpanElement;
+    const logoutBtn = document.getElementById("logoutBtn") as HTMLButtonElement;
+
+logoutBtn.addEventListener("click", async () => {
+  await supabase.auth.signOut();
+  window.location.href = "/login";
+});
+
+    async function loadDashboard() {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        window.location.href = "/login";
+        return;
+      }
+
+      welcomeHeading.textContent = `Welcome back, ${
+        (user.user_metadata?.full_name as string | undefined) ?? user.email ?? "there"
+      }`;
+
+      const { data: careerGoal, error: careerGoalError } = await supabase
+        .from("career_goals")
+        .select("target_role, match_percentage, readiness_score")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (careerGoalError) {
+        console.error("Loading career goal failed:", careerGoalError.message);
+      }
+
+      let targetRole: string | null = null;
+
+      if (careerGoal) {
+        targetRole = careerGoal.target_role;
+        targetCareerValue.textContent = careerGoal.target_role;
+
+        resumeMatchValue.textContent = `${careerGoal.match_percentage}%`;
+        resumeMatchFill.style.width = `${careerGoal.match_percentage}%`;
+
+        jobReadinessValue.textContent = `${careerGoal.readiness_score}%`;
+        jobReadinessFill.style.width = `${careerGoal.readiness_score}%`;
+      } else {
+        targetCareerValue.textContent = "Not set yet";
+        resumeMatchValue.textContent = "—";
+        jobReadinessValue.textContent = "—";
+      }
+
+      const { data: skills, error: skillsError } = await supabase
+        .from("user_skills")
+        .select("status")
+        .eq("user_id", user.id);
+
+      if (skillsError) {
+        console.error("Loading skills failed:", skillsError.message);
+      }
+
+      const allSkills = skills ?? [];
+      const completedCount = allSkills.filter((s) => s.status === "completed").length;
+      const pendingCount = allSkills.filter((s) => s.status !== "completed").length;
+
+      skillsCompletedValue.textContent = String(completedCount);
+      skillsRemainingValue.textContent = String(pendingCount);
+
+      const { data: progressRows, error: progressError } = await supabase
+        .from("roadmap_progress")
+        .select("week_number")
+        .eq("user_id", user.id)
+        .eq("completed", true);
+
+      if (progressError) {
+        console.error("Loading roadmap progress failed:", progressError.message);
+      }
+
+      const completedWeeks = new Set((progressRows ?? []).map((r) => r.week_number)).size;
+      const totalWeeks = targetRole && roadmap[targetRole] ? roadmap[targetRole].length : 0;
+      const roadmapPercentage = totalWeeks > 0 ? Math.round((completedWeeks / totalWeeks) * 100) : 0;
+
+      roadmapProgressValue.textContent = `${roadmapPercentage}%`;
+      roadmapProgressFill.style.width = `${roadmapPercentage}%`;
+    }
+
+    loadDashboard();
+  </script>
+  <style>
+    .target-career-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      background: var(--color-highlight);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .target-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .target-value {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-muted);
+    }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--color-border);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--color-primary);
+      border-radius: 999px;
+    }
+
+    .dashboard-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      text-align: center;
+      padding: 0.85rem 1.75rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--color-bg);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 480px) {
+      .dashboard-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</SiteLayout>

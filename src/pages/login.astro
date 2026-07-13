@@ -1,0 +1,172 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Log In | ResumeWithCareer"
+  description="Log in to your ResumeWithCareer account to build and analyze your resume."
+  path="/login"
+>
+  <h1>Log In</h1>
+  <p class="page-updated">Welcome back. Log in to continue.</p>
+
+  <form id="loginForm" class="auth-form" novalidate>
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" autocomplete="email" required />
+    </div>
+
+    <div class="form-field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" autocomplete="current-password" required />
+    </div>
+    <div class="form-field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" autocomplete="current-password" required />
+    </div>
+
+    <p id="formMessage" class="form-message" role="status" aria-live="polite"></p>
+
+    <button type="submit" id="submitBtn" class="btn btn-primary">Log In</button>
+
+    <p class="auth-alt">
+      Don't have an account? <a href="/signup">Sign up</a>
+    </p>
+  </form>
+
+  <script>
+    import { supabase } from "../db/supabase.js";
+
+    const form = document.getElementById("loginForm") as HTMLFormElement;
+    const submitBtn = document.getElementById("submitBtn") as HTMLButtonElement;
+    const messageEl = document.getElementById("formMessage") as HTMLParagraphElement;
+
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const email = (document.getElementById("email") as HTMLInputElement).value.trim();
+      const password = (document.getElementById("password") as HTMLInputElement).value;
+
+      messageEl.textContent = "";
+      messageEl.classList.remove("form-message-error", "form-message-success");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Logging in...";
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Log In";
+
+      if (error) {
+        messageEl.textContent = error.message;
+        messageEl.classList.add("form-message-error");
+        return;
+      }
+
+      messageEl.textContent = "Logged in! Redirecting...";
+      messageEl.classList.add("form-message-success");
+      window.location.href = "/";
+    });
+  </script>
+
+  <style>
+    .auth-form {
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      max-width: 420px;
+    }
+
+    .form-field {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-field label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .form-field input {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font: inherit;
+    }
+
+    .form-field input:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 1px;
+    }
+
+    .form-message {
+      min-height: 1.25rem;
+      margin: 0 0 1rem;
+      font-size: 0.9rem;
+    }
+
+    .form-message-error {
+      color: #dc2626;
+    }
+
+    .form-message-success {
+      color: #16a34a;
+    }
+
+    .btn {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      padding: 0.85rem 1.75rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--color-primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .auth-alt {
+      margin: 1.25rem 0 0;
+      font-size: 0.9rem;
+      color: var(--color-muted);
+      text-align: center;
+    }
+
+    .auth-alt a {
+      color: var(--color-primary);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .auth-alt a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</SiteLayout>

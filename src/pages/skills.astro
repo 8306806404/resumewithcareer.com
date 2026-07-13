@@ -1,0 +1,248 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="My Skills | ResumeWithCareer"
+  description="Track your completed and pending skills as you work toward your target career."
+  path="/skills"
+>
+  <h1>My Skills</h1>
+  <p class="page-updated">Track your progress and mark skills as completed as you learn them.</p>
+
+  <p id="skillsLoading" class="skills-loading">Loading your skills...</p>
+  <p id="skillsError" class="error-message" hidden></p>
+
+  <div id="skillsContent" class="skills-content" hidden>
+    <section class="skills-section">
+      <h2>Completed Skills</h2>
+      <div id="completedSkillsList" class="skills-list"></div>
+      <p id="completedEmptyState" class="empty-state-message" hidden>No completed skills yet.</p>
+    </section>
+
+    <section class="skills-section">
+      <h2>Pending Skills</h2>
+      <div id="pendingSkillsList" class="skills-list"></div>
+      <p id="pendingEmptyState" class="empty-state-message" hidden>No pending skills right now.</p>
+    </section>
+  </div>
+
+  <script>
+    import { supabase } from "../db/supabase.js";
+
+    type Skill = {
+      id: string | number;
+      skill_name: string;
+      status: string;
+    };
+
+    const loadingEl = document.getElementById("skillsLoading") as HTMLParagraphElement;
+    const errorEl = document.getElementById("skillsError") as HTMLParagraphElement;
+    const contentEl = document.getElementById("skillsContent") as HTMLDivElement;
+    const completedListEl = document.getElementById("completedSkillsList") as HTMLDivElement;
+    const pendingListEl = document.getElementById("pendingSkillsList") as HTMLDivElement;
+    const completedEmptyEl = document.getElementById("completedEmptyState") as HTMLParagraphElement;
+    const pendingEmptyEl = document.getElementById("pendingEmptyState") as HTMLParagraphElement;
+
+    function showError(message: string) {
+      loadingEl.hidden = true;
+      errorEl.textContent = message;
+      errorEl.hidden = false;
+    }
+
+    function createSkillCard(skill: Skill): HTMLDivElement {
+      const card = document.createElement("div");
+      card.className = "skill-card";
+
+      const name = document.createElement("span");
+      name.className = "skill-name";
+      name.textContent = skill.skill_name;
+      card.appendChild(name);
+
+      if (skill.status === "completed") {
+        const badge = document.createElement("span");
+        badge.className = "skill-status-badge";
+        badge.textContent = "Completed";
+        card.appendChild(badge);
+      } else {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn btn-primary mark-completed-btn";
+        btn.textContent = "Mark Completed";
+        btn.addEventListener("click", () => markCompleted(skill.id, card, btn));
+        card.appendChild(btn);
+      }
+
+      return card;
+    }
+
+    async function markCompleted(skillId: string | number, card: HTMLDivElement, btn: HTMLButtonElement) {
+      btn.disabled = true;
+      btn.textContent = "Updating...";
+
+      const { error } = await supabase
+        .from("user_skills")
+        .update({ status: "completed" })
+        .eq("id", skillId);
+        if (error) {
+        btn.disabled = false;
+        btn.textContent = "Mark Completed";
+        alert(error.message);
+        return;
+      }
+
+      const skillName = card.querySelector(".skill-name")?.textContent ?? "";
+      card.remove();
+
+      if (!pendingListEl.children.length) {
+        pendingEmptyEl.hidden = false;
+      }
+
+      completedEmptyEl.hidden = true;
+      completedListEl.appendChild(
+        createSkillCard({ id: skillId, skill_name: skillName, status: "completed" })
+      );
+    }
+
+    async function loadSkills() {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        window.location.href = "/login";
+        return;
+      }
+
+      const { data: skills, error: skillsError } = await supabase
+        .from("user_skills")
+        .select("id, skill_name, status")
+        .eq("user_id", user.id)
+        .order("skill_name", { ascending: true });
+
+      if (skillsError) {
+        showError(skillsError.message);
+        return;
+      }
+
+      const allSkills = (skills ?? []) as Skill[];
+      const completed = allSkills.filter((s) => s.status === "completed");
+      const pending = allSkills.filter((s) => s.status !== "completed");
+
+      completed.forEach((skill) => completedListEl.appendChild(createSkillCard(skill)));
+      pending.forEach((skill) => pendingListEl.appendChild(createSkillCard(skill)));
+
+      completedEmptyEl.hidden = completed.length > 0;
+      pendingEmptyEl.hidden = pending.length > 0;
+
+      loadingEl.hidden = true;
+      contentEl.hidden = false;
+    }
+    loadSkills();
+  </script>
+
+  <style>
+    .skills-loading {
+      color: var(--color-muted);
+    }
+
+    .skills-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .skills-section h2 {
+      margin: 0 0 1rem;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .skill-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+    }
+
+    .skill-name {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .skill-status-badge {
+      display: inline-block;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: #dcfce7;
+      color: #15803d;
+      flex-shrink: 0;
+    }
+
+    .empty-state-message {
+      color: var(--color-muted);
+      font-style: italic;
+      padding: 0.75rem;
+      margin: 0;
+    }
+
+    .error-message {
+      color: #dc2626;
+      font-weight: 500;
+    }
+
+    .btn {
+      display: inline-block;
+      text-align: center;
+      padding: 0.6rem 1.25rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      flex-shrink: 0;
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--color-primary-dark);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 480px) {
+      .skill-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .mark-completed-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</SiteLayout>
+
+  
