@@ -2146,11 +2146,12 @@ import community from "../data/community.json";
   .from("roadmap_progress")
   .upsert(
     {
-      user_id: user.id,
-      week_number: weekNumber,
-      completed: true,
-    },
-    { onConflict: "user_id,week_number" }
+  user_id: user.id,
+  target_role: selectedRole,
+  week_number: weekNumber,
+  completed: true,
+},
+{ onConflict: "user_id,target_role,week_number" }
   );
 
   if (error) {
@@ -2552,6 +2553,7 @@ import community from "../data/community.json";
               .from("roadmap_progress")
               .select("week_number")
               .eq("user_id", roadmapUser.id)
+              .eq("target_role", selectedRole)
               .eq("completed", true);
 
             if (progressError) {
