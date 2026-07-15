@@ -332,7 +332,6 @@ import community from "../data/community.json";
                 <textarea id="rbAchievements" name="achievements" rows="3" placeholder="List your achievements..."></textarea>
               </div>
 
-              <p class="coming-soon-message">Resume Builder coming soon — this form is a placeholder and is not yet functional.</p>
             </form>
 
             <div class="resume-preview-column">
@@ -343,7 +342,11 @@ import community from "../data/community.json";
                 <button type="button" id="downloadResumePdfBtn" class="btn btn-primary download-resume-btn">
                   Download Resume as PDF
                 </button>
+                <button type="button" id="saveResumeBtn" class="btn btn-secondary save-resume-btn">
+                  Save Resume
+                </button>
               </div>
+              <p id="saveResumeMessage" class="form-message" aria-live="polite"></p>
 
               <div class="resume-preview template-ats-professional" id="resumePreview" aria-live="polite">
                 <div class="resume-preview-inner">
@@ -2335,6 +2338,128 @@ import community from "../data/community.json";
       printResumeBtn?.addEventListener("click", () => {
         window.print();
       });
+      async function saveResumeToSupabase() {
+  const saveResumeMessage = document.getElementById("saveResumeMessage");
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    if (saveResumeMessage) {
+      saveResumeMessage.textContent = "Please log in to save your resume.";
+    }
+    return;
+  }
+  const activeTemplateButton = document.querySelector<HTMLButtonElement>(
+  ".template-btn.active"
+);
+
+const selectedTemplate =
+  activeTemplateButton?.dataset.template || "ats-professional";
+  const resumeData = {
+  user_id: user.id,
+  title: rbFullName.value.trim()
+    ? `${rbFullName.value.trim()} Resume`
+    : "Untitled Resume",
+  template: selectedTemplate,
+  content: {
+    full_name: rbFullName.value.trim(),
+    email: rbEmail.value.trim(),
+    phone: rbPhone.value.trim(),
+    linkedin: rbLinkedin.value.trim(),
+    github: rbGithub.value.trim(),
+    objective: rbObjective.value.trim(),
+    education: rbEducation.value.trim(),
+    skills: rbSkills.value.trim(),
+    projects: rbProjects.value.trim(),
+    certifications: rbCertifications.value.trim(),
+    experience: rbExperience.value.trim(),
+    achievements: rbAchievements.value.trim(),
+  },
+  version: 1,
+  is_active: true,
+};
+const { error } = resumeId
+  ? await supabase
+      .from("builder_resumes")
+      .update(resumeData)
+      .eq("id", resumeId)
+      .eq("user_id", user.id)
+  : await supabase
+      .from("builder_resumes")
+      .insert(resumeData);
+      if (error) {
+  console.error("Save resume error:", error);
+
+  if (saveResumeMessage) {
+    saveResumeMessage.textContent = "Resume could not be saved.";
+  }
+
+  return;
+}
+
+if (saveResumeMessage) {
+  saveResumeMessage.textContent = resumeId
+    ? "Resume updated successfully."
+    : "Resume saved successfully.";
+}
+if (resumeId) {
+  setTimeout(() => {
+    window.location.href = "/my-resumes";
+  }, 1200);
+}
+
+}
+
+const saveResumeBtn = document.getElementById("saveResumeBtn");
+saveResumeBtn?.addEventListener("click", () => {
+  saveResumeToSupabase();
+});
+async function loadBuilderResume(resumeId: string) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    window.location.href = "/login";
+    return;
+  }
+
+  const { data: savedResume, error } = await supabase
+    .from("builder_resumes")
+    .select("id, user_id, template, content")
+    .eq("id", resumeId)
+    .eq("user_id", user.id)
+    .single();
+
+  if (error || !savedResume) {
+    console.error("Load builder resume error:", error);
+    return;
+  }
+
+  const content = savedResume.content as Record<string, string>;
+
+rbFullName.value = content.full_name ?? "";
+rbEmail.value = content.email ?? "";
+rbPhone.value = content.phone ?? "";
+rbLinkedin.value = content.linkedin ?? "";
+rbGithub.value = content.github ?? "";
+rbObjective.value = content.objective ?? "";
+rbEducation.value = content.education ?? "";
+rbSkills.value = content.skills ?? "";
+rbProjects.value = content.projects ?? "";
+rbCertifications.value = content.certifications ?? "";
+rbExperience.value = content.experience ?? "";
+rbAchievements.value = content.achievements ?? "";
+
+updateResumePreview();
+
+if (savedResume.template) {
+  applyTemplate(savedResume.template);
+}
+}
+
 
       let extractedResumeText = "";
       let isPdfUploaded = false;
@@ -2408,11 +2533,14 @@ import community from "../data/community.json";
   } = await supabase.auth.getUser();
 
   if (user) {
-    const filePath = `${user.id}/${Date.now()}-${file.name}`;
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const filePath = `${user.id}/${Date.now()}-${safeName}`;
 
     const { error: uploadError } = await supabase.storage
       .from("resumes")
-      .upload(filePath, file, { upsert: false });
+      .upload(filePath, file, { 
+        upsert: false,
+      });
 
     if (uploadError) {
       console.error("Resume upload failed:", uploadError.message);
@@ -2956,6 +3084,12 @@ if (pendingSkillRows.length) {
 
       tabAnalyzeBtn?.addEventListener("click", () => activateTab("analyze"));
       tabCreateBtn?.addEventListener("click", () => activateTab("create"));
+      const resumeId = new URLSearchParams(window.location.search).get("resumeId");
+
+if (resumeId) {
+  activateTab("create");
+  loadBuilderResume(resumeId);
+}
 
     </script>
   </body>

@@ -8,7 +8,7 @@ import SiteLayout from "../layouts/SiteLayout.astro";
   path="/dashboard"
 >
   <h1 id="welcomeHeading">Welcome back</h1>
-  <p class="page-updated">Here's where your career journey stands today.</p>
+  <p class="page-updated" id="dashboardStatus">Here's where your career journey stands today.</p>
 
   <div class="target-career-card">
     <span class="target-label">Target Career</span>
@@ -74,6 +74,7 @@ import SiteLayout from "../layouts/SiteLayout.astro";
     const skillsCompletedValue = document.getElementById("skillsCompletedValue") as HTMLSpanElement;
     const skillsRemainingValue = document.getElementById("skillsRemainingValue") as HTMLSpanElement;
     const logoutBtn = document.getElementById("logoutBtn") as HTMLButtonElement;
+    const dashboardStatus = document.getElementById("dashboardStatus") as HTMLParagraphElement;
 
 logoutBtn.addEventListener("click", async () => {
   await supabase.auth.signOut();
@@ -81,6 +82,10 @@ logoutBtn.addEventListener("click", async () => {
 });
 
     async function loadDashboard() {
+      dashboardStatus.textContent = "Loading your dashboard…";
+      let hadError = false;
+      try {
+      let hadError = false;
       const {
         data: { user },
         error: userError,
@@ -99,6 +104,7 @@ logoutBtn.addEventListener("click", async () => {
 
   if (profileError) {
     console.error("Loading profile failed:", profileError.message);
+    hadError = true;
   }
 
   welcomeHeading.textContent = `Welcome back, ${
@@ -114,6 +120,7 @@ logoutBtn.addEventListener("click", async () => {
 
       if (careerGoalError) {
         console.error("Loading career goal failed:", careerGoalError.message);
+        hadError = true;
       }
 
       let targetRole: string | null = null;
@@ -140,6 +147,7 @@ logoutBtn.addEventListener("click", async () => {
 
       if (skillsError) {
         console.error("Loading skills failed:", skillsError.message);
+        hadError = true;
       }
 
       const allSkills = skills ?? [];
@@ -157,6 +165,7 @@ logoutBtn.addEventListener("click", async () => {
 
       if (progressError) {
         console.error("Loading roadmap progress failed:", progressError.message);
+        hadError = true;
       }
 
       const completedWeeks = new Set((progressRows ?? []).map((r) => r.week_number)).size;
@@ -165,6 +174,11 @@ logoutBtn.addEventListener("click", async () => {
 
       roadmapProgressValue.textContent = `${roadmapPercentage}%`;
       roadmapProgressFill.style.width = `${roadmapPercentage}%`;
+      } finally {
+        dashboardStatus.textContent = hadError
+          ? "Some dashboard data couldn't be loaded. Please refresh the page."
+          : "Here's where your career journey stands today.";
+      }
     }
 
     loadDashboard();

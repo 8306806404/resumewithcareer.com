@@ -19,6 +19,15 @@ import SiteLayout from "../layouts/SiteLayout.astro";
       You haven't uploaded any resumes yet.
     </p>
   </div>
+  <div id="builderResumesContent" class="resumes-content">
+  <h2>Saved Builder Resumes</h2>
+
+  <div id="builderResumesList" class="resumes-list"></div>
+
+  <p id="builderResumesEmptyState" hidden>
+    You haven't saved any builder resumes yet.
+  </p>
+</div>
 
   <script>
     import { supabase } from "../db/supabase.js";
@@ -29,12 +38,25 @@ import SiteLayout from "../layouts/SiteLayout.astro";
       file_path: string | null;
       created_at: string;
     };
+    type BuilderResume = {
+  id: string | number;
+  title: string;
+  template: string;
+  created_at: string;
+};
 
     const loadingEl = document.getElementById("resumesLoading") as HTMLParagraphElement;
     const errorEl = document.getElementById("resumesError") as HTMLParagraphElement;
     const contentEl = document.getElementById("resumesContent") as HTMLDivElement;
     const listEl = document.getElementById("resumesList") as HTMLDivElement;
     const emptyEl = document.getElementById("resumesEmptyState") as HTMLParagraphElement;
+    const builderListEl = document.getElementById(
+  "builderResumesList"
+) as HTMLDivElement;
+
+const builderEmptyEl = document.getElementById(
+  "builderResumesEmptyState"
+) as HTMLParagraphElement;
 
     function showError(message: string) {
       loadingEl.hidden = true;
@@ -72,11 +94,58 @@ import SiteLayout from "../layouts/SiteLayout.astro";
       deleteBtn.type = "button";
       deleteBtn.className = "btn btn-secondary delete-btn";
       deleteBtn.textContent = "Delete";
+      
       deleteBtn.addEventListener("click", () => deleteResume(resume, card, deleteBtn));
       card.appendChild(deleteBtn);
 
       return card;
     }
+    function createBuilderResumeCard(resume: BuilderResume): HTMLDivElement {
+  const card = document.createElement("div");
+  card.className = "resume-card";
+
+  const info = document.createElement("div");
+  info.className = "resume-info";
+
+  const title = document.createElement("span");
+  title.className = "resume-name";
+  title.textContent = resume.title;
+  info.appendChild(title);
+
+  const details = document.createElement("span");
+  details.className = "resume-date";
+  details.textContent = `${resume.template} • Saved ${formatDate(
+    resume.created_at
+  )}`;
+  info.appendChild(details);
+
+  card.appendChild(info);
+
+  const actions = document.createElement("div");
+  actions.className = "resume-actions";
+
+  const editBtn = document.createElement("button");
+  editBtn.type = "button";
+  editBtn.className = "btn btn-secondary";
+  editBtn.textContent = "Edit";
+  editBtn.addEventListener("click", () => {
+  window.location.href = `/?resumeId=${resume.id}`;
+});
+  actions.appendChild(editBtn);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.type = "button";
+  deleteBtn.className = "btn btn-secondary delete-btn";
+  deleteBtn.textContent = "Delete";
+  deleteBtn.addEventListener("click", () =>
+  deleteBuilderResume(resume, card, deleteBtn)
+);
+  actions.appendChild(deleteBtn);
+
+  card.appendChild(actions);
+
+  return card;
+}
 
     async function deleteResume(resume: Resume, card: HTMLDivElement, btn: HTMLButtonElement) {
       if (!confirm(`Delete "${resume.resume_name}"? This can't be undone.`)) {
@@ -114,6 +183,35 @@ import SiteLayout from "../layouts/SiteLayout.astro";
         emptyEl.hidden = false;
       }
     }
+    async function deleteBuilderResume(
+  resume: BuilderResume,
+  card: HTMLDivElement,
+  button: HTMLButtonElement
+) {
+  const confirmed = window.confirm(
+    `Delete "${resume.title}"? This cannot be undone.`
+  );
+
+  if (!confirmed) return;
+
+  button.disabled = true;
+  button.textContent = "Deleting...";
+
+  const { error } = await supabase
+    .from("builder_resumes")
+    .delete()
+    .eq("id", resume.id);
+
+  if (error) {
+    showError(error.message);
+    button.disabled = false;
+    button.textContent = "Delete";
+    return;
+  }
+
+  card.remove();
+  builderEmptyEl.hidden = builderListEl.children.length > 0;
+}
 
     async function loadResumes() {
       const {
@@ -135,9 +233,25 @@ import SiteLayout from "../layouts/SiteLayout.astro";
         showError(resumesError.message);
         return;
       }
+      const { data: builderResumes, error: builderResumesError } = await supabase
+  .from("builder_resumes")
+  .select("id, title, template, created_at")
+  .eq("user_id", user.id)
+  .order("created_at", { ascending: false });
+
+if (builderResumesError) {
+  showError(builderResumesError.message);
+  return;
+}
+
 
       const allResumes = (resumes ?? []) as Resume[];
       allResumes.forEach((resume) => listEl.appendChild(createResumeCard(resume)));
+      const allBuilderResumes = (builderResumes ?? []) as BuilderResume[];
+
+allBuilderResumes.forEach((resume) =>
+  builderListEl.appendChild(createBuilderResumeCard(resume))
+);
 
       emptyEl.hidden = allResumes.length > 0;
 
@@ -148,7 +262,7 @@ import SiteLayout from "../layouts/SiteLayout.astro";
     loadResumes();
   </script>
 
-  <style>
+  <style is:global>
     .resumes-loading {
       color: var(--color-muted);
     }
