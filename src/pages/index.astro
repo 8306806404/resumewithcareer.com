@@ -118,8 +118,16 @@ import community from "../data/community.json";
           <a href="#createResume">Resume Builder</a>
           <a href="#features">Features</a>
           <a href="#upload">Analyze Resume</a>
-          <a href="/about-us">About Us</a>
-          <a href="/contact-us">Contact Us</a>
+          <span id="loggedOutNav">
+  <a href="/login">Login</a>
+  <a href="/signup">Sign Up</a>
+</span>
+
+<span id="loggedInNav" hidden>
+  <a href="/dashboard">Dashboard</a>
+  <a href="/my-resumes">My Resumes</a>
+  <button type="button" id="logoutBtn">Logout</button>
+</span>
           <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
         </nav>
       </div>
@@ -223,6 +231,12 @@ import community from "../data/community.json";
   </div>
   <span id="readinessLabel" class="readiness-label"></span>
 </div>
+<div class="result-card resume-tips-card">
+  <h4>Resume Improvement Tips</h4>
+  <ul id="resumeImprovementTips" class="resume-tips-list">
+    <li>Analyze your resume to view personalized improvement tips.</li>
+  </ul>
+</div>
             </div>
           </div>
                 <div id="roadmapSection" class="roadmap-section" hidden>
@@ -235,6 +249,10 @@ import community from "../data/community.json";
           <div id="projectsSection" class="projects-section" hidden>
   <h3>Recommended Mini Projects</h3>
   <div id="projectsGrid" class="projects-grid"></div>
+</div>
+<div id="jobRecommendationsSection" class="job-recommendations-section" hidden>
+  <h3>Recommended Jobs</h3>
+  <div id="jobRecommendationsList" class="job-recommendations-list"></div>
 </div>
 <div id="interviewSection" class="interview-section" hidden>
   <h3>Interview Preparation</h3>
@@ -703,7 +721,7 @@ import community from "../data/community.json";
       .nav {
         display: flex;
         gap: 1.5rem;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: center;
       }
       .nav a {
@@ -715,6 +733,31 @@ import community from "../data/community.json";
       .nav a:hover {
         color: var(--color-primary);
       }
+      #loggedOutNav,
+#loggedInNav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+#logoutBtn {
+  appearance: none;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+#logoutBtn:hover {
+  color: var(--color-primary);
+}
+#loggedOutNav[hidden],
+#loggedInNav[hidden] {
+  display: none;
+}
 
       .hero {
         padding: 5rem 0;
@@ -842,6 +885,16 @@ import community from "../data/community.json";
         font-size: 0.85rem;
         margin: 0;
       }
+      @media (max-width: 1100px) {
+  .header-inner {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+  }
+}
 
       @media (max-width: 640px) {
         .footer-inner {
@@ -1313,6 +1366,26 @@ import community from "../data/community.json";
         margin: 0 0 0.75rem;
         font-size: 1rem;
       }
+      .resume-tips-card {
+  text-align: left;
+  grid-column: span 3;
+}
+
+.resume-tips-card h4 {
+  text-align: left;
+}
+
+.resume-tips-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.resume-tips-list li {
+  margin-bottom: 0.5rem;
+  overflow-wrap: break-word;
+}
 
       .result-card-percentage {
         text-align: center;
@@ -1620,6 +1693,81 @@ import community from "../data/community.json";
 
 @media (max-width: 640px) {
   .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.job-recommendations-section {
+  margin-top: 2.5rem;
+  text-align: left;
+}
+
+.job-recommendations-section h3 {
+  text-align: center;
+  margin: 0 0 1.5rem;
+}
+
+.job-recommendations-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+:global(.job-recommendation-card) {
+  background: var(--color-bg-alt);
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+:global(.job-level) {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 0.85rem;
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+:global(.job-recommendation-card h4) {
+  margin: 0 0 0.9rem;
+}
+
+:global(.job-recommendation-card p) {
+  margin: 0 0 0.8rem;
+  line-height: 1.6;
+}
+
+:global(.job-recommendation-card a) {
+  display: inline-block;
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+:global(.job-recommendation-card a:hover) {
+  opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+  .job-recommendations-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .job-recommendations-list {
     grid-template-columns: 1fr;
   }
 }
@@ -2089,8 +2237,28 @@ import community from "../data/community.json";
       import roadmap from "../data/roadmap.json";
       import projects from "../data/projects.json";
       import interviewQuestions from "../data/interviewQuestions.json";
+      import jobRecommendations from "../data/jobRecommendations.json";
       import { jsPDF } from "jspdf";
       import { supabase } from "../db/supabase.js";
+      const loggedOutNav = document.getElementById("loggedOutNav") as HTMLElement;
+      const loggedInNav = document.getElementById("loggedInNav") as HTMLElement;
+      const logoutBtn = document.getElementById("logoutBtn");
+
+      const {
+        data: { user: navbarUser },
+      } = await supabase.auth.getUser();
+
+      if (navbarUser) {
+        loggedOutNav.hidden = true;
+        loggedInNav.hidden = false;
+      } else {
+        loggedOutNav.hidden = false;
+        loggedInNav.hidden = true;
+      }
+      logoutBtn?.addEventListener("click", async () => {
+        await supabase.auth.signOut();
+        window.location.href = "/";
+      });
       const themeToggleBtn = document.getElementById("themeToggle") as HTMLButtonElement;
       const setToggleIcon = () => {
         themeToggleBtn.textContent =
@@ -2169,6 +2337,13 @@ import community from "../data/community.json";
 });
       const projectsSection = document.getElementById("projectsSection") as HTMLElement;
       const projectsGrid = document.getElementById("projectsGrid");
+      const jobRecommendationsSection = document.getElementById(
+  "jobRecommendationsSection"
+) as HTMLElement;
+
+const jobRecommendationsList = document.getElementById(
+  "jobRecommendationsList"
+);
       const interviewSection = document.getElementById("interviewSection") as HTMLElement;
       const interviewQuestionsList = document.getElementById("interviewQuestionsList");
       const interviewTabs = document.getElementById("interviewTabs");
@@ -2591,6 +2766,11 @@ if (savedResume.template) {
           resultsSection.hidden = true;
           roadmapSection.hidden = true;
           projectsSection.hidden = true;
+          jobRecommendationsSection.hidden = true;
+          jobRecommendationsList!.innerHTML = "";
+          projectsSection.hidden = true;
+          jobRecommendationsSection.hidden = true;
+          jobRecommendationsList!.innerHTML = "";
           interviewSection.hidden = true;
           exportPdfWrapper.hidden = true;
           return;
@@ -2607,16 +2787,128 @@ if (savedResume.template) {
         const resumeTextLower = extractedResumeText.toLowerCase();
 
         const currentSkills: string[] = [];
-        const missingSkills: string[] = [];
+const missingSkills: string[] = [];
 
-        uniqueSkills.forEach((skill) => {
-          const keyword = skill.split("(")[0].trim().toLowerCase();
-          if (resumeTextLower.includes(keyword)) {
-            currentSkills.push(skill);
-          } else {
-            missingSkills.push(skill);
-          }
-        });
+const skillAliases: Record<string, string[]> = {
+  "HTML/CSS/JavaScript": [
+    "html",
+    "html5",
+    "css",
+    "css3",
+    "javascript",
+    "js"
+  ],
+  "Backend Language": [
+    "python",
+    "java",
+    "node.js",
+    "nodejs",
+    "php",
+    "c#"
+  ],
+  "Database Basics": [
+    "database",
+    "dbms",
+    "sql",
+    "supabase",
+    "postgresql",
+    "mysql"
+  ],
+  "Frontend Basics": [
+    "html",
+    "css",
+    "javascript",
+    "responsive web design",
+    "dom manipulation",
+    "frontend development"
+  ],
+  "Backend CRUD": [
+    "crud",
+    "create",
+    "read",
+    "update",
+    "delete",
+    "supabase"
+  ],
+  "REST APIs": [
+    "rest api",
+    "rest apis",
+    "api integration"
+  ],
+  "SQL Basics": [
+    "sql"
+  ],
+  "Frontend + Backend Frameworks": [
+    "astro",
+    "supabase",
+    "react",
+    "angular",
+    "vue",
+    "express"
+  ],
+  "Authentication": [
+    "authentication",
+    "authorization",
+    "login",
+    "signup"
+  ],
+  "Deployment Basics": [
+    "cloudflare",
+    "deployment",
+    "deployed",
+    "hosting"
+  ],
+  "Security Best Practices": [
+    "authentication",
+    "authorization",
+    "row level security",
+    "rls"
+  ]
+};
+
+uniqueSkills.forEach((skill) => {
+  const aliases = skillAliases[skill] || [
+    skill.split("(")[0].trim().toLowerCase()
+  ];
+
+  const isPresent = aliases.some((alias) =>
+    resumeTextLower.includes(alias.toLowerCase())
+  );
+
+  if (isPresent) {
+    currentSkills.push(skill);
+  } else {
+    missingSkills.push(skill);
+  }
+});
+const displaySkillAliases: Record<string, string[]> = {
+  HTML5: ["html5", "html"],
+  CSS3: ["css3", "css"],
+  JavaScript: ["javascript"],
+  Python: ["python"],
+  Java: ["java"],
+  SQL: ["sql"],
+  Astro: ["astro"],
+  Supabase: ["supabase"],
+  PostgreSQL: ["postgresql", "postgres"],
+  Git: ["git"],
+  GitHub: ["github"],
+  Cloudflare: ["cloudflare"],
+  "REST APIs": ["rest api", "rest apis"],
+  Authentication: ["authentication"],
+  "Responsive Web Design": ["responsive web design"],
+  "DOM Manipulation": ["dom manipulation"],
+};
+
+const detectedSkills = Object.entries(displaySkillAliases)
+  .filter(([, aliases]) =>
+    aliases.some((alias) => {
+  const escapedAlias = alias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pattern = new RegExp(`\\b${escapedAlias}\\b`, "i");
+  return pattern.test(resumeTextLower);
+})
+  )
+  .map(([skill]) => skill);
 
         const matchPercentage = Math.round(
           (currentSkills.length / uniqueSkills.length) * 100
@@ -2665,7 +2957,12 @@ if (savedResume.template) {
             whatToLearn: string;
             howToLearn: string;
             practiceTask: string;
-            resources: Array<{ name: string; type: string; helpsWith: string}>;
+            resources: Array<{
+            name: string;
+            type: string;
+            helpsWith: string;
+            url?: string;
+}>
           }>
         >)[selectedRole];
 
@@ -2718,7 +3015,11 @@ if (savedResume.template) {
             .map((r) => {
               return (
                 '<li class="roadmap-resource-item">' +
-                '<span class="resource-name">' + r.name + '</span>' +
+                '<span class="resource-name">' +
+                  (r.url
+                    ? '<a href="' + r.url + '" target="_blank" rel="noopener noreferrer">' + r.name + '</a>'
+                    : r.name) +
+                '</span>' +
                 '<span class="resource-type">' + r.type + '</span>' +
                 '<span class="resource-helps">' + r.helpsWith + '</span>' +
                 '</li>'
@@ -2761,6 +3062,18 @@ roadmapSection.hidden = false;
             resumeBullet: string;
           }>
         >)[selectedRole];
+        const roleJobRecommendations = (
+  jobRecommendations as Record<
+    string,
+    Array<{
+      title: string;
+      level: string;
+      skills: string[];
+      reason: string;
+      searchQuery: string;
+    }>
+  >
+)[selectedRole] || [];
 
         if (roleProjects) {
           projectsGrid!.innerHTML = roleProjects
@@ -2782,6 +3095,32 @@ roadmapSection.hidden = false;
         } else {
           projectsSection.hidden = true;
         }
+        if (roleJobRecommendations.length) {
+  jobRecommendationsList!.innerHTML = roleJobRecommendations
+    .map((job) => {
+      const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(
+        job.searchQuery
+      )}`;
+
+      return `
+        <div class="job-recommendation-card">
+          <span class="job-level">${job.level}</span>
+          <h4>${job.title}</h4>
+          <p><strong>Skills:</strong> ${job.skills.join(", ")}</p>
+          <p><strong>Why this fits:</strong> ${job.reason}</p>
+          <a href="${searchUrl}" target="_blank" rel="noopener noreferrer">
+            Search Jobs
+          </a>
+        </div>
+      `;
+    })
+    .join("");
+
+  jobRecommendationsSection.hidden = false;
+} else {
+  jobRecommendationsList!.innerHTML = "";
+  jobRecommendationsSection.hidden = true;
+}
 
         const roleInterviewQuestions = (interviewQuestions as Record<
           string,
@@ -2804,7 +3143,7 @@ roadmapSection.hidden = false;
         }
 
         currentSkillsList!.innerHTML =
-  currentSkills.map((skill) => `<span class="skill-tag matched">${skill}</span>`).join("") ||
+  detectedSkills.map((skill) => `<span class="skill-tag matched">${skill}</span>`).join("") ||
   `<p class="empty-state-message">No matching skills found yet — your roadmap below will help you build them.</p>`;
 
 missingSkillsList!.innerHTML =
@@ -2823,6 +3162,57 @@ missingSkillsList!.innerHTML =
           roadmap: roleRoadmap ?? null,
           projects: roleProjects ?? null,
         };
+        const improvementTips = [];
+        const resumeImprovementTips = document.getElementById("resumeImprovementTips");
+        if (missingSkills.length > 0) {
+  const skillsText = missingSkills.slice(0, 4).join(", ");
+
+  improvementTips.push(
+    "Add or improve these important skills for " +
+      selectedRole +
+      ": " +
+      skillsText +
+      "."
+  );
+}
+if (readinessScore < 50) {
+  improvementTips.push(
+    "Your resume is at a beginner stage. Add 2 to 3 relevant projects and clearly mention the technologies used in each project."
+  );
+}
+if (matchPercentage < 5) {
+  improvementTips.push(
+    "Your resume has a low role match. Use more relevant keywords from the selected job role in your summary, skills, and project descriptions."
+  );
+}
+if (currentSkills.length < 40) {
+  improvementTips.push(
+    "Highlight more technical skills on your resume. Include programming languages, frameworks, tools, and platforms that are relevant to your target role."
+  );
+}
+if (readinessScore < 70) {
+  improvementTips.push(
+    "Improve your project descriptions by mentioning what you built, which technologies you used, and measurable results such as time saved, users served, or performance improved."
+  );
+}
+improvementTips.push(
+  "Keep your resume concise, use clear section headings, and tailor the summary and skills section for the selected role."
+);
+if (readinessScore >= 70) {
+  improvementTips.push(
+    "Your resume shows good job readiness. Focus on tailoring it for each application and adding stronger measurable achievements."
+  );
+}
+
+if (resumeImprovementTips) {
+  resumeImprovementTips.replaceChildren();
+
+  improvementTips.slice(0, 5).forEach((tip) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = tip;
+    resumeImprovementTips.appendChild(listItem);
+  });
+}
         exportPdfWrapper.hidden = false;
         const {
           data: { user },

@@ -1,0 +1,279 @@
+
+{
+  "Cloud Engineer": [
+    {
+      "title": "Junior Cloud Support Engineer",
+      "level": "Entry-Level",
+      "skills": ["Cloud CLI Usage", "IAM Basics", "Cloud Storage (S3/Blob)"],
+      "reason": "Focuses on day-to-day cloud operations and support tickets, a common starting point for building hands-on cloud experience.",
+      "searchQuery": "junior cloud support engineer entry level"
+    },
+    {
+      "title": "Cloud Operations Associate",
+      "level": "Entry-Level",
+      "skills": ["VPC & Networking", "Monitoring & Logging", "Cloud CLI Usage"],
+      "reason": "Emphasizes monitoring and basic networking tasks that map directly to beginner cloud roadmap skills.",
+      "searchQuery": "cloud operations associate junior"
+    },
+    {
+      "title": "Associate DevOps/Cloud Engineer",
+      "level": "Entry-Level",
+      "skills": ["Infrastructure as Code (Terraform/CloudFormation)", "CI/CD Basics", "IAM Basics"],
+      "reason": "Introduces infrastructure automation in a supervised team setting, ideal after completing the IaC roadmap milestone.",
+      "searchQuery": "associate cloud engineer terraform entry level"
+    }
+  ],
+  "Frontend Developer": [
+    {
+      "title": "Junior Frontend Developer",
+      "level": "Entry-Level",
+      "skills": ["HTML", "CSS", "Responsive Design"],
+      "reason": "Core markup and styling skills are the most common gatekeeper for first frontend roles.",
+      "searchQuery": "junior frontend developer HTML CSS"
+    },
+    {
+      "title": "UI Developer (Entry-Level)",
+      "level": "Entry-Level",
+      "skills": ["Flexbox & Grid", "Basic React/Vue", "Responsive Design"],
+      "reason": "Bridges static page building with component-based UI work, a natural next step after portfolio projects.",
+      "searchQuery": "entry level UI developer react"
+    },
+    {
+      "title": "Associate Web Developer",
+      "level": "Entry-Level",
+      "skills": ["REST API Integration", "State Management", "Basic React/Vue"],
+      "reason": "Adds API integration and state handling on top of layout basics, matching the intermediate roadmap track.",
+      "searchQuery": "associate web developer react junior"
+    }
+  ],
+  "Backend Developer": [
+    {
+      "title": "Junior Backend Developer",
+      "level": "Entry-Level",
+      "skills": ["REST API Design", "Databases (SQL Basics)", "Server-Side Language Fundamentals"],
+      "reason": "Focuses on building and consuming simple APIs, the most common entry task for new backend hires.",
+      "searchQuery": "junior backend developer REST API"
+    },
+    {
+      "title": "Associate Software Engineer - Backend",
+      "level": "Entry-Level",
+      "skills": ["Authentication Basics", "Databases (SQL Basics)", "Version Control (Git)"],
+      "reason": "Pairs core CRUD/auth work with Git collaboration, standard for onboarding backend juniors.",
+      "searchQuery": "associate backend software engineer entry level"
+    },
+    {
+      "title": "Junior API Developer",
+      "level": "Entry-Level",
+      "skills": ["REST API Design", "Error Handling & Validation", "Server-Side Language Fundamentals"],
+      "reason": "Narrow scope on API endpoints suits someone who has just completed backend fundamentals.",
+      "searchQuery": "junior API developer backend"
+    }
+  ],
+  "Full Stack Developer": [
+    {
+      "title": "Junior Full Stack Developer",
+      "level": "Entry-Level",
+      "skills": ["HTML/CSS", "REST API Integration", "Databases (SQL Basics)"],
+      "reason": "Combines lightweight frontend and backend tasks, matching the breadth of a beginner full stack roadmap.",
+      "searchQuery": "junior full stack developer entry level"
+    },
+    {
+      "title": "Associate Web Application Developer",
+      "level": "Entry-Level",
+      "skills": ["Basic React/Vue", "REST API Design", "Version Control (Git)"],
+      "reason": "Covers building simple end-to-end features under mentorship, a typical first full stack assignment.",
+      "searchQuery": "associate web application developer full stack"
+    },
+    {
+      "title": "Graduate Software Developer (Full Stack Track)",
+      "level": "Entry-Level",
+      "skills": ["State Management", "Databases (SQL Basics)", "Authentication Basics"],
+      "reason": "Graduate programs often rotate juniors across the stack, reinforcing both UI and data layer skills.",
+      "searchQuery": "graduate software developer full stack track"
+    }
+  ],
+  "AI Engineer": [
+    {
+      "title": "Junior AI/ML Engineer",
+      "level": "Entry-Level",
+      "skills": ["Python Fundamentals", "Data Preprocessing", "Basic Model Training"],
+      "reason": "Entry AI roles emphasize data prep and running existing model pipelines rather than novel research.",
+      "searchQuery": "junior AI engineer entry level python"
+    },
+    {
+      "title": "AI Applications Associate",
+      "level": "Entry-Level",
+      "skills": ["Prompt Engineering", "API Integration (LLMs)", "Python Fundamentals"],
+      "reason": "Focuses on integrating existing AI/LLM APIs into products, a common low-barrier AI job today.",
+      "searchQuery": "AI applications associate LLM API"
+    },
+    {
+      "title": "Junior Machine Learning Support Engineer",
+      "level": "Entry-Level",
+      "skills": ["Basic Model Training", "Data Preprocessing", "Model Evaluation Basics"],
+      "reason": "Supports experienced engineers with data cleaning and evaluation tasks while learning ML workflows.",
+      "searchQuery": "junior machine learning support engineer"
+    }
+  ],
+  "ML Engineer": [
+    {
+      "title": "Junior Machine Learning Engineer",
+      "level": "Entry-Level",
+      "skills": ["Python Fundamentals", "Data Preprocessing", "Model Training Basics"],
+      "reason": "Typical first ML role focused on preparing datasets and training baseline models under guidance.",
+      "searchQuery": "junior machine learning engineer entry level"
+    },
+    {
+      "title": "ML Pipeline Associate",
+      "level": "Entry-Level",
+      "skills": ["Model Deployment Basics", "Data Preprocessing", "Version Control (Git)"],
+      "reason": "Introduces ML pipeline and deployment tooling, a natural next step after training simple models.",
+      "searchQuery": "ML pipeline associate junior deployment"
+    },
+    {
+      "title": "Junior Data/ML Analyst",
+      "level": "Entry-Level",
+      "skills": ["Model Evaluation Basics", "Data Preprocessing", "Python Fundamentals"],
+      "reason": "Bridges data analysis and ML evaluation, suited for someone finishing beginner ML coursework.",
+      "searchQuery": "junior data ML analyst entry level"
+    }
+  ],
+  "DevOps Engineer": [
+    {
+      "title": "Junior DevOps Engineer",
+      "level": "Entry-Level",
+      "skills": ["CI/CD Basics", "Linux Fundamentals", "Version Control (Git)"],
+      "reason": "Entry DevOps roles center on maintaining pipelines and basic Linux administration.",
+      "searchQuery": "junior devops engineer CI CD entry level"
+    },
+    {
+      "title": "Build & Release Associate",
+      "level": "Entry-Level",
+      "skills": ["CI/CD Basics", "Scripting Basics", "Version Control (Git)"],
+      "reason": "Focuses on automating build and release steps, a common starting responsibility for new DevOps hires.",
+      "searchQuery": "build release associate CI CD junior"
+    },
+    {
+      "title": "Junior Site Reliability Engineer",
+      "level": "Entry-Level",
+      "skills": ["Monitoring & Logging", "Linux Fundamentals", "Containerization Basics"],
+      "reason": "Introduces monitoring and containers before tackling full production reliability ownership.",
+      "searchQuery": "junior site reliability engineer entry level"
+    }
+  ],
+  "Data Analyst": [
+    {
+      "title": "Junior Data Analyst",
+      "level": "Entry-Level",
+      "skills": ["SQL Basics", "Excel/Spreadsheets", "Data Visualization"],
+      "reason": "SQL querying and spreadsheet reporting are the most common day-one tasks for new data analysts.",
+      "searchQuery": "junior data analyst SQL entry level"
+    },
+    {
+      "title": "Business Intelligence Associate",
+      "level": "Entry-Level",
+      "skills": ["Data Visualization", "SQL Basics", "Dashboarding Tools (Power BI/Tableau)"],
+      "reason": "Builds dashboards from existing data models, a natural extension of basic reporting skills.",
+      "searchQuery": "business intelligence associate dashboard junior"
+    },
+    {
+      "title": "Junior Reporting Analyst",
+      "level": "Entry-Level",
+      "skills": ["Excel/Spreadsheets", "Data Cleaning", "SQL Basics"],
+      "reason": "Centers on cleaning and summarizing datasets for stakeholders, ideal for a beginner analyst.",
+      "searchQuery": "junior reporting analyst entry level"
+    }
+  ],
+  "Cyber Security": [
+    {
+      "title": "Junior SOC Analyst",
+      "level": "Entry-Level",
+      "skills": ["Security Fundamentals", "Log Analysis", "Networking Basics"],
+      "reason": "Security Operations Center roles are a common entry point, monitoring alerts under senior guidance.",
+      "searchQuery": "junior SOC analyst entry level"
+    },
+    {
+      "title": "Associate Security Analyst",
+      "level": "Entry-Level",
+      "skills": ["Vulnerability Scanning Basics", "Security Fundamentals", "Networking Basics"],
+      "reason": "Introduces vulnerability assessment tools alongside core security concepts.",
+      "searchQuery": "associate security analyst vulnerability entry level"
+    },
+    {
+      "title": "Junior Information Security Support Specialist",
+      "level": "Entry-Level",
+      "skills": ["Security Fundamentals", "Incident Response Basics", "Log Analysis"],
+      "reason": "Handles first-line security support tickets while learning incident response processes.",
+      "searchQuery": "junior information security support specialist"
+    }
+  ],
+  "Software Engineer": [
+    {
+      "title": "Junior Software Engineer",
+      "level": "Entry-Level",
+      "skills": ["Programming Fundamentals", "Data Structures Basics", "Version Control (Git)"],
+      "reason": "General entry-level coding role emphasizing fundamentals and collaborative development practices.",
+      "searchQuery": "junior software engineer entry level"
+    },
+    {
+      "title": "Graduate Software Developer",
+      "level": "Entry-Level",
+      "skills": ["Object-Oriented Programming Basics", "Debugging Basics", "Version Control (Git)"],
+      "reason": "Graduate programs pair new hires with mentors to build core software development habits.",
+      "searchQuery": "graduate software developer program"
+    },
+    {
+      "title": "Associate Software Developer",
+      "level": "Entry-Level",
+      "skills": ["Data Structures Basics", "Testing Basics", "Programming Fundamentals"],
+      "reason": "Introduces basic testing practices alongside core programming, common for junior software roles.",
+      "searchQuery": "associate software developer junior entry level"
+    }
+  ],
+  "UI/UX Designer": [
+    {
+      "title": "Junior UI/UX Designer",
+      "level": "Entry-Level",
+      "skills": ["Wireframing", "Design Tools (Figma)", "User Research Basics"],
+      "reason": "Wireframing and basic prototyping are the most requested skills for entry-level design roles.",
+      "searchQuery": "junior UI UX designer figma entry level"
+    },
+    {
+      "title": "Associate Product Designer",
+      "level": "Entry-Level",
+      "skills": ["Design Tools (Figma)", "Prototyping", "Visual Design Basics"],
+      "reason": "Focuses on turning wireframes into polished prototypes under a senior designer's direction.",
+      "searchQuery": "associate product designer prototyping entry level"
+    },
+    {
+      "title": "Junior Visual/Interaction Designer",
+      "level": "Entry-Level",
+      "skills": ["Visual Design Basics", "Design Tools (Figma)", "User Research Basics"],
+      "reason": "Emphasizes visual consistency and basic usability research, a good fit after design fundamentals.",
+      "searchQuery": "junior interaction designer entry level"
+    }
+  ],
+  "Mobile App Developer": [
+    {
+      "title": "Junior Mobile App Developer",
+      "level": "Entry-Level",
+      "skills": ["Mobile UI Basics", "REST API Integration", "Version Control (Git)"],
+      "reason": "Entry mobile roles focus on building UI screens and wiring them to existing APIs.",
+      "searchQuery": "junior mobile app developer entry level"
+    },
+    {
+      "title": "Associate Android/iOS Developer",
+      "level": "Entry-Level",
+      "skills": ["Mobile UI Basics", "State Management", "App Lifecycle Basics"],
+      "reason": "Covers platform-specific fundamentals like lifecycle and state handling for new mobile hires.",
+      "searchQuery": "associate android iOS developer junior"
+    },
+    {
+      "title": "Junior Cross-Platform App Developer",
+      "level": "Entry-Level",
+      "skills": ["Cross-Platform Framework Basics", "REST API Integration", "Mobile UI Basics"],
+      "reason": "Cross-platform tooling (e.g. React Native/Flutter) lowers the barrier for first mobile app jobs.",
+      "searchQuery": "junior cross platform app developer react native flutter"
+    }
+  ]
+}
