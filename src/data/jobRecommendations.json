@@ -275,5 +275,29 @@
       "reason": "Cross-platform tooling (e.g. React Native/Flutter) lowers the barrier for first mobile app jobs.",
       "searchQuery": "junior cross platform app developer react native flutter"
     }
+  ],
+  "Web Developer": [
+    {
+      "title": "Junior Web Developer",
+      "level": "Entry-Level",
+      "skills": ["HTML", "CSS", "JavaScript", "Responsive Web Design"],
+      "reason": "Entry web roles focus on building and styling pages from designs using core web fundamentals.",
+      "searchQuery": "junior web developer entry level"
+    },
+    {
+      "title": "Associate Front-of-Site / CMS Developer",
+      "level": "Entry-Level",
+      "skills": ["CMS Platforms (WordPress)", "DOM Manipulation", "Cross-Browser Compatibility"],
+      "reason": "Many small businesses hire entry-level web developers to build and maintain CMS-driven websites.",
+      "searchQuery": "associate wordpress web developer junior"
+    },
+    {
+      "title": "Junior Web Developer (JavaScript Frameworks)",
+      "level": "Entry-Level",
+      "skills": ["JavaScript Frameworks (React/Vue)", "REST API Integration", "Web Hosting & Deployment"],
+      "reason": "Startups often hire junior web developers who can build and deploy simple framework-driven websites.",
+      "searchQuery": "junior web developer react vue entry level"
+    }
   ]
+
 }

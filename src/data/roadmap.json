@@ -1199,5 +1199,115 @@
         }
       ]
     }
+  ],
+  "Web Developer": [
+    {
+      "week": 1,
+      "topic": "HTML & CSS Foundations",
+      "whatToLearn": "Semantic HTML, CSS box model, responsive layout basics",
+      "howToLearn": "MDN Web Docs, freeCodeCamp Responsive Web Design",
+      "practiceTask": "Build a responsive multi-section personal webpage",
+      "resources": [
+        {
+          "name": "MDN Web Docs: HTML & CSS",
+          "type": "Official Documentation",
+          "helpsWith": "Semantic HTML, CSS box model",
+          "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development"
+        },
+        {
+          "name": "freeCodeCamp Responsive Web Design",
+          "type": "Free Course",
+          "helpsWith": "Responsive layout basics",
+          "url": "https://www.freecodecamp.org/learn/2022/responsive-web-design/"
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "topic": "JavaScript & DOM Manipulation",
+      "whatToLearn": "Variables, functions, DOM manipulation, browser events",
+      "howToLearn": "javascript.info free tutorial",
+      "practiceTask": "Build an interactive multi-page website with dynamic DOM updates",
+      "resources": [
+        {
+          "name": "javascript.info",
+          "type": "Free Tutorial",
+          "helpsWith": "JS fundamentals, DOM manipulation, events",
+          "url": "https://javascript.info/"
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "topic": "Backend Scripting & Web Hosting",
+      "whatToLearn": "Basic backend scripting (Node/PHP), how web servers work, hosting basics",
+      "howToLearn": "Node.js official docs, freeCodeCamp backend basics",
+      "practiceTask": "Deploy a static site and add a simple backend script that handles a form submission",
+      "resources": [
+        {
+          "name": "Node.js Official Docs",
+          "type": "Official Documentation",
+          "helpsWith": "Basic backend scripting",
+          "url": "https://nodejs.org/docs/latest/api/"
+        },
+        {
+          "name": "Netlify / Vercel Deployment Docs",
+          "type": "Official Documentation",
+          "helpsWith": "Web hosting & deployment",
+          "url": "https://docs.netlify.com/"
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "topic": "REST APIs & CMS Platforms",
+      "whatToLearn": "REST API integration, CMS basics (WordPress)",
+      "howToLearn": "Official WordPress docs, public API guides",
+      "practiceTask": "Build a page that consumes a public API and set up a basic WordPress site",
+      "resources": [
+        {
+          "name": "WordPress Developer Resources",
+          "type": "Official Documentation",
+          "helpsWith": "CMS platform basics",
+          "url": "https://developer.wordpress.org/"
+        },
+        {
+          "name": "Public APIs List (public-apis.io)",
+          "type": "Resource List",
+          "helpsWith": "Practice fetching REST APIs",
+          "url": "https://publicapis.dev/"
+        }
+      ]
+    },
+    {
+      "week": 5,
+      "topic": "JavaScript Frameworks & Cross-Browser Compatibility",
+      "whatToLearn": "React/Vue basics, cross-browser testing",
+      "howToLearn": "Official React or Vue documentation",
+      "practiceTask": "Build a small React/Vue app and test it across multiple browsers",
+      "resources": [
+        {
+          "name": "React Official Docs (react.dev)",
+          "type": "Official Documentation",
+          "helpsWith": "Components, props, state",
+          "url": "https://react.dev/learn"
+        }
+      ]
+    },
+    {
+      "week": 6,
+      "topic": "Performance, SEO & Security Capstone",
+      "whatToLearn": "Performance optimization, SEO basics, PWA concepts, web security best practices",
+      "howToLearn": "web.dev free guides",
+      "practiceTask": "Audit and optimize a full website project for performance, SEO, and security",
+      "resources": [
+        {
+          "name": "web.dev by Google",
+          "type": "Free Guide",
+          "helpsWith": "Performance, SEO, PWA, security best practices",
+          "url": "https://web.dev/learn/"
+        }
+      ]
+    }
   ]
 }

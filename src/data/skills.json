@@ -70,5 +70,12 @@
     "beginnerSkills": ["Basic App Layouts", "Navigation", "Local Storage", "Debugging"],
     "intermediateSkills": ["State Management", "REST API Integration", "Push Notifications", "App Performance Basics"],
     "advancedSkills": ["Cross-Platform Architecture (Flutter/React Native)", "App Store Deployment & CI/CD", "Offline-First Architecture", "Security & Performance Optimization", "Scalable App Architecture"]
+  },
+  "Web Developer": {
+    "requiredSkills": ["HTML", "CSS", "JavaScript", "Git"],
+    "beginnerSkills": ["Responsive Web Design", "DOM Manipulation", "Basic Backend Scripting (Node/PHP)", "Browser DevTools"],
+    "intermediateSkills": ["JavaScript Frameworks (React/Vue)", "REST API Integration", "CMS Platforms (WordPress)", "Cross-Browser Compatibility", "Web Hosting & Deployment"],
+    "advancedSkills": ["Full-Stack Web Architecture", "Performance Optimization", "SEO & Web Analytics", "Progressive Web Apps (PWA)", "Web Security Best Practices"]
   }
+
 }

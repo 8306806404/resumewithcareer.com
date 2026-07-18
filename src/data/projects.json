@@ -228,6 +228,52 @@
       "expectedOutput": "A published-ready cross-platform app supporting push notifications and optimized performance.",
       "resumeBullet": "Shipped a cross-platform mobile app with push notification support, optimizing startup time and memory usage."
     }
+  ],"Web Developer": [
+    {
+      "title": "Responsive Personal Portfolio Website",
+      "difficulty": "Beginner",
+      "skillsUsed": ["HTML", "CSS", "Responsive Web Design", "Git"],
+      "expectedOutput": "A responsive multi-section personal website that adapts cleanly to mobile, tablet, and desktop screens.",
+      "resumeBullet": "Built a responsive personal portfolio website using semantic HTML and CSS, ensuring cross-device compatibility."
+    },
+    {
+      "title": "Dynamic Website with API Integration",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["JavaScript Frameworks (React/Vue)", "REST API Integration", "DOM Manipulation"],
+      "expectedOutput": "A multi-page website that fetches and displays live data from a public API using a JavaScript framework.",
+      "resumeBullet": "Developed a dynamic website integrating a public REST API with a JavaScript framework to render live data."
+    },
+    {
+      "title": "Full Website Launch with CMS, Hosting & Performance Audit",
+      "difficulty": "Advanced",
+      "skillsUsed": ["CMS Platforms (WordPress)", "Web Hosting & Deployment", "Performance Optimization", "SEO & Web Analytics"],
+      "expectedOutput": "A production-ready website deployed on live hosting, built on a CMS, and optimized for performance and SEO.",
+      "resumeBullet": "Launched a production website on a CMS with live hosting, improving performance scores and SEO visibility through targeted optimization."
+    }
+  ],
+  "Web Developer": [
+    {
+      "title": "Responsive Personal Portfolio Website",
+      "difficulty": "Beginner",
+      "skillsUsed": ["HTML", "CSS", "Responsive Web Design", "Git"],
+      "expectedOutput": "A responsive multi-section personal website that adapts cleanly to mobile, tablet, and desktop screens.",
+      "resumeBullet": "Built a responsive personal portfolio website using semantic HTML and CSS, ensuring cross-device compatibility."
+    },
+    {
+      "title": "Dynamic Website with API Integration",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["JavaScript Frameworks (React/Vue)", "REST API Integration", "DOM Manipulation"],
+      "expectedOutput": "A multi-page website that fetches and displays live data from a public API using a JavaScript framework.",
+      "resumeBullet": "Developed a dynamic website integrating a public REST API with a JavaScript framework to render live data."
+    },
+    {
+      "title": "Full Website Launch with CMS, Hosting & Performance Audit",
+      "difficulty": "Advanced",
+      "skillsUsed": ["CMS Platforms (WordPress)", "Web Hosting & Deployment", "Performance Optimization", "SEO & Web Analytics"],
+      "expectedOutput": "A production-ready website deployed on live hosting, built on a CMS, and optimized for performance and SEO.",
+      "resumeBullet": "Launched a production website on a CMS with live hosting, improving performance scores and SEO visibility through targeted optimization."
+    }
   ]
+
 }
   

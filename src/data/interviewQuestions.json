@@ -743,5 +743,67 @@
         "difficulty": "Advanced"
       }
     ]
-  }
+  },
+  "Web Developer": {
+    "beginner": [
+      {
+        "question": "What is the difference between client-side rendering and server-side rendering?",
+        "sampleAnswer": "Client-side rendering sends a mostly empty HTML shell and lets JavaScript build the page in the browser, which can mean a blank screen until JS loads but allows rich interactivity afterward. Server-side rendering builds the full HTML on the server before sending it, so the page appears faster and is easier for search engines to index, though each navigation typically requires a fresh server round-trip unless combined with client-side hydration.",
+        "tips": "Mention a concrete trade-off (initial load speed vs interactivity) rather than just defining both terms — it shows you understand when to choose each.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "How does the DOM relate to the HTML source, and how do you manipulate it with JavaScript?",
+        "sampleAnswer": "The DOM is the browser's live, in-memory tree representation of the page, built from the HTML source but able to change independently as JavaScript runs — the HTML source itself never updates. I'd use methods like querySelector, createElement, and appendChild to read and update the DOM, and listen for events like click or input to trigger those updates in response to user actions.",
+        "tips": "Be clear that the DOM and the original HTML source are not the same thing — that distinction is exactly what this question checks for.",
+        "difficulty": "Beginner"
+      },
+      {
+        "question": "What is responsive web design, and what techniques do you use to achieve it?",
+        "sampleAnswer": "Responsive web design means a site adapts its layout to different screen sizes and devices rather than serving a fixed-width layout. I'd use flexible layouts with Flexbox or Grid, relative units like percentages or rem instead of fixed pixels, and media queries to adjust styles at specific breakpoints, testing on both mobile and desktop viewports throughout development rather than only at the end.",
+        "tips": "Name specific techniques (Flexbox, Grid, media queries) instead of only the concept — interviewers want to see you've actually built responsive layouts.",
+        "difficulty": "Beginner"
+      }
+    ],
+    "intermediate": [
+      {
+        "question": "How would you decide between building on a CMS like WordPress versus a custom frontend framework for a new website?",
+        "sampleAnswer": "I'd lean toward a CMS like WordPress when the site is mostly content-driven, needs frequent updates by non-technical users, and doesn't require complex custom interactivity, since it gets a site live quickly with built-in SEO and plugin support. I'd choose a custom framework when the project needs tailored interactivity, tight performance control, or a component-based architecture that a CMS's templating can't cleanly support.",
+        "tips": "Frame the answer around who maintains the site and how content-heavy vs interactive it is — that's the real decision driver, not just personal preference.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "How do you ensure a website works consistently across different browsers?",
+        "sampleAnswer": "I'd start by checking caniuse.com for any CSS or JS features I'm relying on, use autoprefixer or a build tool to handle vendor prefixes automatically, and test in the major browsers (Chrome, Firefox, Safari, Edge) rather than assuming Chrome behavior generalizes. For anything unsupported in an older browser, I'd add a graceful fallback or polyfill rather than blocking the whole page from rendering.",
+        "tips": "Mention a specific tool like caniuse.com or autoprefixer — it shows a real workflow rather than a vague 'I test in different browsers' answer.",
+        "difficulty": "Intermediate"
+      },
+      {
+        "question": "What steps do you take to integrate a REST API into a website and handle its data safely?",
+        "sampleAnswer": "I'd fetch data using fetch or a library like Axios, always handle loading and error states so the UI doesn't break silently on a failed request, and validate or sanitize any API data before rendering it to the page to avoid injecting unexpected content. For anything sensitive like API keys, I'd keep them out of client-side code and proxy the request through a small backend endpoint instead.",
+        "tips": "Bring up keeping API keys off the client — it's a common web security gap interviewers specifically probe for.",
+        "difficulty": "Intermediate"
+      }
+    ],
+    "advanced": [
+      {
+        "question": "How would you architect a website to balance SEO, performance, and a modern JavaScript framework?",
+        "sampleAnswer": "I'd use server-side rendering or static site generation for content that needs to be crawlable and fast on first load, and hydrate with client-side JavaScript only for the interactive parts, rather than shipping a large JS bundle for a mostly static page. I'd also keep an eye on Core Web Vitals throughout development — lazy-loading non-critical assets, optimizing images, and code-splitting by route — instead of treating performance as a final cleanup step.",
+        "tips": "Mention SSR/SSG and Core Web Vitals by name — this shows you think about SEO and performance as architecture decisions, not afterthoughts.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "How would you turn an existing website into a Progressive Web App, and what trade-offs come with that?",
+        "sampleAnswer": "I'd add a web app manifest for install metadata and a service worker to cache key assets and enable offline access, being careful with the caching strategy so users don't see stale content after a deploy. The trade-off is added complexity in cache invalidation and testing, and PWAs still have more limited access to native device APIs than a fully native app, so I'd only recommend it when offline access or installability is a real user need, not just a checkbox.",
+        "tips": "Bring up cache invalidation as a real trade-off — claiming a service worker is a free performance win without mentioning staleness risk is a common gap.",
+        "difficulty": "Advanced"
+      },
+      {
+        "question": "What web security practices do you apply to protect a website from common vulnerabilities like XSS and CSRF?",
+        "sampleAnswer": "For XSS, I'd escape or sanitize any user-generated content before rendering it, avoid inserting raw HTML with innerHTML where possible, and set a Content-Security-Policy header to restrict which scripts can run. For CSRF, I'd use anti-CSRF tokens on state-changing requests and set cookies with SameSite attributes, and more generally I'd always serve the site over HTTPS and keep dependencies updated to avoid known vulnerabilities.",
+        "tips": "Name both XSS and CSRF defenses separately with concrete mechanisms (CSP, SameSite cookies) — treating 'security' as one vague bucket misses what this question is testing.",
+        "difficulty": "Advanced"
+      }
+    ]
+  }  
 }
