@@ -196,6 +196,42 @@ import community from "../data/community.json";
           </div>
           <button type="button" id="analyzeBtn" class="btn btn-primary analyze-btn">Analyze Resume</button>
           <p id="validationError" class="error-message"></p>
+          <div class="jd-compare-wrapper">
+            <label for="jobDescriptionInput">Paste Job Description</label>
+            <textarea id="jobDescriptionInput" name="jobDescription" rows="6" placeholder="Paste the job description here..."></textarea>
+          </div>
+          <button type="button" id="compareBtn" class="btn btn-primary compare-btn">Compare Resume with JD</button>
+          <p id="jdComparisonError" class="error-message"></p>
+
+          <div id="jdComparisonSection" class="results-section" hidden>
+            <h3>Resume vs Job Description Match</h3>
+            <div class="results-cards">
+              <div class="result-card result-card-percentage">
+                <h4>JD Match Percentage</h4>
+                <div
+                  class="progress-bar-track"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                  aria-label="Job description match percentage"
+                >
+                  <div id="jdMatchProgressBar" class="progress-bar-fill"></div>
+                </div>
+                <span id="jdMatchPercentageText" class="match-percentage-value">0%</span>
+              </div>
+
+              <div class="result-card">
+                <h4>Matched Keywords</h4>
+                <div id="jdMatchedKeywordsList" class="skills-tags"></div>
+              </div>
+
+              <div class="result-card">
+                <h4>Missing Keywords</h4>
+                <div id="jdMissingKeywordsList" class="skills-tags"></div>
+              </div>
+            </div>
+          </div>
 
            <div id="resultsSection" class="results-section" hidden>
             <h3>Skill Match Results</h3>
@@ -236,6 +272,12 @@ import community from "../data/community.json";
   <h4>Resume Improvement Tips</h4>
   <ul id="resumeImprovementTips" class="resume-tips-list">
     <li>Analyze your resume to view personalized improvement tips.</li>
+  </ul>
+</div>
+<div class="result-card ai-suggestions-card">
+  <h4>AI Resume Suggestions</h4>
+  <ul id="aiResumeSuggestions" class="resume-tips-list">
+    <li>Analyze your resume to view AI-powered suggestions.</li>
   </ul>
 </div>
             </div>
@@ -1340,6 +1382,28 @@ import community from "../data/community.json";
         cursor: pointer;
         font-size: 1rem;
       }
+      .jd-compare-wrapper {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.jd-compare-wrapper label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.jd-compare-wrapper textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--color-bg);
+  color: var(--color-text);
+  resize: vertical;
+}
         .results-section {
         margin-top: 2rem;
         text-align: left;
@@ -1371,7 +1435,8 @@ import community from "../data/community.json";
         margin: 0 0 0.75rem;
         font-size: 1rem;
       }
-      .resume-tips-card {
+      .resume-tips-card,
+.ai-suggestions-card {
   text-align: left;
   grid-column: span 3;
 }
@@ -2245,6 +2310,132 @@ import community from "../data/community.json";
       import jobRecommendations from "../data/jobRecommendations.json";
       import { jsPDF } from "jspdf";
       import { supabase } from "../db/supabase.js";
+      function textContainsAnyAlias(text: string, aliases: string[]): boolean {
+  return aliases.some((alias) => {
+    const escapedAlias = alias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = new RegExp(
+      `(?<![a-z0-9])${escapedAlias}(?![a-z0-9])`,
+      "i"
+    );
+    return pattern.test(text);
+  });
+}
+function getMatchedAliasText(text: string, aliases: string[]): string | null {
+  for (const alias of aliases) {
+    const escapedAlias = alias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = new RegExp(
+      `(?<![a-z0-9])${escapedAlias}(?![a-z0-9])`,
+      "i"
+    );
+
+    const match = pattern.exec(text);
+
+    if (match) {
+      return match[0];
+    }
+  }
+
+  return null;
+}
+
+
+const getSkillAliases = (skill: string): string[] => {
+  const skillAliases: Record<string, string[]> = {
+  "HTML/CSS/JavaScript": [
+    "html",
+    "html5",
+    "css",
+    "css3",
+    "javascript",
+    "js"
+  ],
+  "Backend Language": [
+    "python",
+    "java",
+    "node.js",
+    "nodejs",
+    "php",
+    "c#"
+  ],
+  "Database Basics": [
+    "database",
+    "dbms",
+    "sql",
+    "supabase",
+    "postgresql",
+    "mysql"
+  ],
+  "Frontend Basics": [
+    "html",
+    "css",
+    "javascript",
+    "responsive web design",
+    "dom manipulation",
+    "frontend development"
+  ],
+  "Backend CRUD": [
+    "crud",
+    "create",
+    "read",
+    "update",
+    "delete",
+    "supabase"
+  ],
+  "REST APIs": [
+    "rest api",
+    "rest apis",
+    "api integration"
+  ],
+  "SQL Basics": [
+    "sql"
+  ],
+  "Frontend + Backend Frameworks": [
+    "astro",
+    "supabase",
+    "react",
+    "angular",
+    "vue",
+    "express"
+  ],
+  "Authentication": [
+    "authentication",
+    "authorization",
+    "login",
+    "signup"
+  ],
+  "Deployment Basics": [
+    "cloudflare",
+    "deployment",
+    "deployed",
+    "hosting"
+  ],
+  "Security Best Practices": [
+    "authentication",
+    "authorization",
+    "row level security",
+    "rls"
+  ],
+  "Basic Backend Scripting (Node/PHP)": [
+  "node.js",
+  "nodejs",
+  "php",
+  "node"
+],
+"REST API Integration": [
+  "rest api",
+  "rest apis",
+  "api integration"
+],
+"Web Hosting & Deployment": [
+  "deployment",
+  "deployed",
+  "hosting"
+]
+};
+  return skillAliases[skill] || [
+    skill.split("(")[0].trim().toLowerCase(),
+  ];
+};
       const loggedOutNav = document.getElementById("loggedOutNav") as HTMLElement;
       const loggedInNav = document.getElementById("loggedInNav") as HTMLElement;
       const logoutBtn = document.getElementById("logoutBtn");
@@ -2303,6 +2494,14 @@ import community from "../data/community.json";
       const roadmapSection = document.getElementById("roadmapSection") as HTMLElement;
       const roadmapEmptyState = document.getElementById("roadmapEmptyState") as HTMLElement;
       const roadmapGrid = document.getElementById("roadmapGrid");
+      const jobDescriptionInput = document.getElementById("jobDescriptionInput") as HTMLTextAreaElement;
+      const compareBtn = document.getElementById("compareBtn");
+      const jdComparisonError = document.getElementById("jdComparisonError");
+      const jdComparisonSection = document.getElementById("jdComparisonSection") as HTMLElement;
+      const jdMatchProgressBar = document.getElementById("jdMatchProgressBar") as HTMLElement;
+      const jdMatchPercentageText = document.getElementById("jdMatchPercentageText");
+      const jdMatchedKeywordsList = document.getElementById("jdMatchedKeywordsList");
+      const jdMissingKeywordsList = document.getElementById("jdMissingKeywordsList");
       roadmapGrid?.addEventListener("click", async (e) => {
   const btn = (e.target as HTMLElement).closest(
     ".mark-week-complete-btn"
@@ -2668,6 +2867,8 @@ if (savedResume.template) {
           expectedOutput: string;
           resumeBullet: string;
         }> | null;
+        matchedKeywords: string[];
+        missingKeywords: string[];
       } | null = null;
 
       async function extractPdfText(file: File): Promise<string> {
@@ -2794,87 +2995,10 @@ if (savedResume.template) {
         const currentSkills: string[] = [];
 const missingSkills: string[] = [];
 
-const skillAliases: Record<string, string[]> = {
-  "HTML/CSS/JavaScript": [
-    "html",
-    "html5",
-    "css",
-    "css3",
-    "javascript",
-    "js"
-  ],
-  "Backend Language": [
-    "python",
-    "java",
-    "node.js",
-    "nodejs",
-    "php",
-    "c#"
-  ],
-  "Database Basics": [
-    "database",
-    "dbms",
-    "sql",
-    "supabase",
-    "postgresql",
-    "mysql"
-  ],
-  "Frontend Basics": [
-    "html",
-    "css",
-    "javascript",
-    "responsive web design",
-    "dom manipulation",
-    "frontend development"
-  ],
-  "Backend CRUD": [
-    "crud",
-    "create",
-    "read",
-    "update",
-    "delete",
-    "supabase"
-  ],
-  "REST APIs": [
-    "rest api",
-    "rest apis",
-    "api integration"
-  ],
-  "SQL Basics": [
-    "sql"
-  ],
-  "Frontend + Backend Frameworks": [
-    "astro",
-    "supabase",
-    "react",
-    "angular",
-    "vue",
-    "express"
-  ],
-  "Authentication": [
-    "authentication",
-    "authorization",
-    "login",
-    "signup"
-  ],
-  "Deployment Basics": [
-    "cloudflare",
-    "deployment",
-    "deployed",
-    "hosting"
-  ],
-  "Security Best Practices": [
-    "authentication",
-    "authorization",
-    "row level security",
-    "rls"
-  ]
-};
+
 
 uniqueSkills.forEach((skill) => {
-  const aliases = skillAliases[skill] || [
-    skill.split("(")[0].trim().toLowerCase()
-  ];
+  const aliases = getSkillAliases(skill);
 
   const isPresent = aliases.some((alias) =>
     resumeTextLower.includes(alias.toLowerCase())
@@ -3158,17 +3282,20 @@ missingSkillsList!.innerHTML =
         resultsSection.hidden = false;
 
         lastAnalysis = {
-          role: selectedRole,
-          matchPercentage,
-          readinessScore,
-          readinessLabel,
-          currentSkills,
-          missingSkills,
-          roadmap: roleRoadmap ?? null,
-          projects: roleProjects ?? null,
-        };
+  role: selectedRole,
+  matchPercentage,
+  readinessScore,
+  readinessLabel,
+  currentSkills,
+  missingSkills,
+  roadmap: roleRoadmap ?? null,
+  projects: roleProjects ?? null,
+  matchedKeywords: [],
+  missingKeywords: [],
+};
         const improvementTips = [];
         const resumeImprovementTips = document.getElementById("resumeImprovementTips");
+        const aiResumeSuggestions = document.getElementById("aiResumeSuggestions");
         if (missingSkills.length > 0) {
   const skillsText = missingSkills.slice(0, 4).join(", ");
 
@@ -3216,6 +3343,61 @@ if (resumeImprovementTips) {
     const listItem = document.createElement("li");
     listItem.textContent = tip;
     resumeImprovementTips.appendChild(listItem);
+  });
+}
+const aiSuggestions: string[] = [];
+
+if (missingSkills.length > 0) {
+  aiSuggestions.push(
+    `Add hands-on experience or a project using ${missingSkills.slice(0, 3).join(", ")} to close the biggest skill gaps for ${selectedRole}.`
+  );
+}
+
+if (matchPercentage < 50) {
+  aiSuggestions.push(
+    `Your resume currently matches only ${matchPercentage}% of the skills expected for ${selectedRole}. Rework your summary and skills section to include more role-specific keywords.`
+  );
+} else if (matchPercentage < 80) {
+  aiSuggestions.push(
+    `You're at a ${matchPercentage}% skill match for ${selectedRole}. Strengthen weaker areas by adding measurable achievements tied to your existing skills.`
+  );
+} else {
+  aiSuggestions.push(
+    `Great alignment at ${matchPercentage}% match for ${selectedRole} — focus on polishing impact statements rather than adding new skills.`
+  );
+}
+
+if (readinessScore < 40) {
+  aiSuggestions.push(
+    "Your job readiness score is low. Prioritize completing 2-3 portfolio projects that demonstrate practical, role-relevant skills."
+  );
+} else if (readinessScore < 70) {
+  aiSuggestions.push(
+    "You're making progress toward job readiness. Add quantifiable results (e.g. performance improvements, users impacted) to existing project bullets."
+  );
+} else {
+  aiSuggestions.push(
+    "You're close to job-ready. Fine-tune your resume for each application and ensure your top skills appear near the top of the page."
+  );
+}
+
+aiSuggestions.push(
+  `Tailor your resume summary specifically for ${selectedRole} roles so recruiters and ATS systems immediately see the relevant fit.`
+);
+
+if (missingSkills.length > 3) {
+  aiSuggestions.push(
+    `Consider a short course or certification covering ${missingSkills[3]} to further round out your ${selectedRole} skill set.`
+  );
+}
+
+if (aiResumeSuggestions) {
+  aiResumeSuggestions.replaceChildren();
+
+  aiSuggestions.slice(0, 6).forEach((suggestion) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = suggestion;
+    aiResumeSuggestions.appendChild(listItem);
   });
 }
         exportPdfWrapper.hidden = false;
@@ -3283,6 +3465,98 @@ if (pendingSkillRows.length) {
   }
 }
         }
+      }
+      function compareWithJobDescription() {
+        jdComparisonError!.textContent = "";
+
+        const jobDescriptionText = jobDescriptionInput.value.trim();
+
+        if (!extractedResumeText) {
+          jdComparisonError!.textContent = "Please upload your resume in PDF format before comparing.";
+          jdComparisonSection.hidden = true;
+          return;
+        }
+
+        if (!jobDescriptionText) {
+          jdComparisonError!.textContent = "Please paste a job description before comparing.";
+          jdComparisonSection.hidden = true;
+          return;
+        }
+
+        const resumeTextLower = extractedResumeText.toLowerCase();
+const jobDescriptionTextLower = jobDescriptionText.toLowerCase();
+
+const roleSkills = (skills as Record<
+  string,
+  {
+    requiredSkills: string[];
+    beginnerSkills: string[];
+    intermediateSkills: string[];
+    advancedSkills: string[];
+  }
+>)[selectedRole];
+
+const technicalSkills = roleSkills
+  ? Array.from(
+      new Set([
+        ...roleSkills.requiredSkills,
+        ...roleSkills.beginnerSkills,
+        ...roleSkills.intermediateSkills,
+        ...roleSkills.advancedSkills,
+      ])
+    )
+  : [];
+
+
+
+const jdTechnicalSkills = technicalSkills.filter((skill) => {
+  return textContainsAnyAlias(jobDescriptionTextLower, getSkillAliases(skill));
+});
+if (jdTechnicalSkills.length === 0) {
+  jdComparisonError!.textContent =
+    "This job description doesn't match the selected role. Please choose the correct role or paste a matching job description.";
+  jdComparisonSection.hidden = true;
+  return;
+}
+
+const matchedKeywords: string[] = [];
+const missingKeywords: string[] = [];
+
+jdTechnicalSkills.forEach((skill) => {
+  const isPresent = textContainsAnyAlias(resumeTextLower, getSkillAliases(skill));
+
+  if (isPresent) {
+    matchedKeywords.push(
+  getMatchedAliasText(jobDescriptionText, getSkillAliases(skill)) ?? skill
+);
+  } else {
+    missingKeywords.push(
+  getMatchedAliasText(jobDescriptionText, getSkillAliases(skill)) ?? skill
+);
+  }
+});
+if (lastAnalysis) {
+  lastAnalysis.matchedKeywords = matchedKeywords;
+  lastAnalysis.missingKeywords = missingKeywords;
+}
+
+const jdMatchPercentage = jdTechnicalSkills.length
+  ? Math.round((matchedKeywords.length / jdTechnicalSkills.length) * 100)
+  : 0;
+
+        jdMatchPercentageText!.textContent = `${jdMatchPercentage}%`;
+        jdMatchProgressBar.style.width = `${jdMatchPercentage}%`;
+        jdMatchProgressBar.parentElement?.setAttribute("aria-valuenow", String(jdMatchPercentage));
+
+        jdMatchedKeywordsList!.innerHTML =
+          matchedKeywords.map((keyword) => `<span class="skill-tag matched">${keyword}</span>`).join("") ||
+          `<p class="empty-state-message">No matching keywords found yet.</p>`;
+
+        jdMissingKeywordsList!.innerHTML =
+          missingKeywords.map((keyword) => `<span class="skill-tag missing">${keyword}</span>`).join("") ||
+          `<p class="empty-state-message">No missing keywords — full match! 🎉</p>`;
+
+        jdComparisonSection.hidden = false;
       }
       function generateRoadmapPdf() {
         if (!lastAnalysis) return;
@@ -3467,6 +3741,10 @@ if (pendingSkillRows.length) {
 
         await analyzeResume();
       });
+      compareBtn?.addEventListener("click", async () => {
+        await compareWithJobDescription();
+      });
+
       const tabAnalyzeBtn = document.getElementById("tabAnalyzeBtn");
       const tabCreateBtn = document.getElementById("tabCreateBtn");
       const analyzeTabPanel = document.getElementById("upload") as HTMLElement;
