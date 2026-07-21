@@ -1,0 +1,532 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Saved Job Tracker | ResumeWithCareer"
+  description="Track jobs you've saved, applied to, and interviewed for."
+  path="/saved-jobs"
+>
+  <h1>Saved Job Tracker</h1>
+  <p class="page-updated">Keep track of every job you're targeting, from saved to offer.</p>
+
+  <div class="add-job-card">
+    <h2>Add a Job</h2>
+    <form id="addJobForm" class="add-job-form" onsubmit="return false;">
+      <div class="form-group">
+        <label for="sjJobTitle">Job Title *</label>
+        <input type="text" id="sjJobTitle" placeholder="e.g. Frontend Developer" required />
+      </div>
+
+      <div class="form-group">
+        <label for="sjCompanyName">Company Name *</label>
+        <input type="text" id="sjCompanyName" placeholder="e.g. Acme Corp" required />
+      </div>
+
+      <div class="form-group">
+        <label for="sjJobUrl">Job URL</label>
+        <input type="url" id="sjJobUrl" placeholder="https://..." />
+      </div>
+
+      <div class="form-group">
+        <label for="sjLocation">Location</label>
+        <input type="text" id="sjLocation" placeholder="e.g. Remote / Bengaluru" />
+      </div>
+
+      <div class="form-group">
+        <label for="sjSalary">Salary / Stipend</label>
+        <input type="text" id="sjSalary" placeholder="e.g. 8 LPA / $60k" />
+      </div>
+
+      <div class="form-group">
+        <label for="sjStatus">Status</label>
+        <select id="sjStatus">
+          <option value="saved" selected>Saved</option>
+          <option value="applied">Applied</option>
+          <option value="interview">Interview</option>
+          <option value="offer">Offer</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="sjAppliedDate">Applied Date</label>
+        <input type="date" id="sjAppliedDate" />
+      </div>
+
+      <div class="form-group">
+        <label for="sjInterviewDate">Interview Date</label>
+        <input type="date" id="sjInterviewDate" />
+      </div>
+
+      <div class="form-group">
+        <label for="sjReminderDate">Reminder Date</label>
+        <input type="date" id="sjReminderDate" />
+      </div>
+
+      <div class="form-group form-group-full">
+        <label for="sjNotes">Notes</label>
+        <textarea id="sjNotes" rows="3" placeholder="Any notes about this job..."></textarea>
+      </div>
+
+      <button type="button" id="addJobBtn" class="btn btn-primary">Save Job</button>
+      <p id="addJobMessage" class="form-message" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <h2>Your Saved Jobs</h2>
+  <p id="savedJobsLoading" class="resumes-loading">Loading your saved jobs...</p>
+  <p id="savedJobsError" class="error-message" hidden></p>
+
+  <div id="savedJobsContent" class="resumes-content" hidden>
+    <div id="savedJobsList" class="saved-jobs-list"></div>
+    <p id="savedJobsEmptyState" class="empty-state-message" hidden>
+      You haven't saved any jobs yet.
+    </p>
+  </div>
+  <div id="savedJobsContent" class="resumes-content" hidden>
+    <div id="savedJobsList" class="saved-jobs-list"></div>
+    <p id="savedJobsEmptyState" class="empty-state-message" hidden>
+      You haven't saved any jobs yet.
+    </p>
+  </div>
+
+  <script>
+    import { supabase } from "../db/supabase.js";
+
+    type Status = "saved" | "applied" | "interview" | "offer" | "rejected";
+
+    type SavedJob = {
+      id: string;
+      job_title: string;
+      company_name: string;
+      job_url: string | null;
+      location: string | null;
+      salary_stipend: string | null;
+      status: Status;
+      applied_date: string | null;
+      interview_date: string | null;
+      reminder_date: string | null;
+      notes: string | null;
+      created_at: string;
+    };
+
+    const loadingEl = document.getElementById("savedJobsLoading") as HTMLParagraphElement;
+    const errorEl = document.getElementById("savedJobsError") as HTMLParagraphElement;
+    const contentEl = document.getElementById("savedJobsContent") as HTMLDivElement;
+    const listEl = document.getElementById("savedJobsList") as HTMLDivElement;
+    const emptyEl = document.getElementById("savedJobsEmptyState") as HTMLParagraphElement;
+
+    const addJobForm = document.getElementById("addJobForm") as HTMLFormElement;
+    const addJobBtn = document.getElementById("addJobBtn") as HTMLButtonElement;
+    const addJobMessage = document.getElementById("addJobMessage") as HTMLParagraphElement;
+    const jobTitleInput = document.getElementById("sjJobTitle") as HTMLInputElement;
+    const companyNameInput = document.getElementById("sjCompanyName") as HTMLInputElement;
+    const jobUrlInput = document.getElementById("sjJobUrl") as HTMLInputElement;
+    const locationInput = document.getElementById("sjLocation") as HTMLInputElement;
+    const salaryInput = document.getElementById("sjSalary") as HTMLInputElement;
+    const statusInput = document.getElementById("sjStatus") as HTMLSelectElement;
+    const appliedDateInput = document.getElementById("sjAppliedDate") as HTMLInputElement;
+    const interviewDateInput = document.getElementById("sjInterviewDate") as HTMLInputElement;
+    const reminderDateInput = document.getElementById("sjReminderDate") as HTMLInputElement;
+    const notesInput = document.getElementById("sjNotes") as HTMLTextAreaElement;
+
+    let currentUserId: string | null = null;
+
+    function showError(message: string) {
+      loadingEl.hidden = true;
+      errorEl.textContent = message;
+      errorEl.hidden = false;
+    }
+
+    function formatDate(dateString: string | null): string {
+      if (!dateString) return "";
+      return new Date(dateString).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    }
+
+    async function updateJobStatus(jobId: string, newStatus: Status): Promise<boolean> {
+      const { error } = await supabase
+        .from("saved_jobs")
+        .update({ status: newStatus })
+        .eq("id", jobId);
+
+      if (error) {
+        alert(`Failed to update status: ${error.message}`);
+        return false;
+      }
+
+      return true;
+    }
+
+    async function deleteJob(jobId: string, card: HTMLDivElement) {
+      const confirmed = window.confirm("Delete this saved job? This cannot be undone.");
+      if (!confirmed) return;
+
+      const { error } = await supabase.from("saved_jobs").delete().eq("id", jobId);
+
+      if (error) {
+        alert(`Failed to delete job: ${error.message}`);
+        return;
+      }
+
+      card.remove();
+      emptyEl.hidden = listEl.children.length > 0;
+    }
+
+    function createSavedJobCard(job: SavedJob): HTMLDivElement {
+      const card = document.createElement("div");
+      card.className = "saved-job-card";
+
+      const title = document.createElement("p");
+      title.textContent = `${job.job_title} — ${job.company_name}`;
+      card.appendChild(title);
+
+       const statusWrapper = document.createElement("p");
+      const statusLabel = document.createElement("label");
+      statusLabel.textContent = "Status: ";
+      const statusSelect = document.createElement("select");
+      (["saved", "applied", "interview", "offer", "rejected"] as Status[]).forEach((value) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        option.selected = value === job.status;
+        statusSelect.appendChild(option);
+      });
+      statusSelect.addEventListener("change", async () => {
+        const previousStatus = job.status;
+        const newStatus = statusSelect.value as Status;
+        statusSelect.disabled = true;
+
+        const success = await updateJobStatus(job.id, newStatus);
+
+        if (success) {
+          job.status = newStatus;
+        } else {
+          statusSelect.value = previousStatus;
+        }
+
+        statusSelect.disabled = false;
+      });
+      statusLabel.appendChild(statusSelect);
+      statusWrapper.appendChild(statusLabel);
+      card.appendChild(statusWrapper);
+
+      if (job.location) {
+        const location = document.createElement("p");
+        location.textContent = `Location: ${job.location}`;
+        card.appendChild(location);
+      }
+
+      if (job.salary_stipend) {
+        const salary = document.createElement("p");
+        salary.textContent = `Salary/Stipend: ${job.salary_stipend}`;
+        card.appendChild(salary);
+      }
+
+      if (job.applied_date) {
+        const applied = document.createElement("p");
+        applied.textContent = `Applied: ${formatDate(job.applied_date)}`;
+        card.appendChild(applied);
+      }
+
+      if (job.interview_date) {
+        const interview = document.createElement("p");
+        interview.textContent = `Interview: ${formatDate(job.interview_date)}`;
+        card.appendChild(interview);
+      }
+
+      if (job.reminder_date) {
+        const reminder = document.createElement("p");
+        reminder.textContent = `Reminder: ${formatDate(job.reminder_date)}`;
+        card.appendChild(reminder);
+      }
+
+      if (job.notes) {
+        const notes = document.createElement("p");
+        notes.textContent = `Notes: ${job.notes}`;
+        card.appendChild(notes);
+      }
+
+      if (job.job_url) {
+        const link = document.createElement("a");
+        link.href = job.job_url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "View Posting";
+        card.appendChild(link);
+      }
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.type = "button";
+      deleteBtn.className = "btn btn-delete";
+      deleteBtn.textContent = "Delete";
+      deleteBtn.addEventListener("click", () => deleteJob(job.id, card));
+      card.appendChild(deleteBtn);
+
+      return card;
+    }
+
+    async function loadSavedJobs() {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        window.location.href = "/login";
+        return;
+      }
+
+      currentUserId = user.id;
+
+      const { data: jobs, error: jobsError } = await supabase
+        .from("saved_jobs")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (jobsError) {
+        showError(jobsError.message);
+        return;
+      }
+
+      const allJobs = (jobs ?? []) as SavedJob[];
+      allJobs.forEach((job) => listEl.appendChild(createSavedJobCard(job)));
+
+      emptyEl.hidden = allJobs.length > 0;
+
+      loadingEl.hidden = true;
+      contentEl.hidden = false;
+    }
+
+    addJobBtn.addEventListener("click", async () => {
+      addJobMessage.textContent = "";
+
+      if (!currentUserId) {
+        addJobMessage.textContent = "You must be logged in to save a job.";
+        return;
+      }
+
+      const jobTitle = jobTitleInput.value.trim();
+      const companyName = companyNameInput.value.trim();
+
+      if (!jobTitle || !companyName) {
+        addJobMessage.textContent = "Job Title and Company Name are required.";
+        return;
+      }
+
+      addJobBtn.disabled = true;
+
+      const { data: newJob, error } = await supabase
+        .from("saved_jobs")
+        .insert({
+          user_id: currentUserId,
+          job_title: jobTitle,
+          company_name: companyName,
+          job_url: jobUrlInput.value.trim() || null,
+          location: locationInput.value.trim() || null,
+          salary_stipend: salaryInput.value.trim() || null,
+          status: statusInput.value as Status,
+          applied_date: appliedDateInput.value || null,
+          interview_date: interviewDateInput.value || null,
+          reminder_date: reminderDateInput.value || null,
+          notes: notesInput.value.trim() || null,
+        })
+        .select()
+        .single();
+
+      addJobBtn.disabled = false;
+
+      if (error) {
+        addJobMessage.textContent = `Failed to save job: ${error.message}`;
+        return;
+      }
+
+      listEl.appendChild(createSavedJobCard(newJob as SavedJob));
+      emptyEl.hidden = true;
+      contentEl.hidden = false;
+
+      addJobForm.reset();
+      addJobMessage.textContent = "Job saved successfully.";
+    });
+
+    loadSavedJobs();
+  </script>
+
+  <style is:global>
+    .add-job-card {
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .add-job-card h2 {
+      margin-top: 0;
+    }
+
+    .add-job-form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem 1.25rem;
+    }
+
+    .form-group {
+      margin-bottom: 0;
+    }
+
+    .form-group-full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      font-size: 1rem;
+      font-family: inherit;
+      background: var(--color-bg);
+      color: var(--color-text);
+      resize: vertical;
+    }
+
+    .form-group input:focus-visible,
+    .form-group select:focus-visible,
+    .form-group textarea:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 1px;
+    }
+
+    .add-job-form .btn {
+      grid-column: 1 / -1;
+      justify-self: start;
+    }
+
+    .btn {
+      display: inline-block;
+      text-align: center;
+      padding: 0.6rem 1.25rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--color-primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-delete {
+      background: none;
+      border: 1px solid var(--color-border);
+      color: #dc2626;
+      margin-top: 0.5rem;
+    }
+
+    .btn-delete:hover:not(:disabled) {
+      background: #dc2626;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .form-message {
+      min-height: 1.25rem;
+      margin: 0.75rem 0 0;
+      font-size: 0.9rem;
+      grid-column: 1 / -1;
+    }
+
+    .resumes-loading {
+      color: var(--color-muted);
+    }
+
+    .error-message {
+      color: #dc2626;
+      font-weight: 500;
+    }
+
+    .resumes-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .saved-jobs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .saved-job-card {
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+    }
+
+    .saved-job-card p {
+      margin: 0 0 0.4rem;
+    }
+
+    .saved-job-card p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .saved-job-card select {
+      padding: 0.35rem 0.5rem;
+      border-radius: 6px;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font: inherit;
+    }
+
+    .saved-job-card a {
+      color: var(--color-primary);
+      font-weight: 500;
+    }
+
+    .empty-state-message {
+      color: var(--color-muted);
+      font-style: italic;
+      padding: 0.75rem;
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .add-job-form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</SiteLayout>

@@ -64,6 +64,16 @@ const canonicalUrl = `https://resumewithcareer.com${path}`;
           <a href="/#upload">Analyze Resume</a>
           <a href="/about-us">About Us</a>
           <a href="/contact-us">Contact Us</a>
+          <span id="loggedOutNav">
+            <a href="/login">Login</a>
+            <a href="/signup">Sign Up</a>
+          </span>
+          <span id="loggedInNav" hidden>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/my-resumes">My Resumes</a>
+            <a href="/saved-jobs">Saved Jobs</a>
+            <button type="button" id="logoutBtn">Logout</button>
+          </span>
           <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
         </nav>
       </div>
@@ -111,6 +121,34 @@ const canonicalUrl = `https://resumewithcareer.com${path}`;
           }
         });
       }
+    </script>
+    <script>
+      import { supabase } from "../db/supabase.js";
+
+      async function initNavbarAuth() {
+        const loggedOutNav = document.getElementById("loggedOutNav") as HTMLElement;
+        const loggedInNav = document.getElementById("loggedInNav") as HTMLElement;
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        const {
+          data: { user: navbarUser },
+        } = await supabase.auth.getUser();
+
+        if (navbarUser) {
+  loggedOutNav.hidden = true;
+  loggedInNav.hidden = false;
+} else {
+  loggedOutNav.hidden = false;
+  loggedInNav.hidden = true;
+}
+
+        logoutBtn?.addEventListener("click", async () => {
+          await supabase.auth.signOut();
+          window.location.href = "/";
+        });
+      }
+
+      initNavbarAuth();
     </script>
 
     <style>
@@ -191,6 +229,30 @@ const canonicalUrl = `https://resumewithcareer.com${path}`;
       .nav a:hover {
         color: var(--color-primary);
       }
+
+      #logoutBtn {
+        appearance: none;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+        color: var(--color-text);
+        text-decoration: none;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      #logoutBtn:hover {
+        color: var(--color-primary);
+      }
+      #loggedOutNav:not([hidden]),
+#loggedInNav:not([hidden]) {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
 
       .theme-toggle {
         appearance: none;
