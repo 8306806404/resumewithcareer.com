@@ -183,6 +183,53 @@
       "resumeBullet": "Delivered a churn analysis report identifying key drivers, informing a retention strategy for stakeholders."
     }
   ],
+
+  "Cyber Security": [
+    {
+      "title": "Home Network Vulnerability Scanner",
+      "difficulty": "Beginner",
+      "skillsUsed": ["Networking Basics", "Nmap", "Vulnerability Scanning"],
+      "expectedOutput": "A documented scan report identifying open ports, running services, and basic vulnerabilities on a home network.",
+      "resumeBullet": "Performed a network vulnerability scan using Nmap, identifying and documenting 10+ exposed services and misconfigurations."
+    },
+    {
+      "title": "Web Application Penetration Test (Lab Environment)",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["OWASP Top 10", "Burp Suite", "SQL Injection & XSS Testing"],
+      "expectedOutput": "A penetration test report covering identified vulnerabilities, exploitation steps, and remediation recommendations on a deliberately vulnerable web app.",
+      "resumeBullet": "Conducted a penetration test on a vulnerable web application, identifying OWASP Top 10 flaws and proposing remediation steps."
+    },
+    {
+      "title": "SIEM-Based Threat Detection & Incident Response Simulation",
+      "difficulty": "Advanced",
+      "skillsUsed": ["SIEM Tools (Splunk/ELK)", "Log Analysis", "Incident Response"],
+      "expectedOutput": "A working SIEM setup that detects simulated attacks with an accompanying incident response playbook.",
+      "resumeBullet": "Built a SIEM-based detection pipeline in Splunk, reducing simulated incident triage time through automated alerting and a documented response playbook."
+    }
+  ],
+  "Software Engineer": [
+    {
+      "title": "Command-Line Task Manager",
+      "difficulty": "Beginner",
+      "skillsUsed": ["Data Structures Basics", "File I/O", "Git"],
+      "expectedOutput": "A working CLI application that creates, updates, and persists a user's tasks to local storage.",
+      "resumeBullet": "Built a command-line task manager with persistent storage, applying core data structures to manage CRUD operations."
+    },
+    {
+      "title": "URL Shortener Service with Unit Tests",
+      "difficulty": "Intermediate",
+      "skillsUsed": ["OOP Design", "REST APIs", "Unit Testing"],
+      "expectedOutput": "A deployed URL-shortening service with a test suite covering core business logic and edge cases.",
+      "resumeBullet": "Developed a URL shortener service with 90%+ test coverage, applying OOP principles and REST API design."
+    },
+    {
+      "title": "Distributed Job Scheduler",
+      "difficulty": "Advanced",
+      "skillsUsed": ["System Design", "Concurrency", "Message Queues"],
+      "expectedOutput": "A fault-tolerant scheduler that distributes and executes background jobs across multiple worker processes.",
+      "resumeBullet": "Designed and implemented a distributed job scheduler handling concurrent job execution and failure recovery across worker nodes."
+    }
+  ],
   "UI/UX Designer": [
     {
       "title": "Mobile App Wireframes",
